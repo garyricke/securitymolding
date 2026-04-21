@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Security Molding — Brand &amp; Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/brand.css">
+<style>
+  .splash {
+    min-height: 100vh; display: grid; place-items: center;
+    background: linear-gradient(180deg, #fff 0%, var(--sm-gray-05) 100%);
+    padding: var(--s-7) var(--s-5);
+  }
+  .splash__card {
+    max-width: 1080px; width: 100%;
+    display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-8);
+    padding: var(--s-8); background: var(--sm-white);
+    border: 1px solid var(--sm-rule); border-radius: var(--r-xl);
+    box-shadow: var(--elev-2);
+  }
+  .splash__hero {
+    background: var(--sm-black); color: white; border-radius: var(--r-lg);
+    padding: var(--s-7);
+    display: flex; flex-direction: column; justify-content: space-between;
+    position: relative; overflow: hidden;
+  }
+  .splash__hero::before {
+    content: ''; position: absolute; top: -60px; right: -60px;
+    width: 260px; height: 260px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(193,0,0,.55), transparent 70%);
+  }
+  .splash__hero h1 { color: white; font-size: 40px; margin-bottom: var(--s-4); }
+  .splash__hero p { color: var(--sm-gray-40); }
+  .splash__choices { display: flex; flex-direction: column; gap: var(--s-4); }
+  .choice {
+    border: 1px solid var(--sm-rule); border-radius: var(--r-md);
+    padding: var(--s-6); display: flex; flex-direction: column; gap: var(--s-2);
+    text-decoration: none; color: var(--sm-ink); border-bottom: 1px solid var(--sm-rule);
+    transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease;
+  }
+  .choice:hover { border-color: var(--sm-red); transform: translateY(-3px); box-shadow: var(--elev-2); color: var(--sm-ink); }
+  .choice__num { font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.14em; color: var(--sm-red); font-weight: 700; text-transform: uppercase; }
+  .choice h3 { margin: 0; font-size: 24px; }
+  .choice p { margin: 0; color: var(--sm-gray-60); font-size: 15px; }
+  .choice__cta { color: var(--sm-red); font-weight: 600; font-size: 14px; margin-top: var(--s-2); }
+  @media (max-width: 900px) { .splash__card { grid-template-columns: 1fr; padding: var(--s-5); } }
+</style>
+</head>
+<body>
+<div class="splash">
+  <div class="splash__card">
+    <div class="splash__hero">
+      <div>
+        <img src="assets/logo-security-molding-21spr2026.svg" alt="Security Molding" width="72" height="72" style="margin-bottom: 24px; background: white; border-radius: 12px; padding: 6px;">
+        <div class="eyebrow" style="color: #ff6060;">Spring 2026</div>
+        <h1>Security Molding</h1>
+        <p>A small-shop legacy in precision plastics. Red, black, and a relentless focus on getting parts that <em>fit</em>.</p>
+      </div>
+      <div class="pill pill--red" style="align-self: flex-start; background: rgba(193,0,0,.2); color: #ff9999;">Internal · Draft v1</div>
+    </div>
+    <div class="splash__choices">
+      <a href="brand-standard.html" class="choice">
+        <span class="choice__num">01 · Identity</span>
+        <h3>Brand Standard</h3>
+        <p>Colors, typography, logo usage, voice &amp; tone. The rules that keep Security Molding looking like Security Molding.</p>
+        <span class="choice__cta">View the brand guide →</span>
+      </a>
+      <a href="study-guide.html" class="choice">
+        <span class="choice__num">02 · For Julian</span>
+        <h3>The Plastics Study Guide</h3>
+        <p>Interactive walkthrough of history, machines, molds, materials, quoting, and relationships. With flashcards &amp; quizzes.</p>
+        <span class="choice__cta">Start the study guide →</span>
+      </a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

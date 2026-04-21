@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plastics — A Study Guide for Julian · Security Molding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/brand.css">
+<style>
+  /* Study-guide-specific flourishes */
+  .chapter-jump {
+    position: sticky; top: 72px; z-index: 40;
+    background: rgba(255,255,255,0.94); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--sm-rule);
+    padding: 12px 0;
+  }
+  .chapter-jump__inner {
+    max-width: 1280px; margin: 0 auto; padding: 0 var(--s-6);
+    display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none;
+  }
+  .chapter-jump__inner::-webkit-scrollbar { display: none; }
+  .chapter-jump a {
+    padding: 6px 12px; border-radius: 999px; border: none;
+    font-size: 13px; font-weight: 600; color: var(--sm-gray-60); white-space: nowrap;
+  }
+  .chapter-jump a:hover { color: var(--sm-red); background: var(--sm-red-soft); }
+
+  .chapter {
+    padding: var(--s-8) 0;
+    border-bottom: 1px solid var(--sm-rule);
+  }
+  .chapter:nth-of-type(even) { background: var(--sm-gray-05); }
+  .chapter__head {
+    display: grid; grid-template-columns: auto 1fr; gap: var(--s-6);
+    align-items: end; margin-bottom: var(--s-7);
+  }
+  .chapter__num {
+    font-family: var(--f-display); font-size: clamp(80px, 10vw, 160px);
+    line-height: .9; font-weight: 900; color: var(--sm-red);
+    letter-spacing: -0.04em;
+  }
+  .chapter__meta .eyebrow { margin-bottom: 8px; }
+  .chapter__meta h2 { margin: 0; }
+
+  /* pull quote */
+  .pull {
+    padding: var(--s-6) var(--s-7);
+    border-left: 4px solid var(--sm-red);
+    background: var(--sm-white);
+    border-radius: 0 var(--r-md) var(--r-md) 0;
+    font-size: 22px; font-weight: 500; line-height: 1.4;
+    letter-spacing: -0.01em; color: var(--sm-ink);
+  }
+  .pull cite {
+    display: block; margin-top: var(--s-3);
+    font-size: 13px; color: var(--sm-muted); font-style: normal;
+    font-family: var(--f-mono); letter-spacing: .08em; text-transform: uppercase;
+  }
+
+  /* Interactive diagram (A/B side flip-hover) */
+  .mold-toggle {
+    display: flex; gap: 4px; background: var(--sm-gray-10);
+    padding: 4px; border-radius: 999px; width: fit-content; margin-bottom: 24px;
+  }
+  .mold-toggle button {
+    padding: 8px 16px; border-radius: 999px; font-weight: 600; font-size: 14px;
+    color: var(--sm-gray-60);
+  }
+  .mold-toggle button[aria-pressed="true"] { background: white; color: var(--sm-ink); box-shadow: var(--elev-1); }
+  .side-info { display: none; }
+  .side-info.is-active { display: block; animation: fadeUp .3s ease; }
+
+  /* Regrind slider */
+  .regrind-box { padding: var(--s-6); background: white; border-radius: var(--r-md); border: 1px solid var(--sm-rule); }
+  .slider-track {
+    appearance: none; width: 100%; height: 8px; border-radius: 999px;
+    background: linear-gradient(to right, #5EEA80 0%, #5EEA80 20%, #FFC83D 20%, #FFC83D 40%, var(--sm-red) 40%);
+    outline: none;
+  }
+  .slider-track::-webkit-slider-thumb {
+    appearance: none; width: 24px; height: 24px; border-radius: 50%;
+    background: white; border: 3px solid var(--sm-red); cursor: pointer;
+    box-shadow: var(--elev-1);
+  }
+  .slider-track::-moz-range-thumb {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: white; border: 3px solid var(--sm-red); cursor: pointer;
+  }
+  .regrind-readout {
+    font-family: var(--f-display); font-size: 48px; font-weight: 800;
+    letter-spacing: -0.02em; line-height: 1; color: var(--sm-red);
+  }
+  .regrind-verdict {
+    margin-top: var(--s-3); padding: var(--s-4); border-radius: var(--r-sm);
+    background: var(--sm-gray-05); font-weight: 500; font-size: 15px;
+  }
+
+  /* Final score card */
+  .scorecard {
+    position: fixed; bottom: 24px; right: 24px;
+    background: var(--sm-ink); color: var(--sm-white);
+    padding: 12px 18px; border-radius: 999px;
+    font-family: var(--f-mono); font-size: 13px; font-weight: 700; letter-spacing: .06em;
+    box-shadow: var(--elev-3); z-index: 80;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .scorecard__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--sm-red); animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+</style>
+</head>
+<body>
+
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- NAV -->
+<nav class="site-nav">
+  <div class="site-nav__inner">
+    <a class="site-nav__brand" href="index.html">
+      <img src="assets/logo-security-molding-21spr2026.svg" alt="">
+      <span>Security <b>Molding</b></span>
+    </a>
+    <div class="site-nav__links">
+      <a href="brand-standard.html">Brand</a>
+      <a href="#chapter-1">Start</a>
+      <a href="#finale">Final Exam</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" style="padding-bottom: 56px;">
+  <div class="container">
+    <span class="hero__kicker">A Study Guide · For Julian · April 2026</span>
+    <h1 class="hero__title">Plastics.<br>How the shop really works.</h1>
+    <p class="hero__lede">Three generations, two-and-a-half tons of clamping force, and one simple idea: <em>we'll take care of it.</em> This guide walks you through every part of Security Molding — the machines, the molds, the materials, the money, and the people. Tap things. Flip cards. Take the quizzes. Have fun.</p>
+    <div style="margin-top: 32px; display: flex; gap: 12px; flex-wrap: wrap;">
+      <a href="#chapter-1" class="btn btn--primary">Start with Chapter 1 →</a>
+      <a href="#finale" class="btn btn--ghost">Jump to the final exam</a>
+    </div>
+    <div class="hero__image">
+      <img src="assets/images/hero-shop.png" alt="Security Molding shop floor">
+    </div>
+  </div>
+</section>
+
+<!-- Chapter jump -->
+<div class="chapter-jump">
+  <div class="chapter-jump__inner">
+    <a href="#chapter-1">1 · History</a>
+    <a href="#chapter-2">2 · Machines</a>
+    <a href="#chapter-3">3 · The Mold</a>
+    <a href="#chapter-4">4 · The Cycle</a>
+    <a href="#chapter-5">5 · Materials</a>
+    <a href="#chapter-6">6 · Runners &amp; Regrind</a>
+    <a href="#chapter-7">7 · Quoting</a>
+    <a href="#chapter-8">8 · Mold Makers</a>
+    <a href="#chapter-9">9 · Customers &amp; Quality</a>
+    <a href="#chapter-10">10 · Inventory</a>
+    <a href="#chapter-11">11 · The Future</a>
+    <a href="#finale">Final Exam</a>
+  </div>
+</div>
+
+<!-- ================ CHAPTER 1 · HISTORY ================ -->
+<section class="chapter" id="chapter-1">
+  <div class="container">
+    <div class="chapter__head">
+      <div class="chapter__num">01</div>
+      <div class="chapter__meta">
+        <p class="eyebrow">History</p>
+        <h2>Security Shutter becomes Security Molding.</h2>
+      </div>
+    </div>
+
+    <div class="grid grid-2">
+      <div>
+        <p>Before it was a plastics company, Security Molding was a <strong>shutter company</strong>. Lynn Ricky — Julian's great-grandfather — and his father ran <em>Security Shutter</em> out of a small shop on Interstate, a couple blocks from where Jeannie works today. The product: aluminum roll-up shutters that stored above the window and rolled down at night for security.</p>
+        <p>The shutters rolled on <strong>plastic gears</strong>. To make those gears, the shop bought plastic molding machines. Those machines are the seed that turned a shutter business into a plastics business. Eventually, the shutters went away. The machines stayed.</p>
+        <p>Somewhere in the late 70s, Gary — your dad — started coming in on Saturdays. Around 9 years old. Cleaning bathrooms. Separating parts off of runners all day. That's the job that teaches you the most.</p>
+      </div>
+      <div>
+        <div class="imgframe"><img src="assets/images/history-shutter.png" alt="1970s aluminum security shutters on a home"></div>
+        <p class="caption">A 1970s home with roll-down Security Shutters. The plastic gears that rolled these up and down are the reason Security Molding exists.</p>
+      </div>
+    </div>
+
+    <div class="pull" style="margin-top: 48px;">
+      "They made the shutters, but they also bought these plastics machines to make the plastic gears that were used to roll the shutters up and down. That's the kind of the beginning of security molding."
+      <cite>— Gary, recounting the origin story</cite>
+    </div>
+
+    <!-- TIMELINE -->
+    <div style="margin-top: 56px;">
+      <h3>The long arc</h3>
+      <div class="timeline mt-4">
+        <div class="timeline__item">
+          <div class="timeline__date">1970s</div>
+          <div class="timeline__title">Security Shutter</div>
+          <p>Aluminum roll-down shutters sold to homeowners. A TV commercial shot with a young Gary on set. Small machines in back making the plastic gears.</p>
+        </div>
+        <div class="timeline__item">
+          <div class="timeline__date">Late 1970s</div>
+          <div class="timeline__title">Gary on Saturdays</div>
+          <p>Gary starts coming in as a kid — cleaning bathrooms, separating parts off runners, learning what "getting it done" smells like.</p>
+        </div>
+        <div class="timeline__item">
+          <div class="timeline__date">~1980s</div>
+          <div class="timeline__title">The shutter business fades</div>
+          <p>The plastics side grows. The gears-for-shutters business becomes a custom plastics business. The name changes to Security Molding.</p>
+        </div>
+        <div class="timeline__item">
+          <div class="timeline__date">Today</div>
+          <div class="timeline__title">Jeannie runs it. You're up.</div>
+          <p>Same building neighborhood. Still small tonnage. Still small parts. Still the same unofficial motto: <em>we'll take care of it.</em></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz mt-6" style="margin-top: 64px;">
+      <span class="quiz__tag">Pop Quiz · 01</span>
+      <h3 class="quiz__question">What did Security Molding make before it made plastic parts for other companies?</h3>
+      <div class="quiz__options">
+        <button class="quiz__opt" data-correct="false"><span class="letter">A</span>Nothing — it started as a plastics shop from day one</button>
+        <button class="quiz__opt" data-correct="true"><span class="letter">B</span>Aluminum roll-down security shutters for homes</button>
+        <button class="quiz__opt" data-correct="false"><span class="letter">C</span>Model airplane kits</button>
+        <button class="quiz__opt" data-correct="false"><span class="letter">D</span>Car parts for Detroit</button>
+      </div>
+      <div class="quiz__feedback"
+           data-correct="<b>Nailed it.</b> Security <em>Shutter</em> made aluminum roll-downs. The plastic gears inside them are the reason we ever bought a molding machine."
+           data-wrong="<b>Not quite.</b> Security Shutter made aluminum roll-down window shutters. The gears that rolled them were plastic — which is why we got into plastics in the first place."></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ CHAPTER 2 · MACHINES ================ -->
+<section class="chapter" id="chapter-2">
+  <div class="container">
+    <div class="chapter__head">
+      <div class="chapter__num">02</div>
+      <div class="chapter__meta">
+        <p class="eyebrow">Machines</p>
+        <h2>Small, vertical, Arburg.</h2>
+      </div>
+    </div>
+
+    <p style="font-size: 20px; max-width: 68ch;">Most plastic shops you'll walk into are full of <em>horizontal</em> machines — huge things where a forklift drops the mold in from the side. Security Molding is different. We run small, <strong>vertical</strong>, German-built Arburg machines. Vertical means the barrel points straight down. The mold closes sideways. We buy them horizontal and convert them. That's our whole niche.</p>
+
+    <div class="grid grid-2 mt-6" style="margin-top: 48px;">
+      <div class="card card--accent">
+        <div class="mono" style="font-size: 12px; letter-spacing: .12em; color: var(--sm-red); text-transform: uppercase; font-weight: 700;">The fleet</div>
+        <h3>28-ton &amp; 40-ton</h3>
+        <p class="text-muted">Tonnage is how hard the machine can hold the mold shut when plastic is blasting in. We play in the small-tonnage league. Big shops run 500-ton monsters for bumpers and buckets. We run small machines, small molds, small parts, tight cycle times.</p>
+        <div class="spec-row"><span class="spec-row__label">28-ton machine</span><span class="spec-row__value">Max 28 tons clamp force</span></div>
+        <div class="spec-row"><span class="spec-row__label">40-ton machine</span><span class="spec-row__value">Max 40 tons clamp force</span></div>
+        <div class="spec-row"><span class="spec-row__label">Mold size</span><span class="spec-row__value">Carried by hand, installed by hand</span></div>
+        <div class="spec-row"><span class="spec-row__label">Typical cycle</span><span class="spec-row__value">15–30 seconds</span></div>
+      </div>
+      <div class="imgframe">
+        <img src="assets/images/tonnage.png" alt="Tonnage diagram — clamp pressure holding a mold shut">
+      </div>
+    </div>
+
+    <h3 style="margin-top: 56px;">Vertical vs. horizontal</h3>
+    <div class="grid grid-2 mt-4">
+      <div class="card">
+        <span class="pill pill--red">Security Molding</span>
+        <h4 style="margin-top: 12px;">Vertical injection</h4>
+        <p class="text-muted">Barrel and screw stand straight up. Plastic shoots <em>down</em> into the mold from above. Perfect for small molds and operators who load parts on top. Hopper is up high — you climb a ladder. (Unless you convinced Grandpa to buy vacuum feed, which you should have.)</p>
+      </div>
+      <div class="card">
+        <span class="pill">Most of the industry</span>
+        <h4 style="margin-top: 12px;">Horizontal injection</h4>
+        <p class="text-muted">Everything lies on its side. Barrel behind the mold, runner comes in from the back. Standard for bigger tonnage shops. It's what an Arburg looks like when it shows up from the factory — before we convert it.</p>
+      </div>
+    </div>
+
+    <!-- Pop-up glossary callout -->
+    <div style="margin-top: 56px; padding: 32px; background: white; border-radius: 20px; border: 1px solid var(--sm-rule);">
+      <p class="eyebrow">Shop Talk</p>
+      <h4>Click the red terms to see what they mean →</h4>
+      <p style="font-size: 18px;">When the nozzle squirts plastic into the
+        <span class="gloss"
+              data-eyebrow="Shop talk"
+              data-title="The mold"
+              data-body="<p>Two hunks of precision-machined steel that come together to form a hollow cavity shaped like the part you want. One half stays still (the A-side). One half moves and ejects (the B-side). Cooling water flows through channels inside the steel. When the plastic is cool enough, the mold pops open and the parts drop out.</p>">mold</span>,
+        the
+        <span class="gloss"
+              data-eyebrow="Shop talk"
+              data-title="Tonnage"
+              data-body="<p>The maximum force the machine can apply to hold the mold shut while plastic is being injected. Measured in tons. If tonnage is too low for the plastic pressure, the mold will blow open slightly and you'll see <b>flash</b> — tiny slivers of plastic oozing out at the seam line.</p><p>Security's machines: <b>28 tons</b> and <b>40 tons</b>.</p>">tonnage</span>
+        has to be high enough to hold the two halves shut. Otherwise you get
+        <span class="gloss"
+              data-eyebrow="Defect"
+              data-title="Flash"
+              data-body="<p>Unwanted plastic that escapes at the seam where the two mold halves meet. Looks like a thin sliver or fin around the edge of the part. Causes: tonnage too low, plastic too hot, pressure too high, or a worn mold. Parts with flash get rejected — or, worse, get tumbled/trimmed in secondary labor.</p>">flash</span>
+        oozing out at the seam line.</p>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz mt-6" style="margin-top: 64px;">
+      <span class="quiz__tag">Pop Quiz · 02</span>
+      <h3 class="quiz__question">A customer asks you to quote a 40-pound part. What do you say?</h3>
+      <div class="quiz__options">
+        <button class="quiz__opt" data-correct="false"><span class="letter">A</span>"Yeah, we'll take care of it" — run it on the 40-ton</button>
+        <button class="quiz__opt" data-correct="false"><span class="letter">B</span>Buy a bigger machine same-day</button>
+        <button class="quiz__opt" data-correct="true"><span class="letter">C</span>Politely pass — that's not our game. Big parts need big-tonnage shops with forklift-loaded molds</button>
+        <button class="quiz__opt" data-correct="false"><span class="letter">D</span>Run it in the 28-ton twice as slow</button>
+      </div>
+      <div class="quiz__feedback"
+           data-correct="<b>Exactly right.</b> Small tonnage = small parts. Knowing your lane is part of the expertise. Referring the job out is often the move."
+           data-wrong="<b>Careful.</b> 28- and 40-ton machines are built for small parts carried and loaded by hand. A 40-pound part needs a 500+ ton machine, a forklift, and someone else's shop."></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ CHAPTER 3 · THE MOLD ================ -->
+<section class="chapter" id="chapter-3">
+  <div class="container">
+    <div class="chapter__head">
+      <div class="chapter__num">03</div>
+      <div class="chapter__meta">
+        <p class="eyebrow">The Mold</p>
+        <h2>A-side. B-side. Water. Pins.</h2>
+      </div>
+    </div>
+
+    <p style="font-size: 20px; max-width: 68ch;">The mold is the shape-maker. It's two hunks of steel that come together, plastic gets shot in, plastic cools, and two halves open to drop the parts. But inside those two hunks is where all the craft lives — the cavities, the pins, the water lines, the gates. This is where a good mold maker earns their money.</p>
+
+    <div class="imgframe mt-6" style="margin-top: 48px;">
+      <img src="assets/images/mold-anatomy.png" alt="Mold anatomy — A-side and B-side pulled apart">
+    </div>
+    <p class="caption">The A-side (stationary, left) is the mirror-polished face with the sprue. The B-side (moving, right) has ejector pins and water-cooling channels snaking through the steel. In between: the sprue, runner, and parts.</p>
+
+    <!-- Toggle A/B -->
+    <div style="margin-top: 48px;">
+      <h3>Click a side to learn more</h3>
+      <div class="mold-toggle" role="tablist">
+        <button aria-pressed="true" data-side="a">A-side (stationary)</button>
+        <button aria-pressed="false" data-side="b">B-side (moving)</button>
+        <button aria-pressed="false" data-side="c">Cooling water</button>
+      </div>
+      <div class="side-info is-active" data-side-info="a">
+        <div class="card">
+          <h4>The A-side — stationary half</h4>
+          <p>This side doesn't move. It has the <strong>sprue</strong> — the hole where the nozzle meets the mold. Plastic enters here and flows into the runner. The cavity face on this side is usually polished mirror-smooth so the part releases cleanly and stays on the B-side when the mold opens.</p>
+          <p>Good mold makers grind a <em>tiny</em> angle on the A-side walls — a slight taper — so the part naturally slides off as the mold opens. You can't see the angle. It's there.</p>
+        </div>
+      </div>
+      <div class="side-info" data-side-info="b">
+        <div class="card">
+          <h4>The B-side — moving half</h4>
+          <p>This side opens and closes with the machine. The B-side has the <strong>ejector pins</strong> — thin steel cylinders flush with the cavity wall during the shot. When the mold opens, something (a pin in the back, or a hydraulic cylinder on newer machines) slams the pin plate forward and the pins push the parts out.</p>
+          <p>The B-side is harder to build. The water channels have to weave <em>around</em> the pins. Pin hits water = disaster. That's the mold maker's puzzle.</p>
+        </div>
+      </div>
+      <div class="side-info" data-side-info="c">
+        <div class="card">
+          <h4>Cooling water — both sides</h4>
+          <p>Drilled channels run through both halves of the mold. Water flows continuously — not draining, <em>circulating</em>. By the time it loops back to the mold, it's cooled down enough to keep pulling heat out of the steel.</p>
+          <p>Quick-connect fittings on the side of the mold plug into the machine's water supply. Forget to turn on the water? Parts won't cool. Parts won't cool? Ejector pins push straight <em>through</em> the part and you have a very stuck mold.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Flashcards -->
+    <h3 style="margin-top: 64px;">Flashcards · click to flip</h3>
+    <div class="flip-grid mt-4">
+      <div class="flip"><div class="flip__inner">
+        <div class="flip__face flip__front">
+          <span class="flip__hint">Term · tap</span>
+          <span class="flip__term">Sprue</span>
+          <span class="flip__hint">Where plastic enters</span>
+        </div>
+        <div class="flip__face flip__back">
+          <span class="flip__hint">Definition</span>
+          <p class="flip__def">The hole on the A-side where the machine nozzle meets the mold. First place the plastic hits.</p>
+        </div>
+      </div></div>
+      <div class="flip"><div class="flip__inner">
+        <div class="flip__face flip__front">
+          <span class="flip__hint">Term · tap</span>
+          <span class="flip__term">Runner</span>
+          <span class="flip__hint">Highway for plastic</span>
+        </div>
+        <div class="flip__face flip__back">
+          <span class="flip__hint">Definition</span>
+          <p class="flip__def">The channels that carry molten plastic from the sprue to each cavity. Leftover plastic in the runners gets broken off or cut — then ground up and reused.</p>
+        </div>
+      </div></div>
+      <div class="flip"><div class="flip__inner">
+        <div class="flip__face flip__front">
+          <span class="flip__hint">Term · tap</span>
+          <span class="flip__term">Tunnel Gate</span>
+          <span class="flip__hint">The magic cut</span>
+        </div>
+        <div class="flip__face flip__back">
+          <span class="flip__hint">Definition</span>
+          <p class="flip__def">An angled knife-edge between runner and cavity. As the part ejects, the angle automatically shears the runner off. Saves labor. Clean break. Beautiful design when it works.</p>
+        </div>
+      </div></div>
+      <div class="flip"><div class="flip__inner">
+        <div class="flip__face flip__front">
+          <span class="flip__hint">Term · tap</span>
+          <span class="flip__term">Ejector Pin</span>
+          <span class="flip__hint">Pushes parts out</span>
+        </div>
+        <div class="flip__face flip__back">
+          <span class="flip__hint">Definition</span>
+          <p class="flip__def">Thin steel rod on the B-side, flush during the shot. When the mold opens, the pin plate slams forward and pins push the cooled part out of the cavity.</p>
+        </div>
+      </div></div>
+      <div class="flip"><div class="flip__inner">
+        <div class="flip__face flip__front">
+          <span class="flip__hint">Term · tap</span>
+          <span class="flip__term">Cavity</span>
+          <span class="flip__hint">Part-shaped hole</span>
+        </div>
+        <div class="flip__face flip__back">
+          <span class="flip__hint">Definition</span>
+          <p class="flip__def">The hollow space inside the mold that defines the part's shape. One mold can have 1, 4, 8, 15+ cavities. More cavities = more parts per shot.</p>
+        </div>
+      </div></div>
+      <div class="flip"><div class="flip__inner">
+        <div class="flip__face flip__front">
+          <span class="flip__hint">Term · tap</span>
+          <span class="flip__term">EDM</span>
+          <span class="flip__hint">Burning steel with sparks</span>
+        </div>
+        <div class="flip__face flip__back">
+          <span class="flip__hint">Definition</span>
+          <p class="flip__def">Electrical Discharge Machining. A shaped carbon electrode sits in oil above the steel. Electric sparks burn the shape into the steel. Magic for complex cavities.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- EDM deep dive -->
+    <div class="grid grid-2" style="margin-top: 64px; align-items: center;">
+      <div>
+        <p class="eyebrow">Sidebar · EDM</p>
+        <h3>How mold makers carve the impossible</h3>
+        <p>Some cavity shapes can't be drilled. They're too angular, too deep, too weird. Enter EDM — <strong>Electrical Discharge Machining</strong>.</p>
+        <p>A mold maker shapes the <em>inverse</em> of the cavity in a block of carbon. They suspend that electrode over the steel in a tank of oil. Then they fire thousands of tiny electric sparks between the carbon and the steel. Each spark burns off a microscopic bit of metal. <em>Bzzzt. Bzzzt.</em> Hours or days later, the cavity is there.</p>
+        <p class="text-muted">You can design shapes with EDM that are physically impossible to machine with a drill bit. It's the move when your mold needs something clever.</p>
+      </div>
+      <div class="imgframe"><img src="assets/images/edm.png" alt="EDM sparks between carbon electrode and steel"></div>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz mt-6" style="margin-top: 64px;">
+      <span class="quiz__tag">Pop Quiz · 03</span>
+      <h3 class="quiz__question">The mold opens. Out of 15 cavities, only 14 parts drop. What's probably going on?</h3>
+      <div class="quiz__options">
+        <button class="quiz__opt" data-correct="false"><span class="letter">A</span>Normal — some cavities just skip sometimes</button>
+        <button class="quiz__opt" data-correct="true"><span class="letter">B</span>One cavity isn't ejecting — part is stuck, gate is blocked, or a pin is broken. You're bleeding money every cycle</button>
+        <button class="quiz__opt" data-correct="false"><span class="letter">C</span>The plastic must have evaporated</button>
+        <button class="quiz__opt" data-correct="false"><span class="letter">D</span>Close enough, ship the order short</button>
+      </div>
+      <div class="quiz__feedback"
+           data-correct="<b>Yes.</b> 15-to-14 means one cavity isn't kicking out. Might be stuck on the A-side, might be a blocked tunnel gate, might be a broken pin. You quoted for 15 per cycle — running 14 is a hole in the margin."
+           data-wrong="<b>No.</b> Every cavity you lose is margin you lose. Quotes are built on cavities × cycle. You stop the machine and figure out why that one cavity isn't dropping. Otherwise you're making 14 parts an hour at 15-part prices."></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ CHAPTER 4 · THE CYCLE ================ -->
+<section class="chapter" id="chapter-4">
+  <div class="container">
+    <div class="chapter__head">
+      <div class="chapter__num">04</div>
+      <div class="chapter__meta">
+        <p class="eyebrow">The Cycle</p>
+        <h2>Fifteen seconds. A shot. A part.</h2>
+      </div>
+    </div>
+
+    <p style="font-size: 20px; max-width: 68ch;">Every 15 to 30 seconds, the whole cycle happens. The mold closes. Plastic shoots in. Plastic cools. Mold opens. Parts drop. Mold closes again. Multiply by the hour, by the shift, by the month. That's the business.</p>
+
+    <div class="imgframe mt-6" style="margin-top: 48px; max-width: 600px; margin-left: auto; margin-right: auto;">
+      <img src="assets/images/barrel-screw-cutaway.png" alt="Barrel and screw cutaway showing pellets melting">
+    </div>
+    <p class="caption text-center">Inside the barrel: pellets drop from the hopper, the screw spins, heat bands melt the plastic as the screw pushes it toward the nozzle.</p>
+
+    <!-- Process steps -->
+    <h3 style="margin-top: 56px;">The cycle, step by step</h3>
+    <div class="process mt-4">
+      <div class="process__step">
+        <h4>Feed</h4>
+        <p>Pellets fall from the hopper into the barrel. The screw spins and pulls them down into its threads.</p>
+      </div>
+      <div class="process__step">
+        <h4>Melt</h4>
+        <p>Heat bands on the barrel (300–500°F) melt the pellets as they travel down. By the time the screw has a full shot ready, the plastic is liquid.</p>
+      </div>
+      <div class="process__step">
+        <h4>Shoot</h4>
+        <p>Mold closes. Screw punches forward. Molten plastic blasts through the nozzle, down the sprue, through the runners, into every cavity.</p>
+      </div>
+      <div class="process__step">
+        <h4>Cool</h4>
+        <p>Water circulates through channels in the steel. The plastic freezes in the shape of the cavity. Takes most of the cycle time.</p>
+      </div>
+      <div class="process__step">
+        <h4>Eject</h4>
+        <p>Mold opens. Ejector pins slam forward. Parts drop into a chute or a box (sometimes a water bath). Screw starts turning for the next shot. Repeat.</p>
+      </div>
+    </div>
+
+    <div class="pull" style="margin-top: 56px;">
+      "By the time it's filled, it's ready to be shot into the mold. It happens really fast because those heating bands are, I think, 300 degrees on the low end and 500 on the high end."
+      <cite>— Gary, on how the melt keeps pace with the shot</cite>
+    </div>
+
+    <!-- True/False quiz -->
+    <div class="quiz quiz--tf mt-6" style="margin-top: 64px;">
+      <span class="quiz__tag">True or False · 04</span>
+      <h3 class="quiz__question">The water inside a mold drains out after each cycle and fresh water is pumped in.</h3>
+      <div class="quiz__options">
+        <button class="quiz__opt" data-correct="false"><span class="letter">T</span>True</button>
+        <button class="quiz__opt" data-correct="true"><span class="letter">F</span>False</button>
+      </div>
+      <div class="quiz__feedback"
+           data-correct="<b>False, correct.</b> The water <em>circulates</em>. By the time it loops back to the mold, it's cooled down enough to pull more heat. If it just drained out, you'd blow through more water than plastic."
+           data-wrong="<b>That's a no.</b> Mold water circulates in a closed loop. The fresh-water myth would make water more expensive than plastic and we'd have drowned the floor a long time ago."></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ CHAPTER 5 · MATERIALS ================ -->
+<section class="chapter" id="chapter-5">
+  <div class="container">
+    <div class="chapter__head">
+      <div class="chapter__num">05</div>
+      <div class="chapter__meta">
+        <p class="eyebrow">Materials</p>
+        <h2>Not all plastic is plastic.</h2>
+      </div>
+    </div>
+
+    <p style="font-size: 20px; max-width: 68ch;">Every plastic has a personality. Some are cheap and forgiving. Some are expensive and act like metal. Knowing which one to reach for — and which one <em>not</em> to let anywhere near which other one — is most of the job.</p>
+
+    <div class="imgframe mt-6" style="margin-top: 48px;">
+      <img src="assets/images/plastic-pellets.png" alt="Four plastic resin types as pellets">
+    </div>
+
+    <!-- TABS for each material -->
+    <div data-tabs style="margin-top: 48px;">
+      <div class="tabs">
+        <button class="tabs__btn" aria-selected="true" data-panel="ps">Polystyrene</button>
+        <button class="tabs__btn" aria-selected="false" data-panel="pp">Polypropylene</button>
+        <button class="tabs__btn" aria-selected="false" data-panel="ac">Acetal (Celcon)</button>
+        <button class="tabs__btn" aria-selected="false" data-panel="ny">Nylon</button>
+      </div>
+
+      <div class="tabs__panel" aria-hidden="false" data-panel-id="ps">
+        <div class="grid grid-2">
+          <div>
+            <h3>Polystyrene (PS) <span class="pill pill--sky">Easy</span></h3>
+            <p>The cheap one. Low melt temp. Molds like a dream. Recognizable by the way it goes slightly white when you bend it, and the very specific smell.</p>
+            <p>Think fountain-drink lid caps, disposable stuff, things that don't need to be strong. Affordable, fast to run, very forgiving.</p>
+          </div>
+          <div class="card card--flat">
+            <div class="spec-row"><span class="spec-row__label">Melt temp</span><span class="spec-row__value">Low (~300°F)</span></div>
+            <div class="spec-row"><span class="spec-row__label">Cost</span><span class="spec-row__value">Cheapest tier</span></div>
+            <div class="spec-row"><span class="spec-row__label">Strength</span><span class="spec-row__value">Low · brittle</span></div>
+            <div class="spec-row"><span class="spec-row__label">Use when</span><span class="spec-row__value">Disposable / low-stress parts</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="tabs__panel" aria-hidden="true" data-panel-id="pp">
+        <div class="grid grid-2">
+          <div>
+            <h3>Polypropylene (PP) <span class="pill pill--sky">Easy</span></h3>
+            <p>A bit softer and more flexible than polystyrene. Low melt temp, easy to work with. Good general-purpose plastic.</p>
+            <p>Still a cost-optimized material. You're not going to build precision mechanical parts out of PP — but for caps, closures, simple housings, it's a workhorse.</p>
+          </div>
+          <div class="card card--flat">
+            <div class="spec-row"><span class="spec-row__label">Melt temp</span><span class="spec-row__value">Low (~350°F)</span></div>
+            <div class="spec-row"><span class="spec-row__label">Cost</span><span class="spec-row__value">Cheap</span></div>
+            <div class="spec-row"><span class="spec-row__label">Strength</span><span class="spec-row__value">Low · flexible</span></div>
+            <div class="spec-row"><span class="spec-row__label">Use when</span><span class="spec-row__value">Caps, housings, flexible parts</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="tabs__panel" aria-hidden="true" data-panel-id="ac">
+        <div class="grid grid-2">
+          <div>
+            <h3>Acetal / Celcon <span class="pill pill--red">Engineered</span></h3>
+            <p>This is the one we've been running forever. <em>Engineered resin.</em> High heat. Precision. You can replace metal parts with it.</p>
+            <p>Want a part with a living hinge? A snap fit? A bearing surface? Acetal. The fumes while it's molding are nasty — don't breathe them. More expensive, much higher temperature, but the part does real mechanical work.</p>
+          </div>
+          <div class="card card--flat">
+            <div class="spec-row"><span class="spec-row__label">Melt temp</span><span class="spec-row__value">High (400–450°F)</span></div>
+            <div class="spec-row"><span class="spec-row__label">Cost</span><span class="spec-row__value">$$$</span></div>
+            <div class="spec-row"><span class="spec-row__label">Strength</span><span class="spec-row__value">High · bendable without breaking</span></div>
+            <div class="spec-row"><span class="spec-row__label">Use when</span><span class="spec-row__value">Precision, hinges, mechanical load</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="tabs__panel" aria-hidden="true" data-panel-id="ny">
+        <div class="grid grid-2">
+          <div>
+            <h3>Nylon <span class="pill pill--red">Engineered · Fussy</span></h3>
+            <p>Strong, tough, great in parts that see wear. But nylon is a diva about moisture.</p>
+            <p><strong>Summer:</strong> humid. Nylon absorbs water from the air. Moist plastic + heat = steam bubbles in your shot. You need a <em>dryer</em> before molding.</p>
+            <p><strong>Winter:</strong> dry. Parts come out brittle because they have no moisture. After molding, you bag them with a splash of water so they rehydrate before shipping.</p>
+          </div>
+          <div class="card card--flat">
+            <div class="spec-row"><span class="spec-row__label">Melt temp</span><span class="spec-row__value">High (450–500°F)</span></div>
+            <div class="spec-row"><span class="spec-row__label">Cost</span><span class="spec-row__value">$$$</span></div>
+            <div class="spec-row"><span class="spec-row__label">Strength</span><span class="spec-row__value">Very high · tough</span></div>
+            <div class="spec-row"><span class="spec-row__label">Watch out for</span><span class="spec-row__value">Moisture — pre-dry in summer</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- THE BIG WARNING -->
+    <div style="margin-top: 64px; padding: 40px; background: var(--sm-red); color: white; border-radius: 20px; text-align: center;">
+      <div class="mono" style="font-size: 12px; letter-spacing: .2em; text-transform: uppercase; font-weight: 700; opacity: .85;">The Cardinal Rule</div>
+      <h2 style="color: white; margin-top: 12px;">Never. Mix. Plastics.</h2>
+      <p style="font-size: 18px; max-width: 58ch; margin: 16px auto 0; opacity: .95;">Switching materials on a machine? Clean the grinder spotless. Blow out every hopper. One pellet of polyethylene in a nylon run is a failed lot. One pellet of anything in anything else is <em>a returned order.</em></p>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz mt-6" style="margin-top: 64px;">
+      <span class="quiz__tag">Pop Quiz · 05</span>
+      <h3 class="quiz__question">It's July in Missouri. You're about to run nylon. What's the step Gary would chew you out for skipping?</h3>
+      <div class="quiz__options">
+        <button class="quiz__opt" data-correct="true"><span class="letter">A</span>Run the nylon pellets through the dryer first — humid air = moisture in the pellets = steam bubbles</button>
+        <button class="quiz__opt" data-correct="false"><span class="letter">B</span>Spray water in the hopper for extra moisture</button>
+        <button class="quiz__opt" data-correct="false"><span class="letter">C</span>Turn the AC off in the shop to match outside humidity</button>
+        <button class="quiz__opt" data-correct="false"><span class="letter">D</span>Use polystyrene instead</button>
+      </div>
+      <div class="quiz__feedback"
+           data-correct="<b>Yes.</b> Summer nylon gets dried. If you skip it, the moisture in the pellets flashes to steam in the barrel and your parts come out bubbled and ugly. Winter is the opposite — you re-add moisture after molding by bagging with a splash of water."
+           data-wrong="<b>Not quite.</b> Humid nylon in the barrel = steam = bad parts. You dry nylon <em>before</em> molding in summer. You re-moisten the finished parts in winter. Seasonal."></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ CHAPTER 6 · RUNNERS & REGRIND ================ -->
+<section class="chapter" id="chapter-6">
+  <div class="container">
+    <div class="chapter__head">
+      <div class="chapter__num">06</div>
+      <div class="chapter__meta">
+        <p class="eyebrow">Runners &amp; Regrind</p>
+        <h2>Nothing goes to waste — carefully.</h2>
+      </div>
+    </div>
+
+    <div class="grid grid-2">
+      <div>
+        <p>Every shot makes your parts <em>and</em> a tree of leftover plastic called the <strong>runner</strong>. Same stuff that connects pieces in a model-airplane kit. The ladies on the line break the parts off the runner and sort them into boxes. If the mold has a tunnel gate, the runner is already separated and it's much less painful.</p>
+        <p>The runners don't get thrown away. They go to the <strong>grinder</strong> — big spinning blades in a box — and get chewed up into <strong>regrind</strong>. The grind drops into a barrel and gets blended back into fresh pellets for the next run.</p>
+        <p class="text-muted">Regrind means you pay for plastic once but mold it twice. Just be careful: every grinder switchover requires a blowgun and paranoid cleaning. One stray pellet contaminates the next batch.</p>
+      </div>
+      <div class="imgframe">
+        <img src="assets/images/runner-parts.png" alt="Runner tree with plastic parts and tunnel-gate detail">
+      </div>
+    </div>
+
+    <!-- Regrind slider -->
+    <div style="margin-top: 64px;">
+      <p class="eyebrow">Interactive · How much regrind is too much?</p>
+      <h3>Drag the slider. Watch what happens.</h3>
+      <div class="regrind-box mt-4">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 16px;">
+          <div>
+            <div class="regrind-readout" id="regrind-value">10%</div>
+            <div class="text-muted mono" style="font-size: 12px; letter-spacing: .1em; text-transform: uppercase;">Regrind fraction</div>
+          </div>
+          <div style="text-align: right;">
+            <div class="mono" style="font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--sm-muted);">Virgin plastic</div>
+            <div style="font-size: 24px; font-weight: 700;" id="virgin-value">90%</div>
+          </div>
+        </div>
+        <input type="range" min="0" max="60" value="10" step="1" class="slider-track" id="regrind-slider">
+        <div class="regrind-verdict" id="regrind-verdict">✅ Sweet spot. Saves money, keeps part quality tight.</div>
+      </div>
+    </div>
+
+    <div class="grid grid-3 mt-6" style="margin-top: 48px;">
+      <div class="factoid" style="background: #5EEA80; color: #0d3d1e;">
+        <div class="factoid__number">0–20%</div>
+        <div class="factoid__label" style="color: #0d3d1e; opacity: .8;">Safe zone — part quality stays tight, money saved.</div>
+      </div>
+      <div class="factoid" style="background: #FFC83D; color: #5c3d00;">
+        <div class="factoid__number">20–30%</div>
+        <div class="factoid__label" style="color: #5c3d00; opacity: .8;">Getting risky — watch the QC tight, check dimensional specs.</div>
+      </div>
+      <div class="factoid">
+        <div class="factoid__number">30%+</div>
+        <div class="factoid__label">Danger. Material properties degrade. Parts flex wrong. Fail in the field.</div>
+      </div>
+    </div>
+
+    <div class="quiz mt-6" style="margin-top: 64px;">
+      <span class="quiz__tag">Pop Quiz · 06</span>
+      <h3 class="quiz__question">You just finished a polystyrene run. Next up: nylon. What's the first move at the grinder?</h3>
+      <div class="quiz__options">
+        <button class="quiz__opt" data-correct="false"><span class="letter">A</span>Dump the polystyrene regrind barrel into the nylon run for "extra volume"</button>
+        <button class="quiz__opt" data-correct="true"><span class="letter">B</span>Stop. Blow every corner of the grinder clean with the air gun until there's not a pellet left</button>
+        <button class="quiz__opt" data-correct="false"><span class="letter">C</span>Run a handful of nylon through first to "flush" the grinder</button>
+        <button class="quiz__opt" data-correct="false"><span class="letter">D</span>Just start — it'll work itself out</button>
+      </div>
+      <div class="quiz__feedback"
+           data-correct="<b>Exactly.</b> Never mix plastics. Even one stray polystyrene pellet in the nylon regrind is a failed lot — and a returned order. The blowgun is your best friend at switchover."
+           data-wrong="<b>No.</b> You can't 'flush' the grinder — any leftover material will contaminate the new run. The rule is absolute: blowgun, clean every corner, zero pellets before the next material goes in."></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ CHAPTER 7 · QUOTING ================ -->
+<section class="chapter" id="chapter-7">
+  <div class="container">
+    <div class="chapter__head">
+      <div class="chapter__num">07</div>
+      <div class="chapter__meta">
+        <p class="eyebrow">Quoting &amp; Money</p>
+        <h2>Machine time. Cavities. Cycle.</h2>
+      </div>
+    </div>
+
+    <p style="font-size: 20px; max-width: 68ch;">A quote is a prediction. You're promising a price per thousand parts, months from now, with certain assumptions about how fast the machine runs and how many cavities drop parts every shot. Get the math right and there's profit. Get it wrong and you run the job all month for free.</p>
+
+    <h3 style="margin-top: 48px;">The quote formula</h3>
+    <div class="card mt-4" style="padding: 40px;">
+      <div class="mono" style="font-size: 13px; letter-spacing: .1em; text-transform: uppercase; color: var(--sm-muted);">Per-thousand pricing</div>
+      <div style="font-family: var(--f-mono); font-size: 22px; font-weight: 700; margin-top: 16px; line-height: 1.6;">
+        ( <span style="color: var(--sm-red);">machine_time_per_hour</span><br>
+        &nbsp;&nbsp;÷ ( 3600 ÷ <span style="color: var(--sm-sky-deep);">cycle_seconds</span> × <span style="color: var(--sm-sky-deep);">cavities</span> ) )<br>
+        + <span style="color: var(--sm-red);">material_cost_per_part</span><br>
+        + <span style="color: var(--sm-red);">separation_labor</span><br>
+        + <span style="color: var(--sm-red);">mold_amortization</span><br>
+        × 1000<br>
+        = <span style="color: var(--sm-ink);">price per thousand parts</span>
+      </div>
+    </div>
+
+    <div class="accordion mt-6" style="margin-top: 48px;">
+      <div class="accordion__item">
+        <button class="accordion__btn" aria-expanded="false">
+          <span>Machine time (≈ $35/hr)</span>
+          <span class="chev">+</span>
+        </button>
+        <div class="accordion__body"><div class="accordion__body-inner">
+          Blanket cost for running the machine: power, labor, floor space, maintenance, depreciation. Different rate for a 28-ton vs. a 40-ton. Different for high-temp materials that wear the screw faster.
+        </div></div>
+      </div>
+      <div class="accordion__item">
+        <button class="accordion__btn" aria-expanded="false">
+          <span>Cycle time × cavities</span>
+          <span class="chev">+</span>
+        </button>
+        <div class="accordion__body"><div class="accordion__body-inner">
+          Parts per hour = (3600 / cycle in seconds) × cavities. 20-second cycle × 8 cavities = 1,440 parts/hour. That's the throughput number. If one cavity goes down, you're at 1,260 — a silent 12% hit to margin.
+        </div></div>
+      </div>
+      <div class="accordion__item">
+        <button class="accordion__btn" aria-expanded="false">
+          <span>Material cost per part</span>
+          <span class="chev">+</span>
+        </button>
+        <div class="accordion__body"><div class="accordion__body-inner">
+          Pellet cost × shot weight, amortized across cavities. Regrind lowers this — but only up to ~20% before you're risking part quality. Engineered resins (acetal, nylon) multiply this line 3–5×.
+        </div></div>
+      </div>
+      <div class="accordion__item">
+        <button class="accordion__btn" aria-expanded="false">
+          <span>Separation labor</span>
+          <span class="chev">+</span>
+        </button>
+        <div class="accordion__body"><div class="accordion__body-inner">
+          If the mold has a good tunnel gate, the runner self-separates and labor is almost zero. If not, the ladies on the line are breaking parts all day with taped fingers — factor it into the quote.
+        </div></div>
+      </div>
+      <div class="accordion__item">
+        <button class="accordion__btn" aria-expanded="false">
+          <span>Mold amortization</span>
+          <span class="chev">+</span>
+        </button>
+        <div class="accordion__body"><div class="accordion__body-inner">
+          If Security buys the mold for $15,000 and the customer commits to 100,000 parts, we can add a couple bucks per thousand until the mold is paid off in ~6 months. Even better: Security <em>owns</em> the mold and sells to 3–5 customers. That's a money-printer.
+        </div></div>
+      </div>
+    </div>
+
+    <!-- Worked example -->
+    <div class="grid grid-2 mt-6" style="margin-top: 64px;">
+      <div>
+        <p class="eyebrow">Worked Example</p>
+        <h3>A real quote, with Gary-math</h3>
+        <div class="spec-row"><span class="spec-row__label">Part</span><span class="spec-row__value">Small acetal gear</span></div>
+        <div class="spec-row"><span class="spec-row__label">Machine</span><span class="spec-row__value">40-ton · $35/hr</span></div>
+        <div class="spec-row"><span class="spec-row__label">Cavities</span><span class="spec-row__value">8</span></div>
+        <div class="spec-row"><span class="spec-row__label">Cycle</span><span class="spec-row__value">22 sec</span></div>
+        <div class="spec-row"><span class="spec-row__label">Parts / hr</span><span class="spec-row__value">1,309</span></div>
+        <div class="spec-row"><span class="spec-row__label">Machine cost / 1000</span><span class="spec-row__value">$26.75</span></div>
+        <div class="spec-row"><span class="spec-row__label">Material (acetal)</span><span class="spec-row__value">$8.50 / 1000</span></div>
+        <div class="spec-row"><span class="spec-row__label">Separation labor</span><span class="spec-row__value">$2.00 / 1000 (tunnel gate)</span></div>
+        <div class="spec-row"><span class="spec-row__label">Mold amortization</span><span class="spec-row__value">$1.25 / 1000</span></div>
+        <div class="spec-row"><span class="spec-row__label"><strong>Quote</strong></span><span class="spec-row__value" style="color: var(--sm-red); font-weight: 800;">$38.50 / 1000 parts</span></div>
+      </div>
+      <div class="factoid">
+        <div class="factoid__number">1 cavity down</div>
+        <div class="factoid__label">In the example above, losing one cavity takes throughput from 1,309 to 1,146 parts/hr. Machine cost per thousand jumps to $30.54 — your quote is underwater. This is why a <b>stuck part is an emergency</b>.</div>
+      </div>
+    </div>
+
+    <div class="quiz mt-6" style="margin-top: 64px;">
+      <span class="quiz__tag">Pop Quiz · 07</span>
+      <h3 class="quiz__question">A customer wants 2,000 caps with a brand-new mold. What's the conversation?</h3>
+      <div class="quiz__options">
+        <button class="quiz__opt" data-correct="false"><span class="letter">A</span>Great — quote it and run it</button>
+        <button class="quiz__opt" data-correct="true"><span class="letter">B</span>Push back: 2,000 parts won't amortize a new mold. Either increase the order to 50k+, use an existing mold, or let them know this isn't the right shop for the job</button>
+        <button class="quiz__opt" data-correct="false"><span class="letter">C</span>Quote it at 10× normal price to cover the mold</button>
+        <button class="quiz__opt" data-correct="false"><span class="letter">D</span>Build the mold by hand in the back</button>
+      </div>
+      <div class="quiz__feedback"
+           data-correct="<b>Right.</b> New molds are a multi-thousand-dollar investment. You amortize over volume. Security's lane is 10k, 100k, million-part runs. 2,000 parts on a new mold is a money-loser — so you have an honest conversation early."
+           data-wrong="<b>Careful.</b> A new mold is $15k+ and 8–12 weeks to build. Running 2,000 parts on it doesn't pay back the tooling. Real answer: raise the volume, use an existing mold, or tell them you're not the right shop."></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ CHAPTER 8 · MOLD MAKERS ================ -->
+<section class="chapter" id="chapter-8">
+  <div class="container">
+    <div class="chapter__head">
+      <div class="chapter__num">08</div>
+      <div class="chapter__meta">
+        <p class="eyebrow">Mold Makers</p>
+        <h2>The hardest relationship in the business.</h2>
+      </div>
+    </div>
+
+    <p style="font-size: 20px; max-width: 68ch;">A mold maker turns a blueprint into a hunk of steel that makes parts for years. The best ones think like watchmakers. One of ours actually fixed watches on the weekends. But the relationship? Brutal. Every time.</p>
+
+    <div class="pull mt-6" style="margin-top: 48px;">
+      "If you can work with mold makers, you are a god. They take so much work to work with — to get parts on time, to develop, to deliver molds that are good. I can't emphasize how hard it is."
+      <cite>— Gary, not sugar-coating it</cite>
+    </div>
+
+    <!-- Challenges accordion -->
+    <h3 style="margin-top: 56px;">The four hard truths</h3>
+    <div class="accordion mt-4">
+      <div class="accordion__item">
+        <button class="accordion__btn" aria-expanded="false">
+          <span>1 · Lead times are always too long</span>
+          <span class="chev">+</span>
+        </button>
+        <div class="accordion__body"><div class="accordion__body-inner">
+          8 weeks. 12 weeks. Three months if the shop is slammed. Customers want it yesterday. The mold maker wants the schedule they already have. You live in between.
+        </div></div>
+      </div>
+      <div class="accordion__item">
+        <button class="accordion__btn" aria-expanded="false">
+          <span>2 · The first sample is rarely right</span>
+          <span class="chev">+</span>
+        </button>
+        <div class="accordion__body"><div class="accordion__body-inner">
+          The mold arrives. You set it up and shoot the first plastic. Maybe parts stick on the A-side. Maybe pins push through the cavity. Maybe everything works beautifully (rare, suspicious). More often: mold goes back for rework. Another week lost.
+        </div></div>
+      </div>
+      <div class="accordion__item">
+        <button class="accordion__btn" aria-expanded="false">
+          <span>3 · Scheduling the sample around a busy shop</span>
+          <span class="chev">+</span>
+        </button>
+        <div class="accordion__body"><div class="accordion__body-inner">
+          You want the machines running paid jobs. So squeezing in a new-mold sample means stopping a running job, changing over, testing, then changing back. Every interruption costs money and sanity.
+        </div></div>
+      </div>
+      <div class="accordion__item">
+        <button class="accordion__btn" aria-expanded="false">
+          <span>4 · Finding good mold makers at all</span>
+          <span class="chev">+</span>
+        </button>
+        <div class="accordion__body"><div class="accordion__body-inner">
+          It's a shrinking craft. The best ones have a waiting list. The cheap ones deliver molds that don't work. Every dollar saved at quote time can come back 10× in sampling rounds.
+        </div></div>
+      </div>
+    </div>
+
+    <div style="margin-top: 56px; padding: 32px; background: var(--sm-sky-soft); border-radius: 20px; border-left: 4px solid var(--sm-sky-deep);">
+      <p class="eyebrow" style="color: var(--sm-sky-deep);">Gary's long-game wish</p>
+      <h3>Build molds in-house.</h3>
+      <p class="mb-0">Every generation has talked about doing mold-making inside the shop. It's never happened. If you ever figure out how, you'd control your biggest bottleneck and biggest cost line at the same time. Worth thinking about.</p>
+    </div>
+
+    <div class="quiz mt-6" style="margin-top: 64px;">
+      <span class="quiz__tag">Pop Quiz · 08</span>
+      <h3 class="quiz__question">You pick up a new mold, set it up, and the first shot — every part sticks to the A-side. What does that tell you?</h3>
+      <div class="quiz__options">
+        <button class="quiz__opt" data-correct="false"><span class="letter">A</span>The plastic is bad — switch materials</button>
+        <button class="quiz__opt" data-correct="true"><span class="letter">B</span>The mold maker's draft angles / polish on the A-side need rework. Parts should release from A and stay on B for the pins to eject</button>
+        <button class="quiz__opt" data-correct="false"><span class="letter">C</span>Run it anyway — it'll break in</button>
+        <button class="quiz__opt" data-correct="false"><span class="letter">D</span>The machine is undersized</button>
+      </div>
+      <div class="quiz__feedback"
+           data-correct="<b>Yes.</b> The A-side is supposed to be the slicker side so the part lets go and stays on the B-side where ejector pins live. If parts stick on A, the mold goes back to the maker for a better polish, a better draft angle, or both."
+           data-wrong="<b>Hm.</b> When every part stays on the A-side, the mold's geometry is the problem. A-side should release. Parts should stay on B for the pins. The fix is at the mold maker's bench, not in the machine."></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ CHAPTER 9 · CUSTOMERS & QUALITY ================ -->
+<section class="chapter" id="chapter-9">
+  <div class="container">
+    <div class="chapter__head">
+      <div class="chapter__num">09</div>
+      <div class="chapter__meta">
+        <p class="eyebrow">Customers &amp; Quality</p>
+        <h2>"We'll take care of it."</h2>
+      </div>
+    </div>
+
+    <div class="grid grid-2">
+      <div>
+        <p>Security Molding's parts don't get <em>used</em> — they get <em>mated</em> with something else. A gear goes into a shutter. A cap goes onto an aluminum tube. A fitting snaps onto a window frame. If our part is wrong, the whole assembly fails.</p>
+        <p>Which means when something goes wrong downstream, everyone's first move is to blame the plastics guy. The aluminum guy's parts cost 5× more to return — so they push hard. The customer's supplier wants a quick answer. You're in the middle, proving your parts were right.</p>
+        <p>The defense is <strong>Total Quality Management</strong> — TQM — plus receipts. Dimensional checks on every shift. Documented. Consistent. You don't just <em>know</em> your parts were good — you can <em>show</em> it.</p>
+      </div>
+      <div class="imgframe">
+        <img src="assets/images/relationships.png" alt="Supplier, customer and mold-maker relationships">
+      </div>
+    </div>
+
+    <div class="pull mt-6" style="margin-top: 56px;">
+      "The standard answer to any problem somebody was having was, <em>'we'll take care of it.'</em> There's a lot to be said for that."
+      <cite>— Gary · on grandpa's operating system</cite>
+    </div>
+
+    <!-- Communication ladder -->
+    <h3 style="margin-top: 56px;">The communication ladder</h3>
+    <p class="text-muted">The more often you check in, the fewer surprises. The fewer surprises, the less you lose to scrap, emergencies, and lost accounts.</p>
+    <div class="process mt-4">
+      <div class="process__step">
+        <h4>Weekly check-in</h4>
+        <p>A 5-min call or email. "How's the stock level? Any upcoming spikes?"</p>
+      </div>
+      <div class="process__step">
+        <h4>Design review</h4>
+        <p>Before they commit to a drawing, offer a tweak that saves mold cost. Customers love this.</p>
+      </div>
+      <div class="process__step">
+        <h4>Quality doc</h4>
+        <p>Every lot ships with a simple QC sheet. Receipts.</p>
+      </div>
+      <div class="process__step">
+        <h4>Something wrong?</h4>
+        <p>Same day. "We'll take care of it" — then actually take care of it.</p>
+      </div>
+      <div class="process__step">
+        <h4>After action</h4>
+        <p>Follow up after a fix. Ask what you could've done sooner. Write it down.</p>
+      </div>
+    </div>
+
+    <div class="quiz mt-6" style="margin-top: 64px;">
+      <span class="quiz__tag">Pop Quiz · 09</span>
+      <h3 class="quiz__question">A customer calls: "Your parts don't fit." Your first move?</h3>
+      <div class="quiz__options">
+        <button class="quiz__opt" data-correct="false"><span class="letter">A</span>Tell them it's probably their aluminum supplier's fault</button>
+        <button class="quiz__opt" data-correct="false"><span class="letter">B</span>Offer a refund immediately</button>
+        <button class="quiz__opt" data-correct="true"><span class="letter">C</span>"We'll take care of it." Get the lot number, pull the QC record, and send someone to look at the parts in person</button>
+        <button class="quiz__opt" data-correct="false"><span class="letter">D</span>Ignore it — it'll blow over</button>
+      </div>
+      <div class="quiz__feedback"
+           data-correct="<b>Yes.</b> You commit to solving it <em>first</em>, then you investigate with data (QC records, lot numbers) and eyes (go see the part). Often the parts are fine — but you don't lead with that accusation. You lead with 'we'll take care of it.'"
+           data-wrong="<b>Not the SM way.</b> Lead with 'we'll take care of it' — commit to solving first. Then pull your QC records and your lot data, and go see the parts. Blame last, facts first."></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ CHAPTER 10 · INVENTORY & JIT ================ -->
+<section class="chapter" id="chapter-10">
+  <div class="container">
+    <div class="chapter__head">
+      <div class="chapter__num">10</div>
+      <div class="chapter__meta">
+        <p class="eyebrow">Inventory &amp; JIT</p>
+        <h2>How much to make. When to make it.</h2>
+      </div>
+    </div>
+
+    <p style="font-size: 20px; max-width: 68ch;">Carry too much inventory — it sits on the floor, ties up cash, gets obsolete when the customer changes specs. Carry too little — customer calls for 20,000 parts tomorrow and you're breaking the machine down from another job to squeeze them in. The balance is an art called <strong>just-in-time</strong>.</p>
+
+    <div class="grid grid-2 mt-6" style="margin-top: 48px;">
+      <div class="card">
+        <span class="pill pill--red">Too much</span>
+        <h4 style="margin-top: 12px;">The warehouse pile-up</h4>
+        <ul class="text-muted" style="padding-left: 20px;">
+          <li>Cash tied up in raw material + labor</li>
+          <li>Floor space eaten by boxes of finished parts</li>
+          <li>Risk: customer changes spec, entire lot is scrap</li>
+          <li>Risk: customer switches supplier, inventory is sunk cost</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="pill pill--red">Too little</span>
+        <h4 style="margin-top: 12px;">The emergency cycle</h4>
+        <ul class="text-muted" style="padding-left: 20px;">
+          <li>Customer calls — "need 10k by Thursday"</li>
+          <li>Stop a running paid job, change over, eat the overtime</li>
+          <li>Change back, eat the overtime again</li>
+          <li>Repeat every 6 weeks — the whole shop feels it</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="margin-top: 56px; padding: 32px; background: var(--sm-sky-soft); border-radius: 20px; border-left: 4px solid var(--sm-sky-deep);">
+      <p class="eyebrow" style="color: var(--sm-sky-deep);">Gary's hunch</p>
+      <h3>This is a place where AI can actually help.</h3>
+      <p class="mb-0">Usage patterns by customer. Seasonal spikes. Order cadence. Modern software (or a sharp spreadsheet) can forecast demand much better than "we take this much every year." You're walking into a shop that has decades of order history sitting in filing cabinets. That's training data.</p>
+    </div>
+
+    <div class="quiz mt-6" style="margin-top: 64px;">
+      <span class="quiz__tag">Pop Quiz · 10</span>
+      <h3 class="quiz__question">A customer has taken 80,000 caps every April for the past 6 years. It's February. What's the smart move?</h3>
+      <div class="quiz__options">
+        <button class="quiz__opt" data-correct="false"><span class="letter">A</span>Wait for the order — never build ahead</button>
+        <button class="quiz__opt" data-correct="false"><span class="letter">B</span>Build 200,000 right now to be safe</button>
+        <button class="quiz__opt" data-correct="true"><span class="letter">C</span>Call the customer. Confirm the pattern still holds. Start a partial run now if confirmed. Don't fully commit without the word</button>
+        <button class="quiz__opt" data-correct="false"><span class="letter">D</span>Switch to a cheaper material to prepare</button>
+      </div>
+      <div class="quiz__feedback"
+           data-correct="<b>Yes.</b> Communication > assumption. Call first — <em>then</em> build ahead. The customers who cost you the most money are the ones you assumed you understood."
+           data-wrong="<b>Watch it.</b> A pattern isn't a promise. Confirm by phone first. Build partial if the customer confirms. Never fully commit to inventory based on last year's pattern alone."></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ CHAPTER 11 · THE FUTURE ================ -->
+<section class="chapter" id="chapter-11">
+  <div class="container">
+    <div class="chapter__head">
+      <div class="chapter__num">11</div>
+      <div class="chapter__meta">
+        <p class="eyebrow">Future &amp; Marketing</p>
+        <h2>Tell the story. Run the experiment.</h2>
+      </div>
+    </div>
+
+    <p style="font-size: 20px; max-width: 68ch;">Two things Security Molding has historically been bad at, and both are wide-open opportunities for Julian to own.</p>
+
+    <div class="grid grid-2 mt-6" style="margin-top: 48px;">
+      <div class="card card--accent">
+        <span class="mono" style="font-size: 12px; letter-spacing: .12em; color: var(--sm-red); text-transform: uppercase; font-weight: 700;">Opportunity 01</span>
+        <h3 style="margin-top: 8px;">Run a lab.</h3>
+        <p>Every company Gary respects — Apple, Google — has a lab where engineers run experiments that might fail. Security's never had one. It wouldn't take much: a small budget, a couple of hours a week, and a willingness to try stuff that probably won't work.</p>
+        <p><strong>Starting list:</strong></p>
+        <ul class="text-muted" style="padding-left: 20px;">
+          <li>3D printing for mold samples (used to be $100k, now it's $2–5k)</li>
+          <li>New engineered resins (there are dozens of 2026-era materials we've never tried)</li>
+          <li>Vacuum-load systems, drying upgrades, automation retrofits</li>
+          <li>AI-driven QC inspection — a camera over the chute</li>
+        </ul>
+      </div>
+      <div class="card card--accent">
+        <span class="mono" style="font-size: 12px; letter-spacing: .12em; color: var(--sm-red); text-transform: uppercase; font-weight: 700;">Opportunity 02</span>
+        <h3 style="margin-top: 8px;">Market consistently.</h3>
+        <p>Security doesn't really market. Which means when a slow month shows up, there's no pipeline. Meanwhile: every week of running jobs is visually interesting. Machines. Molds. Little parts falling in a box. Stories.</p>
+        <p><strong>Starting list:</strong></p>
+        <ul class="text-muted" style="padding-left: 20px;">
+          <li>Capture 30 seconds of video every week. Anything.</li>
+          <li>One customer story per month — with permission</li>
+          <li>A simple newsletter to existing accounts. Just "here's what we're up to."</li>
+          <li>Bi-weekly check-in with every top-10 account. Prevents 90% of surprises.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pull" style="margin-top: 56px;">
+      "The more I market, the more business I get. It's just the bottom line."
+      <cite>— Gary, admitting the lesson</cite>
+    </div>
+
+    <div class="quiz mt-6" style="margin-top: 64px;">
+      <span class="quiz__tag">Pop Quiz · 11</span>
+      <h3 class="quiz__question">You've got a slow week. What gets the highest ROI?</h3>
+      <div class="quiz__options">
+        <button class="quiz__opt" data-correct="false"><span class="letter">A</span>Rearrange the parts bins</button>
+        <button class="quiz__opt" data-correct="true"><span class="letter">B</span>Shoot short videos of the shop in action + call every top-10 account to check in</button>
+        <button class="quiz__opt" data-correct="false"><span class="letter">C</span>Take the week off</button>
+        <button class="quiz__opt" data-correct="false"><span class="letter">D</span>Write a 40-page technical whitepaper</button>
+      </div>
+      <div class="quiz__feedback"
+           data-correct="<b>Yes.</b> Slow weeks are the best weeks to do marketing and customer check-ins — the jobs aren't burning and you have mental space. That's exactly when future-you benefits most."
+           data-wrong="<b>Push back.</b> Marketing is a lead indicator. A slow week is when you have the time, and the investment pays off two months later when jobs show up. That's the lever."></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ FINAL EXAM ================ -->
+<section class="chapter" id="finale" style="background: var(--sm-black); color: var(--sm-white); border-bottom: none;">
+  <div class="container container--narrow">
+    <div class="chapter__head">
+      <div class="chapter__num" style="color: var(--sm-red);">12</div>
+      <div class="chapter__meta">
+        <p class="eyebrow" style="color: #ff6060;">Final Exam</p>
+        <h2 style="color: var(--sm-white);">Five questions. Pass means you got the idea.</h2>
+      </div>
+    </div>
+
+    <div class="quiz" style="margin-bottom: 32px;">
+      <span class="quiz__tag">Final · 01</span>
+      <h3 class="quiz__question">Security Molding's competitive position is defined by which pair of traits?</h3>
+      <div class="quiz__options">
+        <button class="quiz__opt" data-correct="true"><span class="letter">A</span>Small tonnage + small parts, at high volume</button>
+        <button class="quiz__opt" data-correct="false"><span class="letter">B</span>Huge parts + low volume</button>
+        <button class="quiz__opt" data-correct="false"><span class="letter">C</span>3D printing + metal machining</button>
+        <button class="quiz__opt" data-correct="false"><span class="letter">D</span>Import distribution only</button>
+      </div>
+      <div class="quiz__feedback"
+           data-correct="Right. Small tonnage, small molds, small parts, big volume. That's the lane."
+           data-wrong="Our lane: small tonnage (28/40), small molds (hand-carried), high-volume runs (tens of thousands to millions)."></div>
+    </div>
+
+    <div class="quiz" style="margin-bottom: 32px;">
+      <span class="quiz__tag">Final · 02</span>
+      <h3 class="quiz__question">Rank by melt temperature, low to high:</h3>
+      <div class="quiz__options">
+        <button class="quiz__opt" data-correct="false"><span class="letter">A</span>Nylon → Acetal → Polypropylene → Polystyrene</button>
+        <button class="quiz__opt" data-correct="true"><span class="letter">B</span>Polystyrene → Polypropylene → Acetal → Nylon</button>
+        <button class="quiz__opt" data-correct="false"><span class="letter">C</span>Acetal → Polystyrene → Nylon → Polypropylene</button>
+        <button class="quiz__opt" data-correct="false"><span class="letter">D</span>They all melt at the same temp</button>
+      </div>
+      <div class="quiz__feedback"
+           data-correct="Yes. The cheap commodity plastics run cool. The engineered resins run hot — which is also why they cost more and do more."
+           data-wrong="Commodity plastics (PS, PP) run cool (300–350°F). Engineered resins (acetal, nylon) run hot (400–500°F). Hot = strong = expensive."></div>
+    </div>
+
+    <div class="quiz" style="margin-bottom: 32px;">
+      <span class="quiz__tag">Final · 03</span>
+      <h3 class="quiz__question">You're switching a grinder from polypropylene to acetal. The safe percentage of cross-contamination allowed in the new batch is:</h3>
+      <div class="quiz__options">
+        <button class="quiz__opt" data-correct="true"><span class="letter">A</span>Zero. None. Blow every corner.</button>
+        <button class="quiz__opt" data-correct="false"><span class="letter">B</span>Up to 5%</button>
+        <button class="quiz__opt" data-correct="false"><span class="letter">C</span>Up to 10%</button>
+        <button class="quiz__opt" data-correct="false"><span class="letter">D</span>Up to 20%</button>
+      </div>
+      <div class="quiz__feedback"
+           data-correct="Correct. Never mix plastics. One pellet is one failure point. The blowgun is mandatory."
+           data-wrong="Zero. The rule is absolute. Different plastics will not fuse and will cause part failures — even a single stray pellet is a potential returned lot."></div>
+    </div>
+
+    <div class="quiz" style="margin-bottom: 32px;">
+      <span class="quiz__tag">Final · 04</span>
+      <h3 class="quiz__question">A customer says your parts failed. What's the Security Molding opening line?</h3>
+      <div class="quiz__options">
+        <button class="quiz__opt" data-correct="false"><span class="letter">A</span>"Send me the proof."</button>
+        <button class="quiz__opt" data-correct="false"><span class="letter">B</span>"It's probably your supplier, not us."</button>
+        <button class="quiz__opt" data-correct="true"><span class="letter">C</span>"We'll take care of it. Send me the lot number and I'll call you back this afternoon."</button>
+        <button class="quiz__opt" data-correct="false"><span class="letter">D</span>"Our contract says that's your problem."</button>
+      </div>
+      <div class="quiz__feedback"
+           data-correct="Yes. Commit first, investigate next. That's the three-generation move. Facts come in the second conversation, not the first."
+           data-wrong="The opening is 'we'll take care of it.' Then you pull the QC records. Then, if needed, you push back with data. Never lead defensive."></div>
+    </div>
+
+    <div class="quiz" style="margin-bottom: 32px;">
+      <span class="quiz__tag">Final · 05</span>
+      <h3 class="quiz__question">What single concept ties together: machine time, cavities, cycle, regrind, inventory, and mold amortization?</h3>
+      <div class="quiz__options">
+        <button class="quiz__opt" data-correct="false"><span class="letter">A</span>They're all material properties</button>
+        <button class="quiz__opt" data-correct="true"><span class="letter">B</span>They're all margin levers — tiny changes to any of them make or break a profitable job</button>
+        <button class="quiz__opt" data-correct="false"><span class="letter">C</span>They're all kinds of plastic</button>
+        <button class="quiz__opt" data-correct="false"><span class="letter">D</span>They're all things you can ignore</button>
+      </div>
+      <div class="quiz__feedback"
+           data-correct="Right. This is the whole business. A 1% shift in any of these lines — cycle seconds, cavity uptime, regrind ratio, inventory turns, mold payoff pace — moves the margin noticeably. Your job is to watch all six."
+           data-wrong="These are the margin levers. Each one quietly moves profit. The job isn't to pick one — it's to manage all six at once."></div>
+    </div>
+
+    <div style="text-align: center; padding: 64px 0;">
+      <div class="mono" style="font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: #ff6060; font-weight: 700;">That's the guide</div>
+      <h2 style="color: white; margin-top: 16px;">Welcome to Security Molding, Julian.</h2>
+      <p style="color: var(--sm-gray-40); font-size: 18px; max-width: 58ch; margin: 16px auto 32px;">Everything else you'll learn on the shop floor. When in doubt, tell the customer <em>we'll take care of it</em> — then actually take care of it.</p>
+      <a href="brand-standard.html" class="btn btn--primary">See the brand standard →</a>
+    </div>
+  </div>
+</section>
+
+<!-- Glossary modal -->
+<div class="modal-backdrop" id="gloss-modal" role="dialog" aria-modal="true">
+  <div class="modal">
+    <button class="modal__close" aria-label="Close">×</button>
+    <div class="modal__eyebrow" id="gloss-modal-eyebrow">Shop talk</div>
+    <h3 id="gloss-modal-title" style="margin-bottom: 12px;">Term</h3>
+    <div id="gloss-modal-body" style="color: var(--sm-gray-80);"></div>
+  </div>
+</div>
+
+<footer class="site-foot">
+  <div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px;">
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <img src="assets/logo-security-molding-21spr2026.svg" width="40" height="40" alt="" style="background: white; border-radius: 8px; padding: 4px;">
+        <div>
+          <div style="color: white; font-weight: 700;">Security Molding</div>
+          <div class="mono" style="font-size: 12px; color: var(--sm-gray-60); letter-spacing: .08em;">Plastics Study Guide · For Julian · April 2026</div>
+        </div>
+      </div>
+      <div class="mono" style="font-size: 12px; letter-spacing: .08em; color: var(--sm-gray-60);">
+        Built with care by Gary · <a href="brand-standard.html">Brand Standard</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/interactive.js"></script>
+<script>
+  // A/B/Cooling mold toggle
+  document.querySelectorAll('.mold-toggle button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const side = btn.dataset.side;
+      document.querySelectorAll('.mold-toggle button').forEach(b => b.setAttribute('aria-pressed', 'false'));
+      btn.setAttribute('aria-pressed', 'true');
+      document.querySelectorAll('.side-info').forEach(si => si.classList.remove('is-active'));
+      document.querySelector(`[data-side-info="${side}"]`).classList.add('is-active');
+    });
+  });
+
+  // Regrind slider
+  const slider = document.getElementById('regrind-slider');
+  const regrindReadout = document.getElementById('regrind-value');
+  const virginReadout = document.getElementById('virgin-value');
+  const verdict = document.getElementById('regrind-verdict');
+  if (slider) {
+    const update = () => {
+      const v = parseInt(slider.value, 10);
+      regrindReadout.textContent = v + '%';
+      virginReadout.textContent = (100 - v) + '%';
+      let message, bg, color;
+      if (v <= 20) {
+        message = '✅ Sweet spot. Saves money, keeps part quality tight.';
+        bg = '#E8F9EE'; color = '#1E7A3B';
+      } else if (v <= 30) {
+        message = '⚠️ Risky zone. Tighten QC — watch dimensional specs every shift.';
+        bg = '#FFF5E0'; color = '#8A5A00';
+      } else {
+        message = '🚨 Too much regrind. Material properties degrade. Parts will flex wrong and fail in the field.';
+        bg = '#FDEAEA'; color = '#8E0000';
+      }
+      verdict.innerHTML = message;
+      verdict.style.background = bg;
+      verdict.style.color = color;
+      regrindReadout.style.color = color;
+    };
+    slider.addEventListener('input', update);
+    update();
+  }
+</script>
+</body>
+</html>
