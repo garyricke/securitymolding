@@ -24,6 +24,19 @@
   .foot-col h5 { color:#fff; font-family:var(--f-mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; margin:0 0 var(--s-4); }
   .foot-col a { display:block; margin-bottom:var(--s-2); font-size:14px; }
   @media (max-width:700px){ .foot-grid{ grid-template-columns:1fr; } }
+
+  /* Material cards — each is a full-panel bed of pellets in its real resin color (--pellet),
+     with a soft white veil so the heading + copy stay readable over the texture. */
+  .card.card--mat {
+    position:relative; overflow:hidden; color:var(--sm-ink);
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.90) 0%, rgba(255,255,255,.80) 48%, rgba(255,255,255,.62) 100%),
+      var(--pellet);
+    background-size:cover, cover; background-position:center, center; background-repeat:no-repeat;
+  }
+  .card.card--mat > * { position:relative; z-index:1; }
+  .card.card--mat p { color:var(--sm-gray-80); }
+  .card.card--mat h3 { text-shadow:0 1px 0 rgba(255,255,255,.6); }
 </style>
 </head>
 <body>
@@ -76,12 +89,12 @@
     <p class="eyebrow">Materials we run</p>
     <h2 style="max-width:20ch;">The resins we know cold — because we run them every day.</h2>
     <div class="grid grid-3" style="margin-top:var(--s-7);">
-      <div class="card"><h3>Nylon</h3><p class="text-muted" style="margin:0;">Our biggest material — including <strong>33% glass-filled</strong>. The workhorse behind most window, door, and structural parts. Dried and run with care so humidity never shows up in your parts.</p></div>
-      <div class="card"><h3>Styrene</h3><p class="text-muted" style="margin:0;">Clean and fast — the material behind our screen and corner keys. It runs and runs, which is how we make millions a year without missing a beat.</p></div>
-      <div class="card"><h3>PVC</h3><p class="text-muted" style="margin:0;">Weep plugs and weep-hole covers by the million — the little parts that keep rain out of every window and door extrusion on the road.</p></div>
-      <div class="card"><h3>Acetal</h3><p class="text-muted" style="margin:0;">Tough, low-friction parts where you need durability and a clean finish.</p></div>
-      <div class="card"><h3>Polycarbonate</h3><p class="text-muted" style="margin:0;">Impact strength and clarity for the parts that have to take a hit.</p></div>
-      <div class="card"><h3>Polypropylene</h3><p class="text-muted" style="margin:0;">Light, chemical-resistant, and economical for high-volume components.</p></div>
+      <div class="card card--mat" style="--pellet:url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_800/securitymolding/materials/nylon-bed')"><h3>Nylon</h3><p class="text-muted" style="margin:0;">Our biggest material — including <strong>33% glass-filled</strong>. The workhorse behind most window, door, and structural parts. Dried and run with care so humidity never shows up in your parts.</p></div>
+      <div class="card card--mat" style="--pellet:url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_800/securitymolding/materials/styrene-bed')"><h3>Styrene</h3><p class="text-muted" style="margin:0;">Clean and fast — the material behind our screen and corner keys. It runs and runs, which is how we make millions a year without missing a beat.</p></div>
+      <div class="card card--mat" style="--pellet:url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_800/securitymolding/materials/pvc-bed')"><h3>PVC</h3><p class="text-muted" style="margin:0;">Weep plugs and weep-hole covers by the million — the little parts that keep rain out of every window and door extrusion on the road.</p></div>
+      <div class="card card--mat" style="--pellet:url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_800/securitymolding/materials/acetal-bed')"><h3>Acetal</h3><p class="text-muted" style="margin:0;">Tough, low-friction parts where you need durability and a clean finish.</p></div>
+      <div class="card card--mat" style="--pellet:url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_800/securitymolding/materials/polycarbonate-bed')"><h3>Polycarbonate</h3><p class="text-muted" style="margin:0;">Impact strength and clarity for the parts that have to take a hit.</p></div>
+      <div class="card card--mat" style="--pellet:url('https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_800/securitymolding/materials/polypropylene-bed')"><h3>Polypropylene</h3><p class="text-muted" style="margin:0;">Light, chemical-resistant, and economical for high-volume components.</p></div>
     </div>
     <p class="text-muted" style="margin-top:var(--s-6); font-size:15px;">Working in another resin? Ask — odds are we've run something close.</p>
   </div>
