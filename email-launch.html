@@ -36,6 +36,14 @@
     background:var(--sm-black); color:#fff; padding:12px 20px; border-radius:999px; font-size:14px; font-weight:600;
     transition:opacity .2s, transform .2s; z-index:60; pointer-events:none; }
   .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+  .email-card { max-width:920px; margin:var(--s-8) auto 0; }
+  .email-card__head { display:flex; flex-wrap:wrap; gap:var(--s-4); align-items:flex-end; justify-content:space-between; margin-bottom:var(--s-4); }
+  .email-card__head .mono { font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--sm-muted); }
+  .email-card__head h2 { font-size:21px; margin:4px 0 0; letter-spacing:-0.01em; }
+  .email-card__meta { display:flex; flex-wrap:wrap; gap:var(--s-6); margin-top:var(--s-4); font-size:14px; color:var(--sm-gray-80); }
+  .email-card__meta p { margin:0 0 4px; }
+  .email-card__meta strong { color:var(--sm-black); }
+  .email-sep { max-width:920px; margin:var(--s-9) auto 0; border:0; border-top:1px solid var(--sm-rule); }
 </style>
 </head>
 <body>
@@ -92,46 +100,87 @@
 <!-- TOOLBAR -->
 <div class="tool__bar">
   <div>
-    <div class="mono">Internal · EmailOctopus campaign</div>
-    <h1>Customer Launch Email</h1>
+    <div class="mono">Internal · EmailOctopus campaigns</div>
+    <h1>Customer Outreach Emails</h1>
   </div>
-  <div class="btnrow">
-    <button id="copyBtn" class="btn btn--primary" type="button">Copy email HTML</button>
-    <button id="dlBtn" class="btn btn--ghost" type="button">Download .html</button>
-  </div>
+  <div class="mono">Two ready-to-send emails — copy whichever you want</div>
 </div>
 
 <div class="tool">
 
-  <!-- EMAIL PREVIEW — front and center, auto-height (no inner scroll) -->
-  <div class="preview-wrap">
-    <iframe id="preview" class="preview-frame" title="Email preview" scrolling="no"></iframe>
-  </div>
+  <!-- EMAIL 1 -->
+  <section class="email-card">
+    <div class="email-card__head">
+      <div>
+        <div class="mono">Email 1 · The launch announcement</div>
+        <h2>After 50 years, we finally built a website</h2>
+      </div>
+      <div class="btnrow">
+        <button class="btn btn--primary copyBtn" type="button" data-target="email-html">Copy HTML</button>
+        <button class="btn btn--ghost dlBtn" type="button" data-target="email-html" data-name="security-molding-launch-email.html">Download</button>
+      </div>
+    </div>
+    <div class="preview-wrap">
+      <iframe class="preview-frame" data-src="email-html" title="Email 1 preview" scrolling="no"></iframe>
+    </div>
+    <div class="email-card__meta">
+      <div>
+        <p><strong>Subject options</strong></p>
+        <p>• After 50 years, we finally built a website</p>
+        <p>• The shop that answers the phone is now online</p>
+        <p>• We made you something (no, not a part this time)</p>
+      </div>
+      <div>
+        <p><strong>Preheader</strong></p>
+        <p>Take a look — and if you know someone who needs parts made, send it their way.</p>
+      </div>
+    </div>
+  </section>
 
-  <!-- HELPER INFO — below the design -->
-  <div class="helper">
-    <div class="panel">
-      <h3>Subject &amp; preheader</h3>
-      <p style="font-weight:600; margin-bottom:var(--s-2);">Subject options</p>
-      <p class="text-muted" style="margin:0 0 var(--s-2);">• After 50 years, we finally built a website</p>
-      <p class="text-muted" style="margin:0 0 var(--s-2);">• The shop that answers the phone is now online</p>
-      <p class="text-muted" style="margin:0 0 var(--s-4);">• We made you something (no, not a part this time)</p>
-      <p style="font-weight:600; margin-bottom:var(--s-2);">Preheader</p>
-      <p class="text-muted" style="margin:0;">Take a look — and if you know someone who needs parts made, send it their way.</p>
+  <hr class="email-sep">
+
+  <!-- EMAIL 2 -->
+  <section class="email-card">
+    <div class="email-card__head">
+      <div>
+        <div class="mono">Email 2 · See us like never before</div>
+        <h2>Meet the people — and the engineering — behind your parts</h2>
+      </div>
+      <div class="btnrow">
+        <button class="btn btn--primary copyBtn" type="button" data-target="email-html-2">Copy HTML</button>
+        <button class="btn btn--ghost dlBtn" type="button" data-target="email-html-2" data-name="security-molding-meet-us-email.html">Download</button>
+      </div>
     </div>
-    <div class="panel">
-      <h3>Deploy in EmailOctopus</h3>
-      <ol class="checklist">
-        <li>Campaigns → <strong>Create a campaign</strong> → choose <strong>“Import / paste HTML”</strong> (custom-coded), not the drag-and-drop builder.</li>
-        <li>Click <strong>Copy email HTML</strong> at the top and paste it into the HTML editor.</li>
-        <li>Set the <strong>From name/email</strong> (a verified domain), the subject, and the preheader.</li>
-        <li>Confirm the personalisation tag matches your list field: this email uses <span class="tag">{{FirstName}}</span> with a “there” fallback. Adjust if your field is named differently.</li>
-        <li>Make sure the footer has your <strong>physical address</strong> and an <strong>unsubscribe link</strong> <span class="tag">{{UnsubscribeURL}}</span> — EmailOctopus can also append its own; don’t double up.</li>
-        <li>Update the <strong>site link</strong> in the button if your live URL isn’t <span class="tag">https://securitymolding.com</span>.</li>
-        <li>Send a <strong>test to yourself</strong> (check Gmail + Outlook + phone), then send to the <strong>“Existing customers”</strong> segment.</li>
-      </ol>
-      <p class="text-muted" style="font-size:13px; margin:var(--s-4) 0 0;">Built with table layout + inline styles so it renders across email clients. This first run is to existing customers.</p>
+    <div class="preview-wrap">
+      <iframe class="preview-frame" data-src="email-html-2" title="Email 2 preview" scrolling="no"></iframe>
     </div>
+    <div class="email-card__meta">
+      <div>
+        <p><strong>Subject options</strong></p>
+        <p>• See the shop you’ve trusted all these years</p>
+        <p>• Meet the people behind your parts</p>
+        <p>• A look inside Security Molding — people, presses, precision</p>
+      </div>
+      <div>
+        <p><strong>Preheader</strong></p>
+        <p>The crew, the floor, and how deep our plastics know-how really goes.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHARED DEPLOY STEPS -->
+  <div class="panel" style="max-width:920px; margin:var(--s-9) auto 0;">
+    <h3>Deploy either email in EmailOctopus</h3>
+    <ol class="checklist">
+      <li>Campaigns → <strong>Create a campaign</strong> → choose <strong>“Import / paste HTML”</strong> (custom-coded), not the drag-and-drop builder.</li>
+      <li>Click <strong>Copy HTML</strong> on the email you want and paste it into the HTML editor.</li>
+      <li>Set the <strong>From name/email</strong> (a verified domain), the subject, and the preheader.</li>
+      <li>Confirm the personalisation tag matches your list field: both emails use <span class="tag">{{FirstName}}</span> with a “there” fallback. Adjust if your field is named differently.</li>
+      <li>Make sure the footer has your <strong>physical address</strong> and an <strong>unsubscribe link</strong> <span class="tag">{{UnsubscribeURL}}</span> — EmailOctopus can also append its own; don’t double up.</li>
+      <li>Update the <strong>site link</strong> in the buttons if your live URL isn’t <span class="tag">https://securitymolding.com</span>.</li>
+      <li>Send a <strong>test to yourself</strong> (check Gmail + Outlook + phone), then send to the <strong>“Existing customers”</strong> segment.</li>
+    </ol>
+    <p class="text-muted" style="font-size:13px; margin:var(--s-4) 0 0;">Both are built with table layout + inline styles so they render across email clients. Email 1 announces the site; Email 2 leans into the people and the engineering depth.</p>
   </div>
 </div>
 
@@ -141,7 +190,7 @@
      EMAIL SOURCE — email-safe HTML (tables + inline styles).
      This is the exact markup the Copy/Download buttons output.
      ============================================================ -->
-<script type="text/html" id="email-html">
+<script type="text/html" id="email-html" data-email>
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -244,42 +293,184 @@
 </html>
 </script>
 
+<!-- ============================================================
+     EMAIL 2 SOURCE — "See us like never before" (people + engineering depth).
+     ============================================================ -->
+<script type="text/html" id="email-html-2" data-email>
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Security Molding</title>
+</head>
+<body style="margin:0; padding:0; background-color:#f2f3f5;">
+  <div style="display:none; max-height:0; overflow:hidden; opacity:0; font-size:1px; line-height:1px; color:#f2f3f5;">
+    The crew, the floor, and how deep our plastics know-how really goes.
+  </div>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f2f3f5;">
+    <tr><td align="center" style="padding:28px 16px;">
+      <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px; max-width:600px; background-color:#ffffff; border-radius:14px; overflow:hidden; font-family:'Helvetica Neue', Arial, sans-serif;">
+
+        <!-- Header -->
+        <tr><td align="center" style="background-color:#ffffff; padding:30px 0 18px 0; border-bottom:1px solid #e5e7eb;">
+          <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_png,w_240/securitymolding/logo-light-src.png" width="74" height="74" alt="Security Molding" style="display:block; border:0; width:74px; height:74px; margin:0 auto 10px auto;">
+          <div style="font-family:'Helvetica Neue', Arial, sans-serif; font-size:13px; letter-spacing:3px; font-weight:700; color:#0a0a0a; text-transform:uppercase;">Security <span style="color:#c10000;">Molding</span></div>
+        </td></tr>
+
+        <!-- Hero image: the crew on the floor -->
+        <tr><td style="padding:0; font-size:0; line-height:0;">
+          <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1200/securitymolding/team-crew-floor-banner.jpg" width="600" alt="The Security Molding crew on the shop floor" style="display:block; border:0; width:100%; max-width:600px; height:auto;">
+        </td></tr>
+
+        <!-- Hero text -->
+        <tr><td style="padding:40px 44px 8px 44px;">
+          <p style="margin:0 0 12px 0; font-family:'JetBrains Mono', monospace; font-size:12px; letter-spacing:2px; text-transform:uppercase; color:#c10000; font-weight:700;">See us like you never have</p>
+          <h1 style="margin:0; font-size:32px; line-height:1.15; color:#0a0a0a; letter-spacing:-0.5px; font-weight:800;">Meet the people behind your parts.</h1>
+        </td></tr>
+
+        <!-- Body -->
+        <tr><td style="padding:20px 44px 0 44px; font-size:16px; line-height:1.6; color:#2a2e35;">
+          <p style="margin:0 0 16px 0;">Hi {{FirstName | default: "there"}},</p>
+          <p style="margin:0 0 16px 0;">For years you&rsquo;ve trusted us with your parts over the phone. Now you can finally see the place &mdash; and the people &mdash; behind them.</p>
+          <p style="margin:0 0 24px 0;">The new site is a window into the shop you&rsquo;ve never had: meet the crew by name, walk the floor, and see how we actually run &mdash; the continuous improvement, the quality checks, and the cost discipline that keep us best-in-class.</p>
+        </td></tr>
+
+        <!-- CTA -->
+        <tr><td align="center" style="padding:8px 44px 28px 44px;">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+            <tr><td align="center" bgcolor="#c10000" style="border-radius:999px;">
+              <a href="https://securitymolding.com" target="_blank" style="display:inline-block; padding:15px 34px; font-family:'Helvetica Neue', Arial, sans-serif; font-size:16px; font-weight:700; color:#ffffff; text-decoration:none; border-radius:999px;">Meet the team &rarr;</a>
+            </td></tr>
+          </table>
+        </td></tr>
+
+        <!-- Engineering depth -->
+        <tr><td style="padding:8px 44px 0 44px;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top:1px solid #e5e7eb;">
+            <tr><td style="padding:28px 0 0 0;">
+              <p style="margin:0 0 10px 0; font-family:'JetBrains Mono', monospace; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:#c10000; font-weight:700;">How deep it goes</p>
+              <h2 style="margin:0 0 8px 0; font-size:22px; line-height:1.25; color:#0a0a0a; letter-spacing:-0.3px; font-weight:800;">A shop that thinks in mold anatomy and melt flow.</h2>
+              <p style="margin:0 0 20px 0; font-size:16px; line-height:1.6; color:#2a2e35;">Behind every clean part is real plastics engineering &mdash; how the tool is built, and how the material moves through it.</p>
+            </td></tr>
+          </table>
+        </td></tr>
+
+        <!-- Two diagrams -->
+        <tr><td style="padding:0 44px 4px 44px;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+            <tr>
+              <td width="50%" valign="top" style="padding-right:8px;">
+                <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_pad,b_white,w_560,h_560,f_auto,q_auto/securitymolding/mold-anatomy-diagram.jpg" width="248" height="248" alt="Exploded view of an injection mold" style="display:block; border:0; width:100%; height:auto; border-radius:8px; border:1px solid #eef0f2;">
+                <p style="margin:8px 0 0 0; font-size:13px; line-height:1.45; color:#2a2e35;"><strong style="color:#0a0a0a;">Tool design.</strong> Cavities, sprue, runners, gates and cooling &mdash; engineered before a single part is made.</p>
+              </td>
+              <td width="50%" valign="top" style="padding-left:8px;">
+                <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_pad,b_white,w_560,h_560,f_auto,q_auto/securitymolding/barrel-screw-cutaway-diagram.jpg" width="248" height="248" alt="Cutaway of the injection barrel and screw" style="display:block; border:0; width:100%; height:auto; border-radius:8px; border:1px solid #eef0f2;">
+                <p style="margin:8px 0 0 0; font-size:13px; line-height:1.45; color:#2a2e35;"><strong style="color:#0a0a0a;">Melt control.</strong> Pellet to melt to finished part &mdash; we control the flow that decides quality.</p>
+              </td>
+            </tr>
+          </table>
+        </td></tr>
+
+        <!-- What you'll see (pillars) -->
+        <tr><td style="padding:28px 44px 4px 44px;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+            <tr>
+              <td width="50%" valign="top" style="padding:6px 8px 12px 0; font-size:13px; line-height:1.45; color:#2a2e35;"><strong style="color:#0a0a0a;">Operations that hum</strong><br>Real people, same-day answers.</td>
+              <td width="50%" valign="top" style="padding:6px 0 12px 8px; font-size:13px; line-height:1.45; color:#2a2e35;"><strong style="color:#0a0a0a;">Continuous improvement</strong><br>Always finding a better way to run.</td>
+            </tr>
+            <tr>
+              <td width="50%" valign="top" style="padding:6px 8px 6px 0; font-size:13px; line-height:1.45; color:#2a2e35;"><strong style="color:#0a0a0a;">Quality, checked</strong><br>Right the first time, run after run.</td>
+              <td width="50%" valign="top" style="padding:6px 0 6px 8px; font-size:13px; line-height:1.45; color:#2a2e35;"><strong style="color:#0a0a0a;">Cost cut, not corners</strong><br>Regrind saved, savings passed to you.</td>
+            </tr>
+          </table>
+        </td></tr>
+
+        <!-- Closing -->
+        <tr><td style="padding:24px 44px 0 44px;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top:1px solid #e5e7eb;">
+            <tr><td style="padding:24px 0 0 0; font-size:16px; line-height:1.6; color:#2a2e35;">
+              <p style="margin:0 0 16px 0;">From the people to the tooling, it&rsquo;s the same shop you trust &mdash; now in full view. Come take a look.</p>
+              <p style="margin:0 0 4px 0;">Thanks for all the years,</p>
+              <p style="margin:0; font-weight:700; color:#0a0a0a;">Jeannie</p>
+              <p style="margin:0; color:#6b7280; font-size:14px;">Security Molding &middot; Since 1972</p>
+            </td></tr>
+          </table>
+        </td></tr>
+
+        <!-- Footer -->
+        <tr><td style="padding:28px 44px 36px 44px;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top:1px solid #e5e7eb;">
+            <tr><td style="padding:20px 0 0 0; font-size:12px; line-height:1.6; color:#9aa0a8; text-align:center;">
+              Security Molding &middot; 255 Factory Road &middot; [City, ST ZIP]<br>
+              You&rsquo;re receiving this because you&rsquo;re a Security Molding customer.<br>
+              <a href="{{UnsubscribeURL}}" style="color:#9aa0a8; text-decoration:underline;">Unsubscribe</a>
+            </td></tr>
+          </table>
+        </td></tr>
+
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>
+</script>
+
 <script>
 (function () {
-  var iframe = document.getElementById('preview');
-  var src = document.getElementById('email-html').textContent.replace(/^\s*\n/, '');
-  function fit(){
+  var sources = {};
+  document.querySelectorAll('script[type="text/html"][data-email]').forEach(function (s) {
+    sources[s.id] = s.textContent.replace(/^\s*\n/, '');
+  });
+  function fit(iframe) {
     try {
       var doc = iframe.contentDocument || iframe.contentWindow.document;
       var h = Math.max(doc.documentElement.scrollHeight, doc.body ? doc.body.scrollHeight : 0);
       if (h) iframe.style.height = h + 'px';
-    } catch(e){}
+    } catch (e) {}
   }
-  iframe.addEventListener('load', function(){
-    fit();
-    try {
-      var imgs = (iframe.contentDocument || iframe.contentWindow.document).images;
-      for (var i=0;i<imgs.length;i++){ imgs[i].addEventListener('load', fit); imgs[i].addEventListener('error', fit); }
-    } catch(e){}
-    setTimeout(fit,400); setTimeout(fit,1200); setTimeout(fit,2500);
+  var frames = document.querySelectorAll('iframe[data-src]');
+  frames.forEach(function (iframe) {
+    iframe.addEventListener('load', function () {
+      fit(iframe);
+      try {
+        var imgs = (iframe.contentDocument || iframe.contentWindow.document).images;
+        for (var i = 0; i < imgs.length; i++) {
+          imgs[i].addEventListener('load', function () { fit(iframe); });
+          imgs[i].addEventListener('error', function () { fit(iframe); });
+        }
+      } catch (e) {}
+      setTimeout(function () { fit(iframe); }, 400);
+      setTimeout(function () { fit(iframe); }, 1200);
+      setTimeout(function () { fit(iframe); }, 2500);
+    });
+    iframe.srcdoc = sources[iframe.getAttribute('data-src')] || '';
   });
-  window.addEventListener('resize', fit);
-  iframe.srcdoc = src;
+  window.addEventListener('resize', function () { frames.forEach(fit); });
+
   var toast = document.getElementById('toast');
-  function flash(msg) { toast.textContent = msg; toast.classList.add('show'); setTimeout(function(){ toast.classList.remove('show'); }, 1800); }
-  document.getElementById('copyBtn').addEventListener('click', function () {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(src).then(function(){ flash('Email HTML copied'); }, function(){ flash('Copy failed — select & copy manually'); });
-    } else { flash('Clipboard unavailable in this browser'); }
+  function flash(msg) { toast.textContent = msg; toast.classList.add('show'); setTimeout(function () { toast.classList.remove('show'); }, 1800); }
+
+  document.querySelectorAll('.copyBtn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var src = sources[btn.getAttribute('data-target')];
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(src).then(function () { flash('Email HTML copied'); }, function () { flash('Copy failed — select & copy manually'); });
+      } else { flash('Clipboard unavailable in this browser'); }
+    });
   });
-  document.getElementById('dlBtn').addEventListener('click', function () {
-    var blob = new Blob([src], { type: 'text/html' });
-    var a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'security-molding-launch-email.html';
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
-    flash('Downloaded');
+  document.querySelectorAll('.dlBtn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var src = sources[btn.getAttribute('data-target')];
+      var blob = new Blob([src], { type: 'text/html' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = btn.getAttribute('data-name') || 'email.html';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+      flash('Downloaded');
+    });
   });
 })();
 </script>

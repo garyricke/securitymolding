@@ -64,8 +64,10 @@
 
   /* Industry cards */
   .ind-card { display: block; color: var(--sm-ink); border: 1px solid var(--sm-rule); border-radius: var(--r-lg);
-    padding: var(--s-6); transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease; background:#fff; }
+    overflow: hidden; transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease; background:#fff; }
   .ind-card:hover { border-color: var(--sm-red); transform: translateY(-3px); box-shadow: var(--elev-2); color: var(--sm-ink); }
+  .ind-card__img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; background: var(--sm-gray-10); }
+  .ind-card__body { padding: var(--s-5) var(--s-6) var(--s-6); }
   .ind-card .mono { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sm-red); font-weight: 700; }
   .ind-card h4 { margin: var(--s-2) 0; font-size: 20px; }
   .ind-card p { margin: 0; font-size: 14px; color: var(--sm-gray-60); }
@@ -224,12 +226,12 @@
     <p class="eyebrow">Industries we serve</p>
     <h2 style="max-width:16ch;">We know your parts because we've been making them for decades.</h2>
     <div class="grid grid-3" style="margin-top:var(--s-7);">
-      <a class="ind-card" href="industries.html#rv"><span class="mono">01</span><h4>RV &amp; Towables</h4><p>Window, door, and interior components for the builders of Elkhart and beyond.</p><div class="arrow">Explore →</div></a>
-      <a class="ind-card" href="industries.html#windows-doors"><span class="mono">02</span><h4>Windows &amp; Doors</h4><p>Keys, keepers, weep covers, latches — the hardware that makes a window work.</p><div class="arrow">Explore →</div></a>
-      <a class="ind-card" href="industries.html#mobile-home"><span class="mono">03</span><h4>Mobile &amp; Manufactured Homes</h4><p>Durable molded components for manufactured-housing window and door systems.</p><div class="arrow">Explore →</div></a>
-      <a class="ind-card ind-card--soon" href="industries.html#glazing"><span class="mono">Also</span><h4>Architectural Glazing</h4><p>Window parts for hotels and high-rises — a different cycle, the same quality.</p><div class="arrow">Explore →</div></a>
-      <a class="ind-card ind-card--soon" href="industries.html#consumer"><span class="mono">Also</span><h4>Consumer &amp; Hardware</h4><p>Wall mounts, hangers, and consumer-product parts that need a dependable molder.</p><div class="arrow">Explore →</div></a>
-      <a class="ind-card ind-card--soon" href="industries.html#transit"><span class="mono">Also</span><h4>Transit &amp; Specialty</h4><p>Bus components, detector housings, and the niche parts others won't touch.</p><div class="arrow">Explore →</div></a>
+      <a class="ind-card" href="industries.html#rv"><img class="ind-card__img" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_16:9,w_800/securitymolding/industries/rv" alt="A travel-trailer RV" loading="lazy"><div class="ind-card__body"><span class="mono">01</span><h4>RV &amp; Towables</h4><p>Window, door, and interior components for the builders of Elkhart and beyond.</p><div class="arrow">Explore →</div></div></a>
+      <a class="ind-card" href="industries.html#windows-doors"><img class="ind-card__img" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_16:9,w_800/securitymolding/industries/windows-doors" alt="A window frame corner with hardware" loading="lazy"><div class="ind-card__body"><span class="mono">02</span><h4>Windows &amp; Doors</h4><p>Keys, keepers, weep covers, latches — the hardware that makes a window work.</p><div class="arrow">Explore →</div></div></a>
+      <a class="ind-card" href="industries.html#mobile-home"><img class="ind-card__img" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_16:9,w_800/securitymolding/industries/mobile-home" alt="A modern manufactured home" loading="lazy"><div class="ind-card__body"><span class="mono">03</span><h4>Mobile &amp; Manufactured Homes</h4><p>Durable molded components for manufactured-housing window and door systems.</p><div class="arrow">Explore →</div></div></a>
+      <a class="ind-card ind-card--soon" href="industries.html#glazing"><img class="ind-card__img" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_16:9,w_800/securitymolding/industries/glazing" alt="A glass high-rise facade" loading="lazy"><div class="ind-card__body"><span class="mono">Also</span><h4>Architectural Glazing</h4><p>Window parts for hotels and high-rises — a different cycle, the same quality.</p><div class="arrow">Explore →</div></div></a>
+      <a class="ind-card ind-card--soon" href="industries.html#consumer"><img class="ind-card__img" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_16:9,w_800/securitymolding/industries/consumer" alt="A guitar on a molded wall mount" loading="lazy"><div class="ind-card__body"><span class="mono">Also</span><h4>Consumer &amp; Hardware</h4><p>Wall mounts, hangers, and consumer-product parts that need a dependable molder.</p><div class="arrow">Explore →</div></div></a>
+      <a class="ind-card ind-card--soon" href="industries.html#transit"><img class="ind-card__img" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_16:9,w_800/securitymolding/industries/transit" alt="A transit bus" loading="lazy"><div class="ind-card__body"><span class="mono">Also</span><h4>Transit &amp; Specialty</h4><p>Bus components, detector housings, and the niche parts others won't touch.</p><div class="arrow">Explore →</div></div></a>
     </div>
   </div>
 </section>

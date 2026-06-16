@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Retouch Gallery · Security Molding (Internal)</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="assets/logo-security-molding-21spr2026.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/brand.css">
+<style>
+  .st-bar { display:flex; align-items:center; gap:var(--s-4); padding:var(--s-5) var(--s-6); border-bottom:1px solid var(--sm-rule);
+    position:sticky; top:0; background:rgba(255,255,255,.92); backdrop-filter:blur(10px); z-index:30; }
+  .st-bar img { width:40px; height:40px; }
+  .st-bar .mono { font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--sm-muted); }
+  .st-bar h1 { font-size:20px; margin:0; }
+  .wrap { max-width:1240px; margin:0 auto; padding:var(--s-7) var(--s-6) var(--s-10); }
+  .lead { font-size:18px; color:var(--sm-gray-80); max-width:64ch; }
+
+  /* Column legend (sticky under the bar) */
+  .legend { position:sticky; top:74px; z-index:20; display:grid; grid-template-columns:64px 1fr 1fr 1fr; gap:var(--s-4);
+    align-items:center; padding:var(--s-3) 0; margin:var(--s-7) 0 var(--s-2); background:var(--sm-white);
+    border-bottom:1px solid var(--sm-rule); }
+  .legend span { font-family:var(--f-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; font-weight:700; }
+  .legend .l-src { color:var(--sm-muted); }
+  .legend .l-gem { color:var(--sm-red); }
+  .legend .l-oai { color:var(--sm-sky-deep); }
+
+  /* One photo set per row */
+  .set { display:grid; grid-template-columns:64px 1fr 1fr 1fr; gap:var(--s-4); align-items:start;
+    padding:var(--s-5) 0; border-bottom:1px dashed var(--sm-rule); }
+  .set__id { font-family:var(--f-mono); font-weight:700; font-size:13px; color:var(--sm-ink); padding-top:var(--s-2); }
+  .shot { margin:0; }
+  .shot__lab { display:none; }
+  .shot__frame { display:block; aspect-ratio:4/3; background:#fff; border:1px solid var(--sm-rule); border-radius:var(--r-sm);
+    overflow:hidden; transition:border-color .15s ease, box-shadow .15s ease; }
+  .shot__frame:hover { border-color:var(--sm-red); box-shadow:var(--elev-2); }
+  .shot__frame img { width:100%; height:100%; object-fit:contain; display:block; }
+  .shot--gem .shot__frame:hover { border-color:var(--sm-red); }
+  .shot--oai .shot__frame:hover { border-color:var(--sm-sky); }
+
+  @media (max-width:820px) {
+    .legend { display:none; }
+    .set { grid-template-columns:1fr; gap:var(--s-2); padding:var(--s-6) 0; }
+    .set__id { padding-top:0; font-size:14px; }
+    .shot__lab { display:block; font-family:var(--f-mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+      font-weight:700; margin-bottom:4px; color:var(--sm-muted); }
+    .shot--gem .shot__lab { color:var(--sm-red); }
+    .shot--oai .shot__lab { color:var(--sm-sky-deep); }
+  }
+</style>
+</head>
+<body>
+
+<!-- PER-PAGE PASSWORD GATE — shares the securitymolding_auth session with the admin badge. -->
+<style>
+  #pw-gate{position:fixed;inset:0;z-index:9999;background:#0A0A0A;display:flex;align-items:center;justify-content:center;font-family:'Inter',system-ui,sans-serif;}
+  #pw-gate::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(193,0,0,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(193,0,0,.06) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;}
+  #pw-box{position:relative;background:rgba(255,255,255,.04);border:1px solid color-mix(in srgb,#C10000 25%,transparent);border-radius:16px;padding:48px 40px;text-align:center;width:min(400px,90vw);box-shadow:0 24px 80px rgba(0,0,0,.5);}
+  #pw-box img{height:52px;margin-bottom:24px;display:block;margin-inline:auto;}
+  #pw-box h2{font-weight:800;font-size:1.7rem;color:#fff;letter-spacing:-0.01em;margin:0 0 8px;}
+  #pw-box .sub{font-size:.85rem;color:rgba(236,236,236,.55);margin:0 0 28px;letter-spacing:.02em;}
+  #pw-input{width:100%;padding:12px 16px;background:rgba(0,0,0,.4);border:1px solid color-mix(in srgb,#C10000 30%,transparent);border-radius:8px;color:#fff;font-size:.95rem;font-family:inherit;outline:none;transition:border-color .2s;}
+  #pw-input:focus{border-color:#C10000;}
+  #pw-btn{margin-top:14px;width:100%;padding:12px;background:#C10000;color:#fff;border:0;border-radius:8px;font-weight:700;font-size:1rem;letter-spacing:.02em;cursor:pointer;transition:background .2s;}
+  #pw-btn:hover{background:#ff5a5a;}
+  #pw-error{font-size:.8rem;color:#ff7a7a;margin:12px 0 0;min-height:1.2em;}
+  .pw-shake{animation:pwShake .35s;}
+  @keyframes pwShake{0%,100%{transform:translateX(0);}25%{transform:translateX(-8px);}75%{transform:translateX(8px);}}
+  @media (prefers-reduced-motion: reduce){ .pw-shake{animation:none;} }
+</style>
+<div id="pw-gate">
+  <div id="pw-box">
+    <img src="assets/logo-security-molding-21spr2026-onblack.svg" alt="Security Molding" onerror="this.style.display='none'">
+    <h2>Internal Document</h2>
+    <p class="sub">This page is password protected.</p>
+    <input id="pw-input" type="password" placeholder="Enter password" autocomplete="current-password">
+    <button id="pw-btn">Enter</button>
+    <p id="pw-error"></p>
+  </div>
+</div>
+<script>
+(function(){
+  var KEY='securitymolding_auth',PASS='oneword',gate=document.getElementById('pw-gate');
+  if(sessionStorage.getItem(KEY)==='1'){gate.style.display='none';return;}
+  document.body.style.overflow='hidden';
+  function attempt(){
+    if(document.getElementById('pw-input').value===PASS){
+      sessionStorage.setItem(KEY,'1');document.body.style.overflow='';gate.style.display='none';
+    } else {
+      document.getElementById('pw-error').textContent='Incorrect password. Try again.';
+      var box=document.getElementById('pw-box');box.classList.remove('pw-shake');void box.offsetWidth;box.classList.add('pw-shake');
+    }
+  }
+  document.getElementById('pw-btn').addEventListener('click',attempt);
+  document.getElementById('pw-input').addEventListener('keydown',function(e){if(e.key==='Enter')attempt();});
+  document.getElementById('pw-input').focus();
+})();
+</script>
+
+<!-- ============ TOP BAR ============ -->
+<div class="st-bar">
+  <img src="assets/logo-security-molding-21spr2026.svg" alt="Security Molding">
+  <div>
+    <div class="mono">Internal · AI retouch review</div>
+    <h1>Retouch Gallery</h1>
+  </div>
+</div>
+
+<div class="wrap">
+  <p class="lead">Every shop photo we ran through the &ldquo;clean, bright &amp; modern&rdquo; retouch, shown three ways: the original source photo, the <strong>Gemini</strong> (Nano Banana Pro) render, and the <strong>OpenAI</strong> (gpt-image-2) render. Click any frame to open it full size. All images served from Cloudinary.</p>
+
+  <!-- Column legend -->
+  <div class="legend">
+    <span></span>
+    <span class="l-src">Source</span>
+    <span class="l-gem">Gemini · Nano Banana Pro</span>
+    <span class="l-oai">OpenAI · gpt-image-2</span>
+  </div>
+
+  <div id="gallery"></div>
+</div>
+
+<script>
+(function(){
+  var CLOUD = 'https://res.cloudinary.com/dsbllwpbh/image/upload/';
+  var BASE  = 'securitymolding/retouch-gallery/';
+  var THUMB = 'f_auto,q_auto,c_limit,w_1000/';
+  var FULL  = 'f_auto,q_auto/';
+
+  // Photo IDs (each has __src, __gemini, __openai on Cloudinary)
+  var IDS = ['IMG_7496','IMG_7498','IMG_7500','IMG_7501','IMG_7502','IMG_7504',
+             'IMG_7513','IMG_7519','IMG_7549','IMG_7552','IMG_7562','IMG_7564',
+             'IMG_7575','IMG_7577','IMG_7579','IMG_7581','IMG_7585','IMG_7588',
+             'IMG_7589','IMG_7592','IMG_7594','IMG_E7541','IMG_E7601'];
+
+  var COLS = [
+    { v:'src',    cls:'src', lab:'Source' },
+    { v:'gemini', cls:'gem', lab:'Gemini' },
+    { v:'openai', cls:'oai', lab:'OpenAI' }
+  ];
+
+  var html = IDS.map(function(id){
+    var label = id.replace(/^IMG_/, '');
+    var shots = COLS.map(function(c){
+      var pid  = BASE + id + '__' + c.v;
+      var thumb = CLOUD + THUMB + pid;
+      var full  = CLOUD + FULL + pid;
+      return '<figure class="shot shot--' + c.cls + '">' +
+               '<span class="shot__lab">' + c.lab + '</span>' +
+               '<a class="shot__frame" href="' + full + '" target="_blank" rel="noopener">' +
+                 '<img loading="lazy" src="' + thumb + '" alt="' + label + ' — ' + c.lab + '">' +
+               '</a>' +
+             '</figure>';
+    }).join('');
+    return '<section class="set"><div class="set__id">' + label + '</div>' + shots + '</section>';
+  }).join('');
+
+  document.getElementById('gallery').innerHTML = html;
+})();
+</script>
+
+</body>
+</html>

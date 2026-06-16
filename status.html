@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Build Status · Security Molding (Internal)</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="assets/logo-security-molding-21spr2026.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/brand.css">
+<style>
+  .st-bar { display:flex; align-items:center; gap:var(--s-4); padding:var(--s-5) var(--s-6); border-bottom:1px solid var(--sm-rule);
+    position:sticky; top:0; background:rgba(255,255,255,.92); backdrop-filter:blur(10px); z-index:30; }
+  .st-bar img { width:40px; height:40px; }
+  .st-bar .mono { font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--sm-muted); }
+  .st-bar h1 { font-size:20px; margin:0; }
+  .wrap { max-width:880px; margin:0 auto; padding:var(--s-7) var(--s-6) var(--s-10); }
+  .lead { font-size:18px; color:var(--sm-gray-80); max-width:62ch; }
+  .stats { display:grid; grid-template-columns:repeat(4,1fr); gap:var(--s-4); margin:var(--s-7) 0 var(--s-8); }
+  @media (max-width:640px){ .stats{ grid-template-columns:1fr 1fr; } }
+  .stat { border:1px solid var(--sm-rule); border-radius:var(--r-md); padding:var(--s-5); }
+  .stat b { display:block; font-family:var(--f-display); font-weight:800; font-size:30px; letter-spacing:-0.02em; }
+  .stat span { font-size:13px; color:var(--sm-muted); }
+  .day { margin-top:var(--s-8); }
+  .day__date { display:flex; align-items:baseline; gap:var(--s-3); border-bottom:2px solid var(--sm-black); padding-bottom:var(--s-3); margin-bottom:var(--s-5); }
+  .day__date h2 { margin:0; font-size:26px; }
+  .day__date .sub { font-family:var(--f-mono); font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--sm-muted); }
+  .entry { display:flex; gap:var(--s-4); padding:var(--s-4) 0; border-bottom:1px dashed var(--sm-rule); }
+  .entry:last-child { border-bottom:none; }
+  .entry__tag { flex:none; width:96px; }
+  .entry__body h3 { font-size:16px; margin:0 0 4px; }
+  .entry__body p { font-size:14px; color:var(--sm-gray-60); margin:0; }
+  .tag { display:inline-block; font-family:var(--f-mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; font-weight:700; padding:3px 8px; border-radius:999px; }
+  .t-site { background:var(--sm-red-soft); color:var(--sm-red); }
+  .t-mkt  { background:#FDEBD8; color:#9A5B14; }
+  .t-admin{ background:var(--sm-black); color:#fff; }
+  .t-infra{ background:var(--sm-sky-soft); color:var(--sm-sky-deep); }
+  .t-content{ background:#EAF7EE; color:#1E7A3B; }
+  @media (max-width:600px){ .entry{ flex-direction:column; gap:var(--s-2); } .entry__tag{ width:auto; } }
+</style>
+</head>
+<body>
+
+<!-- PER-PAGE PASSWORD GATE — shares the securitymolding_auth session with the admin badge. -->
+<style>
+  #pw-gate{position:fixed;inset:0;z-index:9999;background:#0A0A0A;display:flex;align-items:center;justify-content:center;font-family:'Inter',system-ui,sans-serif;}
+  #pw-gate::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(193,0,0,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(193,0,0,.06) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;}
+  #pw-box{position:relative;background:rgba(255,255,255,.04);border:1px solid color-mix(in srgb,#C10000 25%,transparent);border-radius:16px;padding:48px 40px;text-align:center;width:min(400px,90vw);box-shadow:0 24px 80px rgba(0,0,0,.5);}
+  #pw-box img{height:52px;margin-bottom:24px;display:block;margin-inline:auto;}
+  #pw-box h2{font-weight:800;font-size:1.7rem;color:#fff;letter-spacing:-0.01em;margin:0 0 8px;}
+  #pw-box .sub{font-size:.85rem;color:rgba(236,236,236,.55);margin:0 0 28px;letter-spacing:.02em;}
+  #pw-input{width:100%;padding:12px 16px;background:rgba(0,0,0,.4);border:1px solid color-mix(in srgb,#C10000 30%,transparent);border-radius:8px;color:#fff;font-size:.95rem;font-family:inherit;outline:none;transition:border-color .2s;}
+  #pw-input:focus{border-color:#C10000;}
+  #pw-btn{margin-top:14px;width:100%;padding:12px;background:#C10000;color:#fff;border:0;border-radius:8px;font-weight:700;font-size:1rem;letter-spacing:.02em;cursor:pointer;transition:background .2s;}
+  #pw-btn:hover{background:#ff5a5a;}
+  #pw-error{font-size:.8rem;color:#ff7a7a;margin:12px 0 0;min-height:1.2em;}
+  .pw-shake{animation:pwShake .35s;}
+  @keyframes pwShake{0%,100%{transform:translateX(0);}25%{transform:translateX(-8px);}75%{transform:translateX(8px);}}
+  @media (prefers-reduced-motion: reduce){ .pw-shake{animation:none;} }
+</style>
+<div id="pw-gate">
+  <div id="pw-box">
+    <img src="assets/logo-security-molding-21spr2026-onblack.svg" alt="Security Molding" onerror="this.style.display='none'">
+    <h2>Internal Document</h2>
+    <p class="sub">This page is password protected.</p>
+    <input id="pw-input" type="password" placeholder="Enter password" autocomplete="current-password">
+    <button id="pw-btn">Enter</button>
+    <p id="pw-error"></p>
+  </div>
+</div>
+<script>
+(function(){
+  var KEY='securitymolding_auth',PASS='oneword',gate=document.getElementById('pw-gate');
+  try{ if(sessionStorage.getItem(KEY)==='1'){gate.style.display='none';return;} }catch(e){}
+  document.body.style.overflow='hidden';
+  function attempt(){
+    if(document.getElementById('pw-input').value===PASS){
+      try{sessionStorage.setItem(KEY,'1');}catch(e){}
+      document.body.style.overflow='';
+      gate.style.display='none';
+    } else {
+      document.getElementById('pw-error').textContent='Incorrect password. Try again.';
+      var box=document.getElementById('pw-box');
+      box.classList.remove('pw-shake'); void box.offsetWidth; box.classList.add('pw-shake');
+    }
+  }
+  document.getElementById('pw-btn').addEventListener('click',attempt);
+  document.getElementById('pw-input').addEventListener('keydown',function(e){if(e.key==='Enter')attempt();});
+  document.getElementById('pw-input').focus();
+})();
+</script>
+
+<!-- BAR -->
+<div class="st-bar">
+  <img src="assets/logo-security-molding-21spr2026.svg" alt="Security Molding">
+  <div>
+    <div class="mono">Internal · build log</div>
+    <h1>Project Status</h1>
+  </div>
+</div>
+
+<div class="wrap">
+  <p class="lead">A running record of what's been built for the Security Molding site, newest first. Internal reference for Gary, Jeannie &amp; Julian.</p>
+
+  <div class="stats">
+    <div class="stat"><b>8</b><span>Public pages live</span></div>
+    <div class="stat"><b>4</b><span>Gated internal pages</span></div>
+    <div class="stat"><b>3</b><span>Hero shop videos</span></div>
+    <div class="stat"><b>6</b><span>Industries with imagery</span></div>
+  </div>
+
+  <!-- ===================== JUNE 16, 2026 ===================== -->
+  <section class="day">
+    <div class="day__date"><h2>June 16, 2026</h2><span class="sub">Full public-site build</span></div>
+
+    <div class="entry"><div class="entry__tag"><span class="tag t-content">Strategy</span></div>
+      <div class="entry__body"><h3>Competitive analysis &amp; website strategy</h3>
+      <p>Interview with Jeannie reviewed; competitor teardown (Elkhart molders, Thunderbird, Rodon) and a positioning/architecture plan written. Kept internal in <code>plan/</code>.</p></div></div>
+
+    <div class="entry"><div class="entry__tag"><span class="tag t-site">Site</span></div>
+      <div class="entry__body"><h3>Public marketing homepage</h3>
+      <p>Hero, "We'll take care of it" promise band, what-we-make grid, industries, capability snapshot, story strip, people, and quote CTA — built on the existing brand system.</p></div></div>
+
+    <div class="entry"><div class="entry__tag"><span class="tag t-site">Site</span></div>
+      <div class="entry__body"><h3>Hero background video</h3>
+      <p>Shop footage as a full-bleed looping hero. Started local, moved to Cloudinary, then expanded to a 3-clip crossfading playlist (pan-through → stock → press) with a reduced-motion fallback.</p></div></div>
+
+    <div class="entry"><div class="entry__tag"><span class="tag t-content">Content</span></div>
+      <div class="entry__body"><h3>People section</h3>
+      <p>Added the team (Gerry, Tony, Shipping) with face-cropped Cloudinary portraits, on both the homepage and Our Story.</p></div></div>
+
+    <div class="entry"><div class="entry__tag"><span class="tag t-site">Site</span></div>
+      <div class="entry__body"><h3>Remaining pages</h3>
+      <p>Built Capabilities, Assemblies, Industries (RV / Windows &amp; Doors / Mobile Home / Glazing / Consumer / Transit), Why Us, Our Story, and Request a Quote — shared nav &amp; footer throughout.</p></div></div>
+
+    <div class="entry"><div class="entry__tag"><span class="tag t-admin">Admin</span></div>
+      <div class="entry__body"><h3>Admin panel</h3>
+      <p>Discreet bottom-right badge → password modal → slide-in panel of internal links. Shared via <code>js/admin.js</code> across every page. Password-gated Brand Standard &amp; Study Guide on direct open (shared session).</p></div></div>
+
+    <div class="entry"><div class="entry__tag"><span class="tag t-infra">Infra</span></div>
+      <div class="entry__body"><h3>Promoted home → index &amp; pushed to GitHub</h3>
+      <p>The marketing home became <code>index.html</code> (old internal splash retired). Pushed to <code>main</code>. <code>.gitignore</code> updated to keep raw media &amp; customer CAD out of the public repo.</p></div></div>
+
+    <div class="entry"><div class="entry__tag"><span class="tag t-mkt">Marketing</span></div>
+      <div class="entry__body"><h3>Quote form on Netlify</h3>
+      <p>Request-a-quote form wired to Netlify Forms (named form, honeypot, file upload) with a branded <code>thanks.html</code> confirmation page.</p></div></div>
+
+    <div class="entry"><div class="entry__tag"><span class="tag t-mkt">Marketing</span></div>
+      <div class="entry__body"><h3>Customer launch email (EmailOctopus)</h3>
+      <p>Gated tool that previews and copies an email-safe launch email — from Jeannie, announcing the site to existing customers, with shop visuals and a deploy checklist.</p></div></div>
+
+    <div class="entry"><div class="entry__tag"><span class="tag t-content">Content</span></div>
+      <div class="entry__body"><h3>Industry imagery</h3>
+      <p>Generated a cohesive set of six industry images (Cloudinary-hosted) and placed them on the homepage industry cards and the Industries page banners.</p></div></div>
+
+    <div class="entry"><div class="entry__tag"><span class="tag t-admin">Admin</span></div>
+      <div class="entry__body"><h3>This status page</h3>
+      <p>Internal, dated build log added to the admin panel.</p></div></div>
+  </section>
+
+  <!-- ===================== APRIL 21, 2026 ===================== -->
+  <section class="day">
+    <div class="day__date"><h2>April 21, 2026</h2><span class="sub">Foundation</span></div>
+
+    <div class="entry"><div class="entry__tag"><span class="tag t-site">Site</span></div>
+      <div class="entry__body"><h3>Brand standard</h3>
+      <p>The visual system — colors (red / black / white), typography (Inter + JetBrains Mono), logo usage, and voice — captured in <code>brand-standard.html</code>.</p></div></div>
+
+    <div class="entry"><div class="entry__tag"><span class="tag t-content">Content</span></div>
+      <div class="entry__body"><h3>Plastics Study Guide for Julian</h3>
+      <p>Interactive walkthrough of the shop — history, machines, molds, materials, quoting, relationships — with flashcards and quizzes.</p></div></div>
+
+    <div class="entry"><div class="entry__tag"><span class="tag t-content">Content</span></div>
+      <div class="entry__body"><h3>Audio overview</h3>
+      <p>Added an audio overview player to the top of the study guide.</p></div></div>
+
+    <div class="entry"><div class="entry__tag"><span class="tag t-site">Site</span></div>
+      <div class="entry__body"><h3>SVG favicon</h3>
+      <p>Logo favicon added across the pages.</p></div></div>
+  </section>
+
+  <!-- ===================== OPEN ===================== -->
+  <section class="day">
+    <div class="day__date"><h2>Still open</h2><span class="sub">Next up</span></div>
+    <div class="entry"><div class="entry__tag"><span class="tag t-mkt">To do</span></div>
+      <div class="entry__body"><h3>Real details &amp; assets</h3>
+      <p>Add real phone/email; confirm the Netlify form notification recipient; swap AI industry images / placeholder photos for real shop photography when ready; set the launch-email CTA to the live URL.</p></div></div>
+    <div class="entry"><div class="entry__tag"><span class="tag t-infra">To do</span></div>
+      <div class="entry__body"><h3>Hosting</h3>
+      <p>Confirm the site is deployed on Netlify (required for the quote form to capture submissions).</p></div></div>
+  </section>
+
+</div>
+
+<script src="js/admin.js" defer></script>
+</body>
+</html>

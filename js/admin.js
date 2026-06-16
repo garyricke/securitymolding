@@ -12,6 +12,12 @@
   // Internal pages surfaced in the panel. Add an entry to extend.
   var LINKS = [
     {
+      href: 'status.html',
+      label: 'Project Status',
+      desc: 'Dated build log — what\'s been done',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2 5 4-14 2 7h6"/></svg>'
+    },
+    {
       href: 'brand-standard.html',
       label: 'Brand Standard',
       desc: 'Colors, type, logo &amp; voice',
@@ -28,6 +34,12 @@
       label: 'Customer Launch Email',
       desc: 'EmailOctopus campaign — copy the HTML',
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>'
+    },
+    {
+      href: 'gallery.html',
+      label: 'Retouch Gallery',
+      desc: 'Shop photos — source vs Gemini vs OpenAI',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>'
     }
   ];
 
