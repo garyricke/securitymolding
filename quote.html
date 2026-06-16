@@ -70,10 +70,11 @@
     <div class="q-grid">
       <!-- FORM -->
       <div>
-        <!-- TODO: set `action` to your form endpoint (e.g. Formspree https://formspree.io/f/XXXX,
-             or your host's form handler). Until then the form won't deliver. File upload needs
-             a service that accepts multipart/form-data. -->
-        <form action="#" method="POST" enctype="multipart/form-data">
+        <!-- Netlify Forms: submissions appear in the Netlify dashboard (Forms tab).
+             Enable email/Slack notifications there. Only works once deployed on Netlify. -->
+        <form name="quote" method="POST" action="/thanks.html" enctype="multipart/form-data" data-netlify="true" netlify-honeypot="bot-field">
+          <input type="hidden" name="form-name" value="quote">
+          <p hidden aria-hidden="true"><label>Don't fill this out if you're human: <input name="bot-field"></label></p>
           <div class="row2">
             <div class="field"><label for="name">Your name <span class="req">*</span></label><input id="name" name="name" type="text" required></div>
             <div class="field"><label for="company">Company</label><input id="company" name="company" type="text"></div>

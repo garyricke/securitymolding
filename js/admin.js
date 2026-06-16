@@ -22,6 +22,12 @@
       label: 'Plastics Study Guide',
       desc: 'Interactive walkthrough for Julian',
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6c-2-1.5-5-1.5-8 0v13c3-1.5 6-1.5 8 0M12 6c2-1.5 5-1.5 8 0v13c-3-1.5-6-1.5-8 0M12 6v13"/></svg>'
+    },
+    {
+      href: 'email-launch.html',
+      label: 'Customer Launch Email',
+      desc: 'EmailOctopus campaign — copy the HTML',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>'
     }
   ];
 

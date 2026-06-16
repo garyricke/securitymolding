@@ -9,6 +9,7 @@ plan/
 assets/factory-photos-raw/
 assets/videos/
 assets/people/
+assets/parts/
 assets/*.m4a
 
 # Customer CAD / quote working files — not for the public repo
