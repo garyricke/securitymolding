@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Request a Quote — Security Molding</title>
+<meta name="description" content="Tell Security Molding about your part — send a drawing, a sample, or just a description and quantity. We'll tell you straight whether we're the right shop, and give you our best price the first time.">
+<link rel="icon" type="image/svg+xml" href="assets/logo-security-molding-21spr2026.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/brand.css">
+<style>
+  .nav-cta { display:inline-flex; align-items:center; gap:var(--s-2); padding:9px 16px; border-radius:999px; background:var(--sm-red); color:#fff !important; font-weight:600; font-size:14px; border:none !important; }
+  .nav-cta:hover { background:var(--sm-red-deep); }
+  .q-grid { display:grid; grid-template-columns:1.4fr 1fr; gap:var(--s-8); align-items:start; }
+  @media (max-width:900px){ .q-grid{ grid-template-columns:1fr; } }
+  .field { margin-bottom:var(--s-5); }
+  .field label { display:block; font-family:var(--f-mono); font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--sm-gray-80); font-weight:700; margin-bottom:var(--s-2); }
+  .field .req { color:var(--sm-red); }
+  .field input, .field select, .field textarea {
+    width:100%; padding:12px 14px; font:inherit; font-size:16px; color:var(--sm-ink);
+    background:var(--sm-white); border:1px solid var(--sm-gray-20); border-radius:var(--r-sm); outline:none;
+    transition:border-color .15s ease, box-shadow .15s ease;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus { border-color:var(--sm-red); box-shadow:0 0 0 3px var(--sm-red-soft); }
+  .field textarea { min-height:130px; resize:vertical; }
+  .field input[type=file] { padding:9px; background:var(--sm-gray-05); }
+  .row2 { display:grid; grid-template-columns:1fr 1fr; gap:var(--s-4); }
+  @media (max-width:540px){ .row2{ grid-template-columns:1fr; } }
+  .sidebar { background:var(--sm-black); color:#fff; border-radius:var(--r-lg); padding:var(--s-7); position:sticky; top:96px; }
+  .sidebar h3 { color:#fff; }
+  .sidebar p { color:var(--sm-gray-40); }
+  .sidebar .phone { font-family:var(--f-display); font-weight:800; font-size:26px; color:#fff; letter-spacing:-0.01em; margin:var(--s-3) 0; display:block; border:none; }
+  .sidebar .divider { background:rgba(255,255,255,.12); }
+  .fit-note { background:var(--sm-sky-soft); border-left:4px solid var(--sm-sky); border-radius:var(--r-md); padding:var(--s-5); margin-top:var(--s-6); }
+  .fit-note p { margin:0; font-size:14px; color:var(--sm-gray-80); }
+  .foot-grid { display:grid; grid-template-columns:2fr 1fr 1fr; gap:var(--s-7); }
+  .foot-col h5 { color:#fff; font-family:var(--f-mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; margin:0 0 var(--s-4); }
+  .foot-col a { display:block; margin-bottom:var(--s-2); font-size:14px; }
+  @media (max-width:700px){ .foot-grid{ grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="site-nav__inner">
+    <a class="site-nav__brand" href="index.html"><img src="assets/logo-security-molding-21spr2026.svg" alt="Security Molding"><span>Security <b>Molding</b></span></a>
+    <div class="site-nav__links" style="align-items:center;">
+      <a href="capabilities.html">Capabilities</a>
+      <a href="assemblies.html">Assemblies</a>
+      <a href="industries.html">Industries</a>
+      <a href="why.html">Why Us</a>
+      <a href="story.html">Our Story</a>
+      <a href="quote.html" class="nav-cta">Request a Quote</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <span class="hero__kicker">Request a quote</span>
+    <h1 class="hero__title">Tell us about your part.</h1>
+    <p class="hero__lede">Send a drawing, a sample, or just a description and a quantity. We'll tell you straight whether we're the right shop — and if we are, you'll get our best price the first time.</p>
+  </div>
+</header>
+
+<section class="section section--tight">
+  <div class="container">
+    <div class="q-grid">
+      <!-- FORM -->
+      <div>
+        <!-- TODO: set `action` to your form endpoint (e.g. Formspree https://formspree.io/f/XXXX,
+             or your host's form handler). Until then the form won't deliver. File upload needs
+             a service that accepts multipart/form-data. -->
+        <form action="#" method="POST" enctype="multipart/form-data">
+          <div class="row2">
+            <div class="field"><label for="name">Your name <span class="req">*</span></label><input id="name" name="name" type="text" required></div>
+            <div class="field"><label for="company">Company</label><input id="company" name="company" type="text"></div>
+          </div>
+          <div class="row2">
+            <div class="field"><label for="email">Email <span class="req">*</span></label><input id="email" name="email" type="email" required></div>
+            <div class="field"><label for="phone">Phone</label><input id="phone" name="phone" type="tel"></div>
+          </div>
+          <div class="field">
+            <label for="part">What do you need made? <span class="req">*</span></label>
+            <textarea id="part" name="part" placeholder="Describe the part or assembly — what it does, where it goes, anything you know about it." required></textarea>
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label for="material">Material (if known)</label>
+              <select id="material" name="material">
+                <option value="">Not sure / need a recommendation</option>
+                <option>Nylon</option>
+                <option>Nylon, 33% glass-filled</option>
+                <option>Styrene</option>
+                <option>PVC</option>
+                <option>Acetal</option>
+                <option>Polycarbonate</option>
+                <option>Polypropylene</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="field"><label for="qty">Estimated quantity</label><input id="qty" name="qty" type="text" placeholder="e.g. 10,000 / year"></div>
+          </div>
+          <div class="field">
+            <label for="file">Drawing or photo (optional)</label>
+            <input id="file" name="file" type="file" accept=".pdf,.dwg,.dxf,.step,.stp,.png,.jpg,.jpeg,.heic">
+          </div>
+          <div class="field">
+            <label for="notes">Anything else?</label>
+            <textarea id="notes" name="notes" style="min-height:90px;" placeholder="Timeline, target price, current supplier situation — whatever helps."></textarea>
+          </div>
+          <button type="submit" class="btn btn--primary" style="font-size:16px; padding:14px 28px;">Send it over →</button>
+        </form>
+      </div>
+
+      <!-- SIDEBAR -->
+      <div>
+        <div class="sidebar">
+          <h3>Prefer to talk?</h3>
+          <p>We pick up. Call or email and you'll reach a real person who can actually help.</p>
+          <a class="phone" href="tel:">Phone — to add</a>
+          <a href="mailto:" style="color:#ff8a8a;">Email — to add</a>
+          <div class="divider"></div>
+          <p style="margin:0;">Security Molding<br>255 Factory Road</p>
+          <p style="margin-top:var(--s-3); font-size:13px;">Open five days a week — including Fridays, when a lot of shops aren't.</p>
+        </div>
+        <div class="fit-note">
+          <p><strong>Quick fit check:</strong> we're built for loose-to-moderate tolerance small-to-mid plastic parts and assemblies. We're not a medical or tight-tolerance shop — and we'll tell you honestly if your part belongs elsewhere.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-foot">
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <a class="site-nav__brand" href="index.html" style="color:#fff; margin-bottom:var(--s-4);"><img src="assets/logo-security-molding-21spr2026-onblack.svg" alt="Security Molding" style="width:96px;height:auto;"><span style="color:#fff;">Security <b style="color:var(--sm-red);">Molding</b></span></a>
+        <p style="color:var(--sm-gray-40); font-size:14px; max-width:38ch;">Family-run custom plastic injection molding and assemblies since 1972. We'll take care of it.</p>
+      </div>
+      <div class="foot-col"><h5>Explore</h5><a href="capabilities.html">Capabilities</a><a href="assemblies.html">Assemblies</a><a href="industries.html">Industries</a><a href="why.html">Why Us</a><a href="story.html">Our Story</a></div>
+      <div class="foot-col"><h5>Get in touch</h5><a href="quote.html">Request a quote</a><a href="#">255 Factory Road</a><span style="color:var(--sm-gray-40); font-size:14px;">Phone &amp; email — to add</span></div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,.1); margin-top:var(--s-7); padding-top:var(--s-5); color:var(--sm-gray-60); font-size:13px;">© 1972–2026 Security Molding. All rights reserved.</div>
+  </div>
+</footer>
+
+<script src="js/admin.js" defer></script>
+</body>
+</html>

@@ -3,81 +3,426 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Security Molding — Brand &amp; Study Guide</title>
+<title>Security Molding — Custom Plastic Injection Molding & Assemblies Since 1972</title>
+<meta name="description" content="Security Molding is a family-run custom plastic injection molder making small-to-mid parts and assemblies for RV, window, door, and mobile-home builders since 1972. We answer the phone. We'll take care of it.">
 <link rel="icon" type="image/svg+xml" href="assets/logo-security-molding-21spr2026.svg">
 <link rel="apple-touch-icon" href="assets/logo-security-molding-21spr2026.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/brand.css">
 <style>
-  .splash {
-    min-height: 100vh; display: grid; place-items: center;
-    background: linear-gradient(180deg, #fff 0%, var(--sm-gray-05) 100%);
-    padding: var(--s-7) var(--s-5);
-  }
-  .splash__card {
-    max-width: 1080px; width: 100%;
-    display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-8);
-    padding: var(--s-8); background: var(--sm-white);
-    border: 1px solid var(--sm-rule); border-radius: var(--r-xl);
-    box-shadow: var(--elev-2);
-  }
-  .splash__hero {
-    background: var(--sm-black); color: white; border-radius: var(--r-lg);
-    padding: var(--s-7);
-    display: flex; flex-direction: column; justify-content: space-between;
-    position: relative; overflow: hidden;
-  }
-  .splash__hero::before {
-    content: ''; position: absolute; top: -60px; right: -60px;
-    width: 260px; height: 260px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(193,0,0,.55), transparent 70%);
-  }
-  .splash__hero h1 { color: white; font-size: 40px; margin-bottom: var(--s-4); }
-  .splash__hero p { color: var(--sm-gray-40); }
-  .splash__choices { display: flex; flex-direction: column; gap: var(--s-4); }
-  .choice {
-    border: 1px solid var(--sm-rule); border-radius: var(--r-md);
-    padding: var(--s-6); display: flex; flex-direction: column; gap: var(--s-2);
-    text-decoration: none; color: var(--sm-ink); border-bottom: 1px solid var(--sm-rule);
-    transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease;
-  }
-  .choice:hover { border-color: var(--sm-red); transform: translateY(-3px); box-shadow: var(--elev-2); color: var(--sm-ink); }
-  .choice__num { font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.14em; color: var(--sm-red); font-weight: 700; text-transform: uppercase; }
-  .choice h3 { margin: 0; font-size: 24px; }
-  .choice p { margin: 0; color: var(--sm-gray-60); font-size: 15px; }
-  .choice__cta { color: var(--sm-red); font-weight: 600; font-size: 14px; margin-top: var(--s-2); }
-  @media (max-width: 900px) { .splash__card { grid-template-columns: 1fr; padding: var(--s-5); } }
+  /* ---- Page-specific (home) ---- */
+  .nav-cta { display: inline-flex; align-items: center; gap: var(--s-2); padding: 9px 16px; border-radius: 999px; background: var(--sm-red); color: #fff !important; font-weight: 600; font-size: 14px; border: none !important; }
+  .nav-cta:hover { background: var(--sm-red-deep); }
+
+  /* Hero — full-bleed looping shop video background */
+  .home-hero { position: relative; overflow: hidden; padding: var(--s-10) 0 var(--s-9); background: var(--sm-black); isolation: isolate; }
+  .home-hero__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    opacity: 0; z-index: -3; transition: opacity .9s ease; }
+  .home-hero__video.is-active { opacity: 1; z-index: -2; }
+  .home-hero__scrim { position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(90deg, rgba(10,10,10,.92) 0%, rgba(10,10,10,.78) 42%, rgba(10,10,10,.45) 100%),
+                linear-gradient(0deg, rgba(10,10,10,.7) 0%, transparent 45%); }
+  .home-hero__grid { max-width: 760px; }
+  .home-hero h1 { font-size: clamp(40px, 5.6vw, 76px); margin-bottom: var(--s-5); color: #fff; }
+  .home-hero h1 .accent { color: #ff5a5a; }
+  .home-hero__lede { font-size: 21px; color: rgba(255,255,255,.82); max-width: 56ch; margin-bottom: var(--s-6); }
+  .home-hero__actions { display: flex; gap: var(--s-3); flex-wrap: wrap; }
+  .btn--ghost-light { border-color: rgba(255,255,255,.4); color: #fff; }
+  .btn--ghost-light:hover { border-color: #fff; background: rgba(255,255,255,.08); }
+  .home-hero__meta { margin-top: var(--s-7); display: flex; gap: var(--s-6); flex-wrap: wrap; }
+  .home-hero__meta .mono { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,.55); }
+  .home-hero__meta strong { display: block; font-size: 22px; color: #fff; letter-spacing: -0.02em; }
+  /* On dark video, the kicker pill needs a translucent treatment */
+  .home-hero .hero__kicker { background: rgba(193,0,0,.22); color: #ff8a8a; }
+  /* Respect reduced-motion: drop the video, keep the dark scrim */
+  @media (prefers-reduced-motion: reduce) { .home-hero__video { display: none; } }
+
+  /* Promise band */
+  .promise { background: var(--sm-black); color: #fff; padding: var(--s-9) 0; position: relative; overflow: hidden; }
+  .promise::before { content:""; position:absolute; top:-120px; left:-80px; width:360px; height:360px; border-radius:50%;
+    background: radial-gradient(circle, rgba(193,0,0,.4), transparent 70%); }
+  .promise__inner { position: relative; }
+  .promise h2 { color: #fff; font-size: clamp(40px, 6vw, 80px); margin-bottom: var(--s-6); }
+  .promise h2 em { font-style: normal; color: var(--sm-red); }
+  .promise__chips { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s-4); margin-top: var(--s-7); }
+  .pchip { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12); border-radius: var(--r-md); padding: var(--s-5); }
+  .pchip svg { color: var(--sm-red); margin-bottom: var(--s-3); }
+  .pchip h4 { color: #fff; font-size: 17px; margin-bottom: var(--s-2); }
+  .pchip p { color: var(--sm-gray-40); font-size: 14px; margin: 0; }
+  @media (max-width: 900px) { .promise__chips { grid-template-columns: 1fr 1fr; } }
+
+  /* Part families */
+  .part-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-5); }
+  @media (max-width: 900px) { .part-grid { grid-template-columns: 1fr; } }
+  .part-card { display: flex; gap: var(--s-4); align-items: flex-start; }
+  .part-card__icon { flex: none; width: 48px; height: 48px; border-radius: var(--r-md); background: var(--sm-red-soft);
+    display: flex; align-items: center; justify-content: center; color: var(--sm-red); }
+  .part-card h4 { margin: 0 0 4px; font-size: 17px; }
+  .part-card p { margin: 0; font-size: 14px; color: var(--sm-gray-60); }
+
+  /* Industry cards */
+  .ind-card { display: block; color: var(--sm-ink); border: 1px solid var(--sm-rule); border-radius: var(--r-lg);
+    padding: var(--s-6); transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease; background:#fff; }
+  .ind-card:hover { border-color: var(--sm-red); transform: translateY(-3px); box-shadow: var(--elev-2); color: var(--sm-ink); }
+  .ind-card .mono { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sm-red); font-weight: 700; }
+  .ind-card h4 { margin: var(--s-2) 0; font-size: 20px; }
+  .ind-card p { margin: 0; font-size: 14px; color: var(--sm-gray-60); }
+  .ind-card .arrow { margin-top: var(--s-3); color: var(--sm-red); font-weight: 600; font-size: 14px; }
+  .ind-card--soon { background: var(--sm-gray-05); }
+  .ind-card--soon .mono { color: var(--sm-sky-deep); }
+
+  /* Capability split */
+  .cap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-8); align-items: start; }
+  @media (max-width: 900px) { .cap-grid, .home-hero__grid { grid-template-columns: 1fr; } }
+  .fit-note { background: var(--sm-sky-soft); border-left: 4px solid var(--sm-sky); border-radius: var(--r-md); padding: var(--s-5); margin-top: var(--s-5); }
+  .fit-note h4 { color: var(--sm-sky-deep); font-size: 15px; margin-bottom: var(--s-2); }
+  .fit-note p { margin: 0; font-size: 14px; color: var(--sm-gray-80); }
+
+  /* Story strip */
+  .story-quote { background: linear-gradient(135deg, var(--sm-black) 0%, #1a1a1a 100%); color:#fff; border-radius: var(--r-lg); padding: var(--s-8); position: relative; overflow: hidden; }
+  .story-quote::before { content:""; position:absolute; bottom:-80px; right:-80px; width:260px; height:260px; border-radius:50%; background: radial-gradient(circle, rgba(193,0,0,.3), transparent 70%); }
+  .story-quote blockquote { position: relative; margin: 0; font-size: clamp(24px, 3vw, 34px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; color:#fff; }
+  .story-quote cite { display: block; margin-top: var(--s-5); font-style: normal; font-family: var(--f-mono); font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--sm-gray-40); }
+
+  /* People */
+  .people-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: var(--s-6); margin-top: var(--s-7); }
+  .person__photo { aspect-ratio: 1/1; border-radius: var(--r-lg); overflow: hidden; background: var(--sm-gray-10); border: 1px solid var(--sm-rule); }
+  .person__photo img { width: 100%; height: 100%; object-fit: cover; }
+  .person__name { font-family: var(--f-display); font-weight: 800; font-size: 18px; letter-spacing: -0.01em; margin-top: var(--s-4); }
+  .person__role { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sm-red); font-weight: 700; margin-top: 3px; }
+
+  /* CTA */
+  .cta { background: var(--sm-red); color:#fff; padding: var(--s-9) 0; text-align: center; }
+  .cta h2 { color:#fff; }
+  .cta p { color: rgba(255,255,255,.9); max-width: 60ch; margin: 0 auto var(--s-6); font-size: 18px; }
+  .btn--on-red { background:#fff; color: var(--sm-red); }
+  .btn--on-red:hover { background: var(--sm-black); color:#fff; }
+
+  .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: var(--s-7); }
+  @media (max-width: 700px) { .foot-grid { grid-template-columns: 1fr; } .promise__chips { grid-template-columns: 1fr; } .home-hero__meta { gap: var(--s-5); } }
+  .foot-col h5 { color:#fff; font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; margin: 0 0 var(--s-4); }
+  .foot-col a { display: block; margin-bottom: var(--s-2); font-size: 14px; }
 </style>
 </head>
 <body>
-<div class="splash">
-  <div class="splash__card">
-    <div class="splash__hero">
-      <div>
-        <img src="assets/logo-security-molding-21spr2026.svg" alt="Security Molding" width="72" height="72" style="margin-bottom: 24px; background: white; border-radius: 12px; padding: 6px;">
-        <div class="eyebrow" style="color: #ff6060;">Spring 2026</div>
-        <h1>Security Molding</h1>
-        <p>A small-shop legacy in precision plastics. Red, black, and a relentless focus on getting parts that <em>fit</em>.</p>
-      </div>
-      <div class="pill pill--red" style="align-self: flex-start; background: rgba(193,0,0,.2); color: #ff9999;">Internal · Draft v1</div>
-    </div>
-    <div class="splash__choices">
-      <a href="brand-standard.html" class="choice">
-        <span class="choice__num">01 · Identity</span>
-        <h3>Brand Standard</h3>
-        <p>Colors, typography, logo usage, voice &amp; tone. The rules that keep Security Molding looking like Security Molding.</p>
-        <span class="choice__cta">View the brand guide →</span>
-      </a>
-      <a href="study-guide.html" class="choice">
-        <span class="choice__num">02 · For Julian</span>
-        <h3>The Plastics Study Guide</h3>
-        <p>Interactive walkthrough of history, machines, molds, materials, quoting, and relationships. With flashcards &amp; quizzes.</p>
-        <span class="choice__cta">Start the study guide →</span>
-      </a>
+
+<!-- ============ NAV ============ -->
+<nav class="site-nav">
+  <div class="site-nav__inner">
+    <a class="site-nav__brand" href="index.html">
+      <img src="assets/logo-security-molding-21spr2026.svg" alt="Security Molding">
+      <span>Security <b>Molding</b></span>
+    </a>
+    <div class="site-nav__links" style="align-items:center;">
+      <a href="capabilities.html">Capabilities</a>
+      <a href="assemblies.html">Assemblies</a>
+      <a href="industries.html">Industries</a>
+      <a href="why.html">Why Us</a>
+      <a href="story.html">Our Story</a>
+      <a href="quote.html" class="nav-cta">Request a Quote</a>
     </div>
   </div>
-</div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="home-hero">
+  <video class="home-hero__video is-active" id="heroVidA" autoplay muted loop playsinline preload="auto" aria-hidden="true" tabindex="-1"
+         poster="https://res.cloudinary.com/dsbllwpbh/video/upload/so_0,f_auto,q_auto/securitymolding/pan-through-shop-machines.jpg">
+    <source src="https://res.cloudinary.com/dsbllwpbh/video/upload/f_auto,q_auto/securitymolding/pan-through-shop-machines.mp4" type="video/mp4">
+  </video>
+  <video class="home-hero__video" id="heroVidB" muted playsinline preload="auto" aria-hidden="true" tabindex="-1"></video>
+  <div class="home-hero__scrim" aria-hidden="true"></div>
+  <div class="container">
+    <div class="home-hero__grid">
+      <span class="hero__kicker">Custom injection molding since 1972</span>
+      <h1>We make the parts <span class="accent">nobody thinks about.</span></h1>
+      <p class="home-hero__lede">Small-to-mid plastic parts and assemblies — made right, made responsive. The screen key in your window, the latch in your RV door, the spacer your guitar hangs on. Somebody has to make those. For over 50 years, that's been us.</p>
+      <div class="home-hero__actions">
+        <a href="quote.html" class="btn btn--primary">Request a quote →</a>
+        <a href="capabilities.html" class="btn btn--ghost-light">See what we make</a>
+      </div>
+      <div class="home-hero__meta">
+        <div><span class="mono">In business</span><strong>Since 1972</strong></div>
+        <div><span class="mono">Molds on file</span><strong>850+</strong></div>
+        <div><span class="mono">Run sizes</span><strong>10k → millions</strong></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ PROMISE BAND ============ -->
+<section class="promise">
+  <div class="container promise__inner">
+    <p class="eyebrow" style="color:#ff6060;">The whole idea</p>
+    <h2>We'll <em>take care</em> of it.</h2>
+    <p style="color:var(--sm-gray-40); font-size:19px; max-width:60ch;">It's the sign on our wall, and it's the reason customers stay. In an industry where nobody picks up the phone, we do. Here's what that means for you:</p>
+    <div class="promise__chips">
+      <div class="pchip">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <h4>We answer</h4>
+        <p>Real people, same day. Call us in an emergency and we make it happen.</p>
+      </div>
+      <div class="pchip">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 7h-9"/><path d="M14 17H5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></svg>
+        <h4>We stock for you</h4>
+        <p>We keep partials and hardware on hand — so a supply crunch doesn't stop your line.</p>
+      </div>
+      <div class="pchip">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M3 21v-5h5"/></svg>
+        <h4>We save the regrind</h4>
+        <p>We reuse your regrind instead of throwing it away — and that saves you money.</p>
+      </div>
+      <div class="pchip">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        <h4>Fair price, first time</h4>
+        <p>You get our best price up front — no gouging, no games. That's been the rule since day one.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHAT WE MAKE ============ -->
+<section class="section">
+  <div class="container">
+    <p class="eyebrow">What we make</p>
+    <h2 style="max-width:18ch;">The small plastic parts that hold bigger things together.</h2>
+    <p class="text-muted" style="font-size:18px; max-width:60ch; margin-bottom:var(--s-7);">From a few thousand pieces to a few million a year — in nylon, styrene, acetal, polycarbonate, polypropylene, and PVC.</p>
+    <div class="part-grid">
+      <div class="part-card">
+        <div class="part-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 2 14 9"/><circle cx="11" cy="12" r="5"/><path d="m15 5 3 3"/></svg></div>
+        <div><h4>Window &amp; screen keys</h4><p>Radius and corner keys by the million — our styrene workhorse.</p></div>
+      </div>
+      <div class="part-card">
+        <div class="part-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <div><h4>Weep plugs &amp; covers</h4><p>PVC plugs that keep the rain out of every extrusion — we make millions.</p></div>
+      </div>
+      <div class="part-card">
+        <div class="part-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="8" width="18" height="8" rx="2"/><path d="M7 8V6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2"/><path d="M12 12h.01"/></svg></div>
+        <div><h4>Egress &amp; latch handles</h4><p>Full assemblies — handle, catch, keeper — built and kitted in-house.</p></div>
+      </div>
+      <div class="part-card">
+        <div class="part-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+        <div><h4>Housings &amp; mounts</h4><p>Detector housings, TV hangers, instrument mounts — the parts you never notice.</p></div>
+      </div>
+      <div class="part-card">
+        <div class="part-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5M2 12l10 5 10-5"/></svg></div>
+        <div><h4>Spacers &amp; small parts</h4><p>The unglamorous pieces, in the right material, at the right tolerance.</p></div>
+      </div>
+      <div class="part-card">
+        <div class="part-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
+        <div><h4>Built assemblies &amp; kits</h4><p>Rivets, springs, foam, wool pile — assembled, bagged, and ready to install.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INDUSTRIES ============ -->
+<section class="section" style="background:var(--sm-gray-05);">
+  <div class="container">
+    <p class="eyebrow">Industries we serve</p>
+    <h2 style="max-width:16ch;">We know your parts because we've been making them for decades.</h2>
+    <div class="grid grid-3" style="margin-top:var(--s-7);">
+      <a class="ind-card" href="industries.html#rv"><span class="mono">01</span><h4>RV &amp; Towables</h4><p>Window, door, and interior components for the builders of Elkhart and beyond.</p><div class="arrow">Explore →</div></a>
+      <a class="ind-card" href="industries.html#windows-doors"><span class="mono">02</span><h4>Windows &amp; Doors</h4><p>Keys, keepers, weep covers, latches — the hardware that makes a window work.</p><div class="arrow">Explore →</div></a>
+      <a class="ind-card" href="industries.html#mobile-home"><span class="mono">03</span><h4>Mobile &amp; Manufactured Homes</h4><p>Durable molded components for manufactured-housing window and door systems.</p><div class="arrow">Explore →</div></a>
+      <a class="ind-card ind-card--soon" href="industries.html#glazing"><span class="mono">Also</span><h4>Architectural Glazing</h4><p>Window parts for hotels and high-rises — a different cycle, the same quality.</p><div class="arrow">Explore →</div></a>
+      <a class="ind-card ind-card--soon" href="industries.html#consumer"><span class="mono">Also</span><h4>Consumer &amp; Hardware</h4><p>Wall mounts, hangers, and consumer-product parts that need a dependable molder.</p><div class="arrow">Explore →</div></a>
+      <a class="ind-card ind-card--soon" href="industries.html#transit"><span class="mono">Also</span><h4>Transit &amp; Specialty</h4><p>Bus components, detector housings, and the niche parts others won't touch.</p><div class="arrow">Explore →</div></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CAPABILITIES SNAPSHOT ============ -->
+<section class="section">
+  <div class="container">
+    <div class="cap-grid">
+      <div>
+        <p class="eyebrow">Capabilities at a glance</p>
+        <h2>Right-sized for the work that needs a real partner.</h2>
+        <p class="text-muted" style="font-size:17px;">We're built for small-to-mid parts, honest tolerances, and runs from a few thousand to a few million. Not the biggest shop — the most responsive one.</p>
+        <div class="fit-note">
+          <h4>Are we the right shop for your part?</h4>
+          <p>We're a great fit for loose-to-moderate tolerance plastic parts and assemblies. We're <strong>not</strong> a medical or tight-tolerance house — and we'll tell you straight if your part belongs somewhere else. That honesty is why our customers trust us with everything else.</p>
+        </div>
+      </div>
+      <div>
+        <div class="spec-row"><span class="spec-row__label">Press range</span><span class="spec-row__value">Small-to-mid tonnage · up to 84 ton</span></div>
+        <div class="spec-row"><span class="spec-row__label">Materials</span><span class="spec-row__value">Nylon (incl. 33% glass), styrene, acetal, PC, PP, PVC</span></div>
+        <div class="spec-row"><span class="spec-row__label">Run sizes</span><span class="spec-row__value">10,000 to several million per year</span></div>
+        <div class="spec-row"><span class="spec-row__label">Assemblies</span><span class="spec-row__value">Rivet, spring, foam &amp; kitting — fully in-house</span></div>
+        <div class="spec-row"><span class="spec-row__label">Traceability</span><span class="spec-row__value">Lot tracking, first-article approval, ISO-grade system</span></div>
+        <div class="spec-row"><span class="spec-row__label">Cost savings</span><span class="spec-row__value">Regrind reused, not discarded</span></div>
+        <div style="margin-top:var(--s-5);"><a href="capabilities.html" class="btn btn--ghost">Full capabilities →</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STORY STRIP ============ -->
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div class="grid grid-2" style="align-items:center;">
+      <div class="story-quote">
+        <blockquote>"You guys make these? I thought God made that."</blockquote>
+        <cite>— a customer, holding a part he'd used for years</cite>
+      </div>
+      <div>
+        <p class="eyebrow">Why it matters</p>
+        <h3>When the supply chain broke, we didn't.</h3>
+        <p class="text-muted">In 2020 and 2021, builders couldn't get parts because their molders couldn't get hardware. We could — because we keep months of it on hand. We didn't just keep up. We <strong>gained</strong> business, and we kept every promise we made.</p>
+        <p style="margin-top:var(--s-4);"><a href="story.html">Read the Security Molding story →</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PEOPLE ============ -->
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <p class="eyebrow">The shop</p>
+    <h2 style="max-width:18ch;">The people who'll take care of it.</h2>
+    <p class="text-muted" style="font-size:18px; max-width:60ch;">A small, cross-trained crew — so someone always knows your parts, and someone always picks up. When you call Security Molding, you're talking to one of them, not a call center.</p>
+    <div class="people-grid">
+
+      <!-- PERSON -->
+      <figure class="person" style="margin:0;">
+        <div class="person__photo">
+          <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,g_face,ar_1:1,w_600/securitymolding/people/gerry" alt="Gerry, Plant Superintendent at Security Molding" width="300" height="300" loading="lazy">
+        </div>
+        <figcaption>
+          <div class="person__name">Gerry</div>
+          <div class="person__role">Plant Superintendent</div>
+        </figcaption>
+      </figure>
+
+      <!-- PERSON -->
+      <figure class="person" style="margin:0;">
+        <div class="person__photo">
+          <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,g_face,ar_1:1,w_600/securitymolding/people/tony" alt="Tony, Purchasing, Billing & HR at Security Molding" width="300" height="300" loading="lazy">
+        </div>
+        <figcaption>
+          <div class="person__name">Tony</div>
+          <div class="person__role">Purchasing · Billing · HR</div>
+        </figcaption>
+      </figure>
+
+      <!-- PERSON -->
+      <figure class="person" style="margin:0;">
+        <div class="person__photo">
+          <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,g_face,ar_1:1,w_600/securitymolding/people/shipping" alt="Shipping &amp; Regrind at Security Molding" width="300" height="300" loading="lazy">
+        </div>
+        <figcaption>
+          <div class="person__name">[Add name]</div>
+          <div class="person__role">Shipping &amp; Regrind</div>
+        </figcaption>
+      </figure>
+
+      <!-- TEMPLATE for the ~4 more (copy a block above, swap the Cloudinary public_id + name + role):
+      <figure class="person" style="margin:0;">
+        <div class="person__photo">
+          <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,g_face,ar_1:1,w_600/securitymolding/people/PUBLIC_ID" alt="NAME, ROLE at Security Molding" width="300" height="300" loading="lazy">
+        </div>
+        <figcaption>
+          <div class="person__name">NAME</div>
+          <div class="person__role">ROLE</div>
+        </figcaption>
+      </figure>
+      -->
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="cta">
+  <div class="container container--narrow">
+    <h2>Tell us about your part.</h2>
+    <p>Send a drawing, a sample, or just a description and a quantity. We'll tell you straight whether we're the right shop — and if we are, you'll get our best price the first time.</p>
+    <a href="quote.html" class="btn btn--on-red">Request a quote →</a>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-foot">
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <a class="site-nav__brand" href="index.html" style="color:#fff; margin-bottom:var(--s-4);">
+          <img src="assets/logo-security-molding-21spr2026-onblack.svg" alt="Security Molding" style="width:96px;height:auto;">
+          <span style="color:#fff;">Security <b style="color:var(--sm-red);">Molding</b></span>
+        </a>
+        <p style="color:var(--sm-gray-40); font-size:14px; max-width:38ch;">Family-run custom plastic injection molding and assemblies since 1972. We'll take care of it.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Explore</h5>
+        <a href="capabilities.html">Capabilities</a>
+        <a href="assemblies.html">Assemblies</a>
+        <a href="industries.html">Industries</a>
+        <a href="why.html">Why Us</a>
+        <a href="story.html">Our Story</a>
+      </div>
+      <div class="foot-col">
+        <h5>Get in touch</h5>
+        <a href="quote.html">Request a quote</a>
+        <a href="#">255 Factory Road</a>
+        <span style="color:var(--sm-gray-40); font-size:14px;">Phone &amp; email — to add</span>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,.1); margin-top:var(--s-7); padding-top:var(--s-5); color:var(--sm-gray-60); font-size:13px;">
+      © 1972–2026 Security Molding. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+<!-- Admin entry (discreet badge → password gate → slide-in panel) -->
+<script src="js/admin.js" defer></script>
+
+<script>
+/* Hero video playlist — crossfade through the shop clips in sequence, then loop. */
+(function () {
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var base = 'https://res.cloudinary.com/dsbllwpbh/video/upload/f_auto,q_auto/securitymolding/';
+  var clips = [
+    base + 'pan-through-shop-machines.mp4',
+    base + 'stock-boxes-area-slow-pan.mp4',
+    base + 'zoom-in-on-machine.mp4'
+  ];
+  var vids = [document.getElementById('heroVidA'), document.getElementById('heroVidB')];
+  if (!vids[0] || !vids[1] || clips.length < 2) return;
+
+  var cur = 0;     // index of the clip currently showing
+  var active = 0;  // which <video> element is active (0 or 1)
+
+  vids[0].removeAttribute('loop');           // JS takes over sequencing
+  vids[1].src = clips[1];                     // preload the next clip
+  vids[1].load();
+
+  function advance(which) {
+    if (which !== active) return;             // ignore the idle element
+    var next = 1 - active;
+    var nextClip = (cur + 1) % clips.length;
+    var v = vids[next];
+    try { v.currentTime = 0; } catch (e) {}
+    var p = v.play();
+    if (p && p.catch) p.catch(function () {});
+    v.classList.add('is-active');
+    vids[active].classList.remove('is-active');
+    // preload the clip after this one into the element we just left
+    var after = (nextClip + 1) % clips.length;
+    vids[active].src = clips[after];
+    vids[active].load();
+    active = next;
+    cur = nextClip;
+  }
+
+  vids[0].addEventListener('ended', function () { advance(0); });
+  vids[1].addEventListener('ended', function () { advance(1); });
+  var play0 = vids[0].play();
+  if (play0 && play0.catch) play0.catch(function () {});
+})();
+</script>
+
 </body>
 </html>
