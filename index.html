@@ -47,7 +47,7 @@
   .promise__inner { position: relative; }
   .promise h2 { color: #fff; font-size: clamp(40px, 6vw, 80px); margin-bottom: var(--s-6); }
   .promise h2 em { font-style: normal; color: var(--sm-red); }
-  .promise__chips { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s-4); margin-top: var(--s-7); }
+  .promise__chips { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-4); margin-top: var(--s-7); }
   .pchip { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12); border-radius: var(--r-md); padding: var(--s-5); }
   .pchip svg { color: var(--sm-red); margin-bottom: var(--s-3); }
   .pchip h4 { color: #fff; font-size: 17px; margin-bottom: var(--s-2); }
@@ -84,6 +84,9 @@
   .fit-note p { margin: 0; font-size: 14px; color: var(--sm-gray-80); }
 
   /* Story strip */
+  .story-photo { position: relative; margin: 0; border-radius: var(--r-lg); overflow: hidden; background: var(--sm-black); }
+  .story-photo img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+  .story-photo figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: var(--s-7) var(--s-6) var(--s-5); background: linear-gradient(transparent, rgba(10,10,10,.85)); color: #fff; font-family: var(--f-mono); font-size: 13px; letter-spacing: .1em; text-transform: uppercase; }
   .story-quote { background: linear-gradient(135deg, var(--sm-black) 0%, #1a1a1a 100%); color:#fff; border-radius: var(--r-lg); padding: var(--s-8); position: relative; overflow: hidden; }
   .story-quote::before { content:""; position:absolute; bottom:-80px; right:-80px; width:260px; height:260px; border-radius:50%; background: radial-gradient(circle, rgba(193,0,0,.3), transparent 70%); }
   .story-quote blockquote { position: relative; margin: 0; font-size: clamp(24px, 3vw, 34px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; color:#fff; }
@@ -206,9 +209,9 @@
   <div class="home-hero__scrim" aria-hidden="true"></div>
   <div class="container">
     <div class="home-hero__grid">
-      <span class="hero__kicker">Custom injection molding since 1972</span>
-      <h1>We make the parts <span class="accent">nobody thinks about.</span></h1>
-      <p class="home-hero__lede">Small-to-mid plastic parts and assemblies — made right, made responsive. The screen key in your window, the latch in your RV door, the spacer your guitar hangs on. Somebody has to make those. For over 50 years, that's been us.</p>
+      <span class="hero__kicker">Family owned and operated since 1972</span>
+      <h1>Five Decades of Custom <span class="accent">Plastic Injection Molding</span></h1>
+      <p class="home-hero__lede">For over 50 years, we have specialized in the manufacturing of small-to-mid-sized plastic parts and assemblies. From the window screen keys in residential homes to latches for RV doors and specialized hardware components, we engineer the critical elements others overlook. Backed by decades of reliability and responsive manufacturing, we deliver precision components that keep industries moving.</p>
       <div class="home-hero__actions">
         <a href="quote.html" class="btn btn--primary">Request a quote →</a>
         <a href="capabilities.html" class="btn btn--ghost-light">See what we make</a>
@@ -216,7 +219,7 @@
       <div class="home-hero__meta">
         <div><span class="mono">In business</span><strong>Since 1972</strong></div>
         <div><span class="mono">Molds on file</span><strong>850+</strong></div>
-        <div><span class="mono">Run sizes</span><strong>10k → millions</strong></div>
+        <div><span class="mono">Run sizes</span><strong>1k → millions</strong></div>
       </div>
     </div>
   </div>
@@ -227,7 +230,7 @@
   <div class="container promise__inner">
     <p class="eyebrow" style="color:#ff6060;">The whole idea</p>
     <h2>We'll <em>take care</em> of it.</h2>
-    <p style="color:var(--sm-gray-40); font-size:19px; max-width:60ch;">It's the sign on our wall, and it's the reason customers stay. In an industry where nobody picks up the phone, we do. Here's what that means for you:</p>
+    <p style="color:var(--sm-gray-40); font-size:19px; max-width:60ch;">It’s the sign on our wall and it’s the reason customers stay. In an ever-changing economic landscape, where it’s difficult to reach someone on the phone, we might be called a bit old school. We pick up the phone. No answering service… only a live voice. Here’s what that means for you:</p>
     <div class="promise__chips">
       <div class="pchip">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
@@ -238,11 +241,6 @@
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 7h-9"/><path d="M14 17H5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></svg>
         <h4>We stock for you</h4>
         <p>We keep partials and hardware on hand — so a supply crunch doesn't stop your line.</p>
-      </div>
-      <div class="pchip">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M3 21v-5h5"/></svg>
-        <h4>We save the regrind</h4>
-        <p>We reuse your regrind instead of throwing it away — and that saves you money.</p>
       </div>
       <div class="pchip">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
@@ -257,32 +255,32 @@
 <section class="section">
   <div class="container">
     <p class="eyebrow">What we make</p>
-    <h2 style="max-width:18ch;">The small plastic parts that hold bigger things together.</h2>
-    <p class="text-muted" style="font-size:18px; max-width:60ch; margin-bottom:var(--s-7);">From a few thousand pieces to a few million a year — in nylon, styrene, acetal, polycarbonate, polypropylene, and PVC.</p>
+    <h2 style="max-width:18ch;">Small Parts, Big Impact.</h2>
+    <p class="text-muted" style="font-size:18px; max-width:60ch; margin-bottom:var(--s-7);">From a few thousand pieces to a few million a year — in nylon, styrene, ABS, acetyl, polycarbonate, polypropylene, and PVC… just to name a few.</p>
     <div class="part-grid">
       <div class="part-card">
         <div class="part-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 2 14 9"/><circle cx="11" cy="12" r="5"/><path d="m15 5 3 3"/></svg></div>
-        <div><h4>Window &amp; screen keys</h4><p>Radius and corner keys by the million — our styrene workhorse.</p></div>
+        <div><h4>Window &amp; Screen Keys</h4><p>Radius and corner keys by the millions.</p></div>
       </div>
       <div class="part-card">
         <div class="part-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg></div>
-        <div><h4>Weep plugs &amp; covers</h4><p>PVC plugs that keep the rain out of every extrusion — we make millions.</p></div>
+        <div><h4>Weep Plugs &amp; Covers</h4><p>PVC plugs that keep the rain out of every extrusion — we make millions.</p></div>
       </div>
       <div class="part-card">
         <div class="part-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="8" width="18" height="8" rx="2"/><path d="M7 8V6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2"/><path d="M12 12h.01"/></svg></div>
-        <div><h4>Egress &amp; latch handles</h4><p>Full assemblies — handle, catch, keeper — built and kitted in-house.</p></div>
+        <div><h4>Egress &amp; Latch Handles</h4><p>Full assemblies — handle, catch, keeper — built and kitted in-house.</p></div>
       </div>
       <div class="part-card">
         <div class="part-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
-        <div><h4>Housings &amp; mounts</h4><p>Detector housings, TV hangers, instrument mounts — the parts you never notice.</p></div>
+        <div><h4>Housing &amp; Mounts</h4><p>Instrument hangers, detector housings, TV hangers — delivering structural integrity where it matters most.</p></div>
       </div>
       <div class="part-card">
         <div class="part-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5M2 12l10 5 10-5"/></svg></div>
-        <div><h4>Spacers &amp; small parts</h4><p>The unglamorous pieces, in the right material, at the right tolerance.</p></div>
+        <div><h4>Spacers &amp; Small Parts</h4><p>The unglamorous pieces, in the right material, at the right tolerance.</p></div>
       </div>
       <div class="part-card">
         <div class="part-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
-        <div><h4>Built assemblies &amp; kits</h4><p>Rivets, springs, foam, wool pile — assembled, bagged, and ready to install.</p></div>
+        <div><h4>Built Assemblies &amp; Kits</h4><p>Rivets, springs, foam, wool pile — assembled, bagged, and ready to install.</p></div>
       </div>
     </div>
   </div>
@@ -294,12 +292,12 @@
     <p class="eyebrow">Industries we serve</p>
     <h2 style="max-width:16ch;">We know your parts because we've been making them for decades.</h2>
     <div class="grid grid-3" style="margin-top:var(--s-7);">
-      <a class="ind-card" href="industries.html#rv"><img class="ind-card__img" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_16:9,w_800/securitymolding/industries/rv" alt="A travel-trailer RV" loading="lazy"><div class="ind-card__body"><span class="mono">01</span><h4>RV &amp; Towables</h4><p>Window, door, and interior components for the builders of Elkhart and beyond.</p><div class="arrow">Explore →</div></div></a>
-      <a class="ind-card" href="industries.html#windows-doors"><img class="ind-card__img" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_16:9,w_800/securitymolding/industries/windows-doors" alt="A window frame corner with hardware" loading="lazy"><div class="ind-card__body"><span class="mono">02</span><h4>Windows &amp; Doors</h4><p>Keys, keepers, weep covers, latches — the hardware that makes a window work.</p><div class="arrow">Explore →</div></div></a>
-      <a class="ind-card" href="industries.html#mobile-home"><img class="ind-card__img" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_16:9,w_800/securitymolding/industries/mobile-home" alt="A modern manufactured home" loading="lazy"><div class="ind-card__body"><span class="mono">03</span><h4>Mobile &amp; Manufactured Homes</h4><p>Durable molded components for manufactured-housing window and door systems.</p><div class="arrow">Explore →</div></div></a>
-      <a class="ind-card ind-card--soon" href="industries.html#glazing"><img class="ind-card__img" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_16:9,w_800/securitymolding/industries/glazing" alt="A glass high-rise facade" loading="lazy"><div class="ind-card__body"><span class="mono">Also</span><h4>Architectural Glazing</h4><p>Window parts for hotels and high-rises — a different cycle, the same quality.</p><div class="arrow">Explore →</div></div></a>
-      <a class="ind-card ind-card--soon" href="industries.html#consumer"><img class="ind-card__img" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_16:9,w_800/securitymolding/industries/consumer" alt="A guitar on a molded wall mount" loading="lazy"><div class="ind-card__body"><span class="mono">Also</span><h4>Consumer &amp; Hardware</h4><p>Wall mounts, hangers, and consumer-product parts that need a dependable molder.</p><div class="arrow">Explore →</div></div></a>
-      <a class="ind-card ind-card--soon" href="industries.html#transit"><img class="ind-card__img" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_16:9,w_800/securitymolding/industries/transit" alt="A transit bus" loading="lazy"><div class="ind-card__body"><span class="mono">Also</span><h4>Transit &amp; Specialty</h4><p>Bus components, detector housings, and the niche parts others won't touch.</p><div class="arrow">Explore →</div></div></a>
+      <a class="ind-card" href="industries.html#rv"><img class="ind-card__img" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_16:9,w_800/securitymolding/industries/rv" alt="A travel-trailer RV" loading="lazy"><div class="ind-card__body"><h4>RV &amp; Towables</h4><p>Window, door, and interior components for the builders of Elkhart and beyond.</p><div class="arrow">Explore →</div></div></a>
+      <a class="ind-card" href="industries.html#windows-doors"><img class="ind-card__img" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_16:9,w_800/securitymolding/industries/windows-doors" alt="A window frame corner with hardware" loading="lazy"><div class="ind-card__body"><h4>Windows &amp; Doors</h4><p>Keys, keepers, weep covers, latches — the hardware that makes a window work.</p><div class="arrow">Explore →</div></div></a>
+      <a class="ind-card" href="industries.html#mobile-home"><img class="ind-card__img" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_16:9,w_800/securitymolding/industries/mobile-home" alt="A modern manufactured home" loading="lazy"><div class="ind-card__body"><h4>Mobile &amp; Manufactured Homes</h4><p>Durable molded components for manufactured-housing window and door systems.</p><div class="arrow">Explore →</div></div></a>
+      <a class="ind-card" href="industries.html#glazing"><img class="ind-card__img" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_16:9,w_800/securitymolding/industries/glazing" alt="A glass high-rise facade" loading="lazy"><div class="ind-card__body"><h4>Architectural Glazing</h4><p>Window parts for hotels and high-rises — a different cycle, the same quality.</p><div class="arrow">Explore →</div></div></a>
+      <a class="ind-card" href="industries.html#consumer"><img class="ind-card__img" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_pad,b_white,ar_16:9,w_800/securitymolding/industries/consumer-guitar-hanger" alt="A wooden guitar wall hanger with a molded cradle" loading="lazy"><div class="ind-card__body"><h4>Consumer &amp; Hardware</h4><p>Wall mounts, hangers, and consumer-product parts that need a dependable molder.</p><div class="arrow">Explore →</div></div></a>
+      <a class="ind-card" href="industries.html#transit"><img class="ind-card__img" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_16:9,w_800/securitymolding/industries/transit" alt="A transit bus" loading="lazy"><div class="ind-card__body"><h4>Transit &amp; Specialty</h4><p>Bus components, detector housings, and the niche parts others won't touch.</p><div class="arrow">Explore →</div></div></a>
     </div>
   </div>
 </section>
@@ -319,11 +317,10 @@
       </div>
       <div>
         <div class="spec-row"><span class="spec-row__label">Press range</span><span class="spec-row__value">Small-to-mid tonnage · up to 84 ton</span></div>
-        <div class="spec-row"><span class="spec-row__label">Materials</span><span class="spec-row__value">Nylon (incl. 33% glass), styrene, acetal, PC, PP, PVC</span></div>
-        <div class="spec-row"><span class="spec-row__label">Run sizes</span><span class="spec-row__value">10,000 to several million per year</span></div>
-        <div class="spec-row"><span class="spec-row__label">Assemblies</span><span class="spec-row__value">Rivet, spring, foam &amp; kitting — fully in-house</span></div>
+        <div class="spec-row"><span class="spec-row__label">Materials</span><span class="spec-row__value">Nylon (incl. glass filled), styrene, acetyl, PC, PP, PVC</span></div>
+        <div class="spec-row"><span class="spec-row__label">Run sizes</span><span class="spec-row__value">1,000 to several million per year</span></div>
+        <div class="spec-row"><span class="spec-row__label">Assemblies</span><span class="spec-row__value">Rivet, spring, foam tape, screw and washer, keepers, window latch assemblies &amp; kitting — fully in-house</span></div>
         <div class="spec-row"><span class="spec-row__label">Traceability</span><span class="spec-row__value">Lot tracking, first-article approval, ISO-grade system</span></div>
-        <div class="spec-row"><span class="spec-row__label">Cost savings</span><span class="spec-row__value">Regrind reused, not discarded</span></div>
         <div style="margin-top:var(--s-5);"><a href="capabilities.html" class="btn btn--ghost">Full capabilities →</a></div>
       </div>
     </div>
@@ -334,73 +331,16 @@
 <section class="section" style="padding-top:0;">
   <div class="container">
     <div class="grid grid-2" style="align-items:center;">
-      <div class="story-quote">
-        <blockquote>"You guys make these? I thought God made that."</blockquote>
-        <cite>— a customer, holding a part he'd used for years</cite>
-      </div>
+      <figure class="story-photo">
+        <img src="https://res.cloudinary.com/dsbllwpbh/video/upload/so_3,c_fill,ar_4:3,w_1200,q_auto,f_jpg/securitymolding/stock-boxes-area-slow-pan.jpg" alt="Shelves of boxed hardware and parts kept on hand at Security Molding" loading="lazy">
+        <figcaption>Months of inventory, on the shelf before you need it.</figcaption>
+      </figure>
       <div>
         <p class="eyebrow">Why it matters</p>
         <h3>When the supply chain broke, we didn't.</h3>
-        <p class="text-muted">In 2020 and 2021, builders couldn't get parts because their molders couldn't get hardware. We could — because we keep months of it on hand. We didn't just keep up. We <strong>gained</strong> business, and we kept every promise we made.</p>
+        <p class="text-muted">In 2020 and 2021, builders couldn't get parts because their molders couldn't get hardware. We could — because we keep months of inventory on hand. We didn’t just keep up, we <strong>gained</strong> business and kept every promise we made.</p>
         <p style="margin-top:var(--s-4);"><a href="story.html">Read the Security Molding story →</a></p>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ PEOPLE ============ -->
-<section class="section" style="padding-top:0;">
-  <div class="container">
-    <p class="eyebrow">The shop</p>
-    <h2 style="max-width:18ch;">The people who'll take care of it.</h2>
-    <p class="text-muted" style="font-size:18px; max-width:60ch;">A small, cross-trained crew — so someone always knows your parts, and someone always picks up. When you call Security Molding, you're talking to one of them, not a call center.</p>
-    <div class="people-grid">
-
-      <!-- PERSON -->
-      <figure class="person" style="margin:0;">
-        <div class="person__photo">
-          <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,g_face,ar_1:1,w_600/securitymolding/people/gerry" alt="Gerry, Plant Superintendent at Security Molding" width="300" height="300" loading="lazy">
-        </div>
-        <figcaption>
-          <div class="person__name">Gerry</div>
-          <div class="person__role">Plant Superintendent</div>
-        </figcaption>
-      </figure>
-
-      <!-- PERSON -->
-      <figure class="person" style="margin:0;">
-        <div class="person__photo">
-          <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,g_face,ar_1:1,w_600/securitymolding/people/tony" alt="Tony, Purchasing, Billing & HR at Security Molding" width="300" height="300" loading="lazy">
-        </div>
-        <figcaption>
-          <div class="person__name">Tony</div>
-          <div class="person__role">Purchasing · Billing · HR</div>
-        </figcaption>
-      </figure>
-
-      <!-- PERSON -->
-      <figure class="person" style="margin:0;">
-        <div class="person__photo">
-          <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,g_face,ar_1:1,w_600/securitymolding/people/shipping" alt="Shipping &amp; Regrind at Security Molding" width="300" height="300" loading="lazy">
-        </div>
-        <figcaption>
-          <div class="person__name">[Add name]</div>
-          <div class="person__role">Shipping &amp; Regrind</div>
-        </figcaption>
-      </figure>
-
-      <!-- TEMPLATE for the ~4 more (copy a block above, swap the Cloudinary public_id + name + role):
-      <figure class="person" style="margin:0;">
-        <div class="person__photo">
-          <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,g_face,ar_1:1,w_600/securitymolding/people/PUBLIC_ID" alt="NAME, ROLE at Security Molding" width="300" height="300" loading="lazy">
-        </div>
-        <figcaption>
-          <div class="person__name">NAME</div>
-          <div class="person__role">ROLE</div>
-        </figcaption>
-      </figure>
-      -->
-
     </div>
   </div>
 </section>
