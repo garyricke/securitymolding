@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Business Cards &amp; Signatures · Security Molding (Internal)</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://securitymolding.com/cards">
+<link rel="icon" type="image/svg+xml" href="assets/logo-security-molding-21spr2026.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/brand.css">
+<script src="js/site-gate.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<style>
+  body { background: var(--sm-gray-10); }
+  .page-head { padding: var(--s-9) 0 var(--s-7); }
+  .page-head .kicker { font-family: var(--f-mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--sm-red); }
+  .page-head h1 { margin: var(--s-3) 0 var(--s-4); font-size: clamp(34px, 5vw, 56px); letter-spacing: -0.03em; line-height: 1.02; }
+  .page-head p { max-width: 62ch; color: var(--sm-gray-60); font-size: 17px; margin: 0; }
+
+  .sec { padding: var(--s-7) 0 var(--s-9); }
+  .sec__label { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s-4); flex-wrap: wrap;
+    border-top: 1px solid var(--sm-gray-20); padding-top: var(--s-4); margin-bottom: var(--s-6); }
+  .sec__label h2 { margin: 0; font-size: 22px; letter-spacing: -0.01em; }
+  .sec__label span { font-family: var(--f-mono); font-size: 12px; color: var(--sm-gray-60); letter-spacing: .06em; }
+
+  /* ---------- Person rows ---------- */
+  .person { margin-bottom: var(--s-9); }
+  .person__head { display: flex; align-items: center; justify-content: space-between; gap: var(--s-4); flex-wrap: wrap; margin-bottom: var(--s-5); }
+  .person__head h3 { margin: 0; font-size: 18px; }
+  .person__head > div, .person__head .acts { display: flex; gap: var(--s-3); flex-wrap: wrap; }
+  .person__head h3 small { font-family: var(--f-mono); font-weight: 500; font-size: 12px; color: var(--sm-gray-60); margin-left: var(--s-3); letter-spacing: .06em; }
+  .faces { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px, 3vw, 40px); }
+  @media (max-width: 860px) { .faces { grid-template-columns: 1fr; } }
+  .face-wrap { perspective: 1200px; }
+  .face-cap { font-family: var(--f-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--sm-gray-60); margin-top: var(--s-3); }
+
+  /* ---------- Card faces (3.5in × 2in; everything sized in container units so it scales) ---------- */
+  .card-face {
+    --bleed: 0in;
+    position: relative; width: 100%; aspect-ratio: 3.5 / 2; overflow: hidden;
+    border-radius: 1.4%/2.45%;
+    box-shadow: 0 1px 2px rgba(0,0,0,.06), 0 12px 30px -8px rgba(0,0,0,.22), 0 30px 60px -30px rgba(0,0,0,.25);
+    transition: transform .5s cubic-bezier(.2,.7,.2,1), box-shadow .5s ease;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .trim { position: absolute; inset: var(--bleed); container-type: inline-size; }
+  .sheet { position: relative; }
+  .crops, .slug { display: none; }
+  .face-wrap:hover .card-face { transform: rotateX(4deg) rotateY(-5deg) translateY(-4px);
+    box-shadow: 0 1px 2px rgba(0,0,0,.06), 0 24px 50px -12px rgba(0,0,0,.3), 0 40px 80px -40px rgba(0,0,0,.3); }
+  @media (prefers-reduced-motion: reduce) { .card-face { transition: none; } .face-wrap:hover .card-face { transform: none; } }
+
+  /* Front */
+  .front { background: #fff; color: var(--sm-black); }
+  .front__in { position: absolute; inset: 0; padding: 6.4cqw 6.4cqw 6cqw; display: grid; grid-template-columns: minmax(0, 1fr) 40cqw; column-gap: 4cqw; }
+  .front__left { display: flex; flex-direction: column; min-width: 0; }
+  /* Pellet QR: circles only, as light as a phone camera will still read. Colour comes from --qr. */
+  .front__qr { align-self: center; width: 40cqw; height: 40cqw; color: var(--qr, #DCDFE3); }
+  .front__qr svg { display: block; width: 100%; height: 100%; }
+  .front__brand { display: flex; align-items: center; gap: 2.2cqw; }
+  .front__brand svg { width: 8.6cqw; height: 8.6cqw; flex: none; clip-path: circle(50%); } /* CSS clip survives PDF export */
+  .front__brand b { font-weight: 800; font-size: 3.5cqw; letter-spacing: -0.01em; line-height: 1; }
+  .front__brand b em { font-style: normal; color: var(--sm-red); }
+  .front__body { margin-top: auto; }
+  .front__who { border-left: 0.7cqw solid var(--sm-red); padding-left: 3cqw; }
+  .front__name { font-weight: 800; font-size: 6.6cqw; letter-spacing: -0.035em; line-height: .98; }
+  .front__title { margin-top: 1.6cqw; font-family: var(--f-mono); font-weight: 600; font-size: 2.15cqw; letter-spacing: .14em; text-transform: uppercase; color: var(--sm-red); }
+  .front__contact { margin-top: 3.4cqw; font-family: var(--f-mono); font-size: 2.3cqw; line-height: 1.75; color: var(--sm-gray-80); }
+  .front__contact .row { display: grid; grid-template-columns: 4.2cqw 1fr; white-space: nowrap; }
+  .front__contact .lbl { color: var(--sm-red); font-weight: 700; }
+  /* Bleed-aware: extends 0.125in past trim on every edge it touches (3.5714% of width, 6.25% of height) */
+  .front__rule { position: absolute; left: -3.5714%; right: -3.5714%; bottom: -6.25%; height: calc(1.1cqw + 6.25%); background: var(--sm-red); }
+
+  /* Back */
+  .back { background: #0A0A0A; color: #fff; }
+  .back svg.field { position: absolute; top: -6.25%; left: -3.5714%; width: 107.1429%; height: 112.5%; }
+  .back__in { position: absolute; top: 0; bottom: 0; right: 0; width: 41%; padding: 6.4cqw 6.4cqw 6cqw 0;
+    display: flex; flex-direction: column; justify-content: flex-end; }
+  .back__promise { font-weight: 800; font-size: 5.6cqw; line-height: 1.02; letter-spacing: -0.03em; }
+  .back__promise em { font-style: normal; color: var(--sm-red); }
+  .back__tag { margin-top: 2.6cqw; font-family: var(--f-mono); font-size: 1.9cqw; line-height: 1.6; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.55); }
+  .back__addr { margin-top: 1.2cqw; font-family: var(--f-mono); font-size: 1.9cqw; line-height: 1.5; letter-spacing: .04em; color: rgba(255,255,255,.55); }
+  .back__url { margin-top: 3.2cqw; padding-top: 2.4cqw; border-top: 1px solid rgba(255,255,255,.16); font-family: var(--f-mono); font-weight: 600; font-size: 2.3cqw; letter-spacing: .04em; color: #fff; }
+
+  /* Empty-field placeholders (screen only) */
+  .card-face [data-empty], .card-face .row[data-hide], .front__contact .row:has([data-empty]) { display: none; }
+
+  /* ---------- Editor ---------- */
+  .editor { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-5); }
+  @media (max-width: 960px) { .editor { grid-template-columns: 1fr; } }
+  .panel { background: #fff; border: 1px solid var(--sm-gray-20); border-radius: 14px; padding: var(--s-5); }
+  .panel h4 { margin: 0 0 var(--s-4); font-family: var(--f-mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--sm-gray-60); }
+  .fld { display: block; margin-bottom: var(--s-4); }
+  .fld span { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+  .fld input { width: 100%; padding: 10px 12px; border: 1px solid var(--sm-gray-20); border-radius: 8px; font: inherit; font-size: 15px; background: var(--sm-gray-05); color: var(--sm-ink); }
+  .fld input:focus { outline: 2px solid var(--sm-red); outline-offset: -1px; background: #fff; }
+  .note { font-size: 13px; color: var(--sm-gray-60); margin: var(--s-4) 0 0; }
+
+  /* ---------- Signatures ---------- */
+  .sigs { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-5); }
+  @media (max-width: 960px) { .sigs { grid-template-columns: 1fr; } }
+  .sig-card { background: #fff; border: 1px solid var(--sm-gray-20); border-radius: 14px; overflow: hidden; }
+  .sig-card__bar { display: flex; gap: 6px; align-items: center; padding: 10px 14px; border-bottom: 1px solid var(--sm-gray-20); background: var(--sm-gray-05);
+    font-family: var(--f-mono); font-size: 12px; color: var(--sm-gray-60); }
+  .sig-card__bar i { width: 9px; height: 9px; border-radius: 50%; background: var(--sm-gray-20); display: inline-block; }
+  .sig-card__bar span { margin-left: 8px; }
+  .sig-card__mail { padding: var(--s-5) var(--s-5) var(--s-6); }
+  .sig-card__mail .fake { height: 8px; border-radius: 4px; background: var(--sm-gray-10); margin-bottom: 10px; }
+  .sig-card__mail .sig { margin-top: var(--s-5); padding-top: var(--s-4); }
+  .sig-card__mail .sig a { border: 0; }
+  .sig-card__actions { display: flex; gap: var(--s-3); flex-wrap: wrap; padding: var(--s-4) var(--s-5); border-top: 1px solid var(--sm-gray-20); align-items: center; }
+  .sig-card__actions .ok { font-family: var(--f-mono); font-size: 12px; color: var(--sm-red); }
+  .btn svg { width: 18px; height: 18px; }
+  .howto { margin-top: var(--s-6); display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-5); }
+  @media (max-width: 860px) { .howto { grid-template-columns: 1fr; } }
+  .howto div { background: #fff; border: 1px solid var(--sm-gray-20); border-radius: 14px; padding: var(--s-5); font-size: 14px; color: var(--sm-gray-80); }
+  .howto b { display: block; margin-bottom: 6px; color: var(--sm-ink); }
+
+  /* ---------- Print: one card face per page, at trim size ---------- */
+  /* Press sheet: 3.5 × 2 trim + 0.125 bleed + 0.25 slug for crop marks = 4.25 × 2.75 in */
+  @page { size: 4.25in 2.75in; margin: 0; }
+  @media print {
+    body { background: #fff; }
+    body > *:not(main) { display: none !important; }
+    main > *:not(#cards) { display: none !important; }
+    #cards .sec__label, .person__head, .face-cap { display: none !important; }
+    .container { padding: 0 !important; max-width: none !important; }
+    .sec, .person { padding: 0 !important; margin: 0 !important; }
+    .faces { display: block; }
+    .face-wrap.pb { break-after: page; page-break-after: always; }
+    .sheet { width: 4.25in; height: 2.75in; overflow: hidden; }
+    .card-face { --bleed: 0.125in; position: absolute; left: 0.25in; top: 0.25in; width: 3.75in; height: 2.25in;
+      aspect-ratio: auto; border-radius: 0; box-shadow: none !important; transform: none !important; }
+    .crops { display: block; position: absolute; inset: 0; width: 4.25in; height: 2.75in; }
+    .slug { display: block; position: absolute; left: 0; right: 0; bottom: 0.06in; text-align: center;
+      font-family: var(--f-mono); font-size: 4.5pt; letter-spacing: .04em; color: #000; }
+    body[data-print="jeannie"] .person:not([data-person="jeannie"]),
+    body[data-print="julian"] .person:not([data-person="julian"]) { display: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- PER-PAGE PASSWORD GATE — shares the securitymolding_auth session with the admin badge.
+     Client-side only (content still loads in the DOM); keeps casual visitors out, not real security. -->
+<style>
+  #pw-gate{position:fixed;inset:0;z-index:9999;background:#0A0A0A;display:flex;align-items:center;justify-content:center;font-family:'Inter',system-ui,sans-serif;}
+  #pw-gate::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(193,0,0,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(193,0,0,.06) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;}
+  #pw-box{position:relative;background:rgba(255,255,255,.04);border:1px solid color-mix(in srgb,#C10000 25%,transparent);border-radius:16px;padding:48px 40px;text-align:center;width:min(400px,90vw);box-shadow:0 24px 80px rgba(0,0,0,.5);}
+  #pw-box img{height:52px;margin-bottom:24px;display:block;margin-inline:auto;}
+  #pw-box h2{font-weight:800;font-size:1.7rem;color:#fff;letter-spacing:-0.01em;margin:0 0 8px;}
+  #pw-box .sub{font-size:.85rem;color:rgba(236,236,236,.55);margin:0 0 28px;letter-spacing:.02em;}
+  #pw-input{width:100%;padding:12px 16px;background:rgba(0,0,0,.4);border:1px solid color-mix(in srgb,#C10000 30%,transparent);border-radius:8px;color:#fff;font-size:.95rem;font-family:inherit;outline:none;transition:border-color .2s;}
+  #pw-input:focus{border-color:#C10000;}
+  #pw-btn{margin-top:14px;width:100%;padding:12px;background:#C10000;color:#fff;border:0;border-radius:8px;font-weight:700;font-size:1rem;letter-spacing:.02em;cursor:pointer;transition:background .2s;}
+  #pw-btn:hover{background:#ff5a5a;}
+  #pw-error{font-size:.8rem;color:#ff7a7a;margin:12px 0 0;min-height:1.2em;}
+  .pw-shake{animation:pwShake .35s;}
+  @keyframes pwShake{0%,100%{transform:translateX(0);}25%{transform:translateX(-8px);}75%{transform:translateX(8px);}}
+  @media (prefers-reduced-motion: reduce){ .pw-shake{animation:none;} }
+</style>
+<div id="pw-gate">
+  <div id="pw-box">
+    <img src="assets/logo-security-molding-21spr2026-onblack.svg" alt="Security Molding" onerror="this.style.display='none'">
+    <h2>Internal Document</h2>
+    <p class="sub">This page is password protected.</p>
+    <input id="pw-input" type="password" placeholder="Enter password" autocomplete="current-password">
+    <button id="pw-btn">Enter</button>
+    <p id="pw-error"></p>
+  </div>
+</div>
+<script>
+(function(){
+  var KEY='securitymolding_auth',PASS='oneword',gate=document.getElementById('pw-gate');
+  try{ if(sessionStorage.getItem(KEY)==='1'){gate.style.display='none';return;} }catch(e){}
+  document.body.style.overflow='hidden';
+  function attempt(){
+    if(document.getElementById('pw-input').value===PASS){
+      try{sessionStorage.setItem(KEY,'1');}catch(e){}
+      document.body.style.overflow='';
+      gate.style.display='none';
+    } else {
+      document.getElementById('pw-error').textContent='Incorrect password. Try again.';
+      var box=document.getElementById('pw-box');
+      box.classList.remove('pw-shake'); void box.offsetWidth; box.classList.add('pw-shake');
+    }
+  }
+  document.getElementById('pw-btn').addEventListener('click',attempt);
+  document.getElementById('pw-input').addEventListener('keydown',function(e){if(e.key==='Enter')attempt();});
+  document.getElementById('pw-input').focus();
+})();
+</script>
+
+<!-- Shared logo geometry: stripes + barrel, reused by the mark and the card back -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="smStripes">
+      <path d="M96.5 156H163V163H96.5L81.8649 161.459L68 163H-7V156H68L81.8649 158.311L96.5 156Z"/>
+      <path d="M111 147H163V154H111L90 152H71.5L49.5 154H-7V147H49.5L71.5 150H90L111 147Z"/>
+      <path d="M122.5 138H163V145H122.5L101.5 143H59.5L37.5 145H-7V138H37.5L59.5 141H101.5L122.5 138Z"/>
+      <path d="M127 129H163V136H127L106 134H58L36 136H-7V129H36L58 132H106L127 129Z"/>
+      <path d="M128 120H163V127H128L107 125H53L31 127H-7V120H31L53 123H107L128 120Z"/>
+      <path d="M135.5 111H163V118H135.5L114.5 116H46L24 118H-7V111H24L46 114H114.5L135.5 111Z"/>
+      <path d="M144.5 102H163V109H144.5L123.5 107H38.5L16.5 109H-7V102H16.5L38.5 105H123.5L144.5 102Z"/>
+      <path d="M149 93H163V100H149L128 98H35L13 100H-7V93H13L35 96H128L149 93Z"/>
+      <path d="M149.5 84H163V91H149.5L128.5 89H34.5L12.5 91H-7V84H12.5L34.5 87H128.5L149.5 84Z"/>
+      <path d="M149 75H163V82H149L128 80H36L14 82H-7V75H14L36 78H128L149 75Z"/>
+      <path d="M148.5 66H163V73H148.5L127.5 71H35L13 73H-7V66H13L35 69H127.5L148.5 66Z"/>
+      <path d="M146.5 57H163V64H146.5L125.5 62H34.5L12.5 64H-7V57H12.5L34.5 60H125.5L146.5 57Z"/>
+      <path d="M147 48H163V55H147L126 53H35.5L13.5 55H-7V48H13.5L35.5 51H126L147 48Z"/>
+      <path d="M144.5 39H163V46H144.5L123.5 44H39.5L17.5 46H-7V39H17.5L39.5 42H123.5L144.5 39Z"/>
+      <path d="M142.5 30H163V37H142.5L121.5 35H40L18 37H-7V30H18L40 33H121.5L142.5 30Z"/>
+      <path d="M140 21H163V28H140L119 26H43L21 28H-7V21H21L43 24H119L140 21Z"/>
+      <path d="M139.5 12H163V19H139.5L118.5 17H43.5L21.5 19H-7V12H21.5L43.5 15H118.5L139.5 12Z"/>
+      <path d="M140 3H163V10H140L119 8H40L18 10H-7V3H18L40 6H119L140 3Z"/>
+      <path d="M115.5 -3H163V4H115.5L94.5 2H64L42 4H-7V-3H42L64 0H94.5L115.5 -3Z"/>
+    </g>
+    <path id="smBarrel" d="M122.85 -47.8496V95.4082L122.006 95.9551L106.938 105.721L89.3496 140.799L88.8379 141.819H85.0107L84.8994 167.008L84.8906 168.85H78.1094L78.1006 167.008L77.9912 141.937H74.1641L73.6514 140.919L56.0635 105.996L40.9971 96.2725L40.1504 95.7266V-47.8496H122.85Z"/>
+    <clipPath id="smCirc"><rect width="163" height="163" rx="81.5"/></clipPath>
+    <symbol id="smMark" viewBox="0 0 163 163">
+      <g clip-path="url(#smCirc)">
+        <rect width="163" height="163" rx="81.5" fill="#fff"/>
+        <use href="#smStripes" fill="#000"/>
+        <use href="#smBarrel" fill="#C10000" stroke="#000" stroke-width="3.7"/>
+      </g>
+    </symbol>
+    <g id="cropMarks" stroke="#000" stroke-width="0.0035" fill="none">
+      <path d="M0 0.375H0.25M4 0.375H4.25M0 2.375H0.25M4 2.375H4.25"/>
+      <path d="M0.375 0V0.25M3.875 0V0.25M0.375 2.5V2.75M3.875 2.5V2.75"/>
+    </g>
+  </defs>
+</svg>
+
+<nav class="site-nav">
+  <div class="site-nav__inner">
+    <a class="site-nav__brand" href="/">
+      <img src="assets/logo-security-molding-21spr2026.svg" alt="">
+      <span>Security <b>Molding</b></span>
+    </a>
+    <div class="site-nav__links">
+      <a href="#cards">Cards</a>
+      <a href="#details">Details</a>
+      <a href="#signatures">Signatures</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <header class="page-head">
+    <div class="container">
+      <div class="kicker">Internal · Identity</div>
+      <h1>Business cards &amp;<br>email signatures.</h1>
+      <p>Cards for Jeannie and Julian, plus matching email signatures. Edit the details below and the cards and signatures both update. Contact details are placeholders for now.</p>
+    </div>
+  </header>
+
+  <!-- ============ CARDS ============ -->
+  <section class="sec" id="cards">
+    <div class="container">
+      <div class="sec__label"><h2>Business cards</h2><span>3.5 × 2 in · US standard · front &amp; back</span></div>
+
+      <div class="person" data-person="jeannie">
+        <div class="person__head">
+          <h3><span data-k="jeannie.name"></span><small data-k="jeannie.title"></small></h3>
+          <div class="acts"><a class="btn btn--ghost" href="/?bio=jeannie" target="_blank" rel="noopener">QR → <span data-bio-url="jeannie"></span></a>
+          <button class="btn btn--ghost" type="button" data-print-person="jeannie">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="7"/></svg>
+            Print / save PDF
+          </button></div>
+        </div>
+        <div class="faces" data-faces="jeannie"></div>
+      </div>
+
+      <div class="person" data-person="julian">
+        <div class="person__head">
+          <h3><span data-k="julian.name"></span><small data-k="julian.title"></small></h3>
+          <div class="acts"><a class="btn btn--ghost" href="/?bio=julian" target="_blank" rel="noopener">QR → <span data-bio-url="julian"></span></a>
+          <button class="btn btn--ghost" type="button" data-print-person="julian">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="7"/></svg>
+            Print / save PDF
+          </button></div>
+        </div>
+        <div class="faces" data-faces="julian"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DETAILS ============ -->
+  <section class="sec" id="details">
+    <div class="container">
+      <div class="sec__label"><h2>Details</h2><span>Saved in this browser · updates cards + signatures live</span></div>
+      <div class="editor">
+        <div class="panel">
+          <h4>Jeannie</h4>
+          <label class="fld"><span>Name</span><input data-in="jeannie.name"></label>
+          <label class="fld"><span>Title</span><input data-in="jeannie.title" placeholder="e.g. President"></label>
+          <label class="fld"><span>Mobile</span><input data-in="jeannie.mobile" placeholder="(630) 555-0123" inputmode="tel"></label>
+          <label class="fld"><span>Email</span><input data-in="jeannie.email" type="email"></label>
+        </div>
+        <div class="panel">
+          <h4>Julian</h4>
+          <label class="fld"><span>Name</span><input data-in="julian.name"></label>
+          <label class="fld"><span>Title</span><input data-in="julian.title" placeholder="e.g. Production"></label>
+          <label class="fld"><span>Mobile</span><input data-in="julian.mobile" placeholder="(630) 555-0123" inputmode="tel"></label>
+          <label class="fld"><span>Email</span><input data-in="julian.email" type="email"></label>
+        </div>
+        <div class="panel">
+          <h4>Shared · the shop</h4>
+          <label class="fld"><span>Office phone</span><input data-in="shop.phone" placeholder="(630) 555-0100" inputmode="tel"></label>
+          <label class="fld"><span>Street</span><input data-in="shop.street"></label>
+          <label class="fld"><span>City, State ZIP</span><input data-in="shop.city"></label>
+          <label class="fld"><span>Website</span><input data-in="shop.web"></label>
+          <label class="fld"><span>QR shade <small style="font-weight:500;color:var(--sm-gray-60)">— lighter is subtler, darker scans easier</small></span>
+            <input data-in="shop.qr" type="color" style="height:44px;padding:4px;"></label>
+          <button class="btn btn--ghost" type="button" id="resetBtn">Reset to defaults</button>
+        </div>
+      </div>
+      <p class="note">Details are saved only in this browser. Once they're final, ask Claude to bake them into the page so everyone sees the same thing.</p>
+    </div>
+  </section>
+
+  <!-- ============ SIGNATURES ============ -->
+  <section class="sec" id="signatures">
+    <div class="container">
+      <div class="sec__label"><h2>Email signatures</h2><span>Table-based · works in Gmail, Outlook, Apple Mail</span></div>
+      <div class="sigs">
+        <div class="sig-card" data-sig-card="jeannie">
+          <div class="sig-card__bar"><i></i><i></i><i></i><span>New message — <b data-k="jeannie.email"></b></span></div>
+          <div class="sig-card__mail">
+            <div class="fake" style="width:72%"></div><div class="fake" style="width:88%"></div><div class="fake" style="width:46%"></div>
+            <div class="sig" data-sig="jeannie"></div>
+          </div>
+          <div class="sig-card__actions">
+            <button class="btn btn--primary" type="button" data-copy-sig="jeannie">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>
+              Copy signature
+            </button>
+            <button class="btn btn--ghost" type="button" data-copy-html="jeannie">Copy HTML</button>
+            <span class="ok" aria-live="polite"></span>
+          </div>
+        </div>
+        <div class="sig-card" data-sig-card="julian">
+          <div class="sig-card__bar"><i></i><i></i><i></i><span>New message — <b data-k="julian.email"></b></span></div>
+          <div class="sig-card__mail">
+            <div class="fake" style="width:64%"></div><div class="fake" style="width:92%"></div><div class="fake" style="width:38%"></div>
+            <div class="sig" data-sig="julian"></div>
+          </div>
+          <div class="sig-card__actions">
+            <button class="btn btn--primary" type="button" data-copy-sig="julian">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>
+              Copy signature
+            </button>
+            <button class="btn btn--ghost" type="button" data-copy-html="julian">Copy HTML</button>
+            <span class="ok" aria-live="polite"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="howto">
+        <div><b>Gmail</b>Click “Copy signature.” In Gmail, open Settings → See all settings → General → Signature, create a new one, paste, and save.</div>
+        <div><b>Apple Mail</b>Settings → Signatures → +, paste, then untick “Always match my default message font” so the styling stays.</div>
+        <div><b>Outlook</b>Settings → Mail → Compose and reply → Email signature, paste, and save. Use “Copy HTML” if your Outlook takes raw HTML.</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="container">
+    <div class="mono" style="font-size: 12px; letter-spacing: .08em; color: var(--sm-gray-60);">Security Molding · Internal · Business cards &amp; signatures</div>
+  </div>
+</footer>
+
+<template id="faceTpl">
+  <div class="face-wrap">
+   <div class="sheet">
+    <div class="card-face front">
+     <div class="trim">
+      <div class="front__in">
+       <div class="front__left">
+        <div class="front__brand">
+          <svg viewBox="0 0 163 163" aria-hidden="true"><use href="#smMark"/></svg>
+          <b>Security <em>Molding</em></b>
+        </div>
+        <div class="front__body">
+          <div class="front__who">
+            <div class="front__name" data-f="name"></div>
+            <div class="front__title" data-f="title"></div>
+          </div>
+          <div class="front__contact">
+            <div class="row" data-row="mobile"><span class="lbl">M</span><span data-f="mobile"></span></div>
+            <div class="row" data-row="phone"><span class="lbl">O</span><span data-f="phone"></span></div>
+            <div class="row" data-row="email"><span class="lbl">E</span><span data-f="email"></span></div>
+          </div>
+        </div>
+       </div>
+        <div class="front__qr" data-qr></div>
+      </div>
+      <div class="front__rule"></div>
+     </div>
+    </div>
+    <svg class="crops" viewBox="0 0 4.25 2.75" aria-hidden="true"><use href="#cropMarks"/></svg>
+    <div class="slug" data-slug="Front"></div>
+   </div>
+    <div class="face-cap">Front</div>
+  </div>
+  <div class="face-wrap">
+   <div class="sheet">
+    <div class="card-face back">
+     <div class="trim">
+      <!-- trim viewBox is -7 -3 290.5 166 (83 units/in); expanded by 0.125in bleed on every side -->
+      <svg class="field" viewBox="-17.375 -13.375 311.25 186.75" preserveAspectRatio="none" aria-hidden="true">
+        <!-- Stripe fade as a dark overlay, not a mask, and defined in this SVG: Chrome's PDF output
+             drops masks and cross-SVG gradients. id is made unique per card when cloned. -->
+        <defs><linearGradient id="fadeTpl" gradientUnits="userSpaceOnUse" x1="70" y1="0" x2="164" y2="0">
+          <stop offset="0" stop-color="#0A0A0A" stop-opacity="0"/><stop offset="1" stop-color="#0A0A0A"/>
+        </linearGradient></defs>
+        <rect x="-40" y="-40" width="380" height="270" fill="#0A0A0A"/>
+        <use href="#smStripes" fill="#262626"/>
+        <rect x="68" y="-40" width="110" height="270" fill="url(#fadeTpl)" data-fade/>
+        <use href="#smBarrel" fill="#C10000"/>
+      </svg>
+      <div class="back__in">
+        <div class="back__promise">We’ll take care <em>of it.</em></div>
+        <div class="back__tag">Small parts.<br>Straight answers.<br>Since 1972.</div>
+        <div class="back__url" data-f="web"></div>
+        <div class="back__addr"><div data-f="street"></div><div data-f="city"></div></div>
+      </div>
+     </div>
+    </div>
+    <svg class="crops" viewBox="0 0 4.25 2.75" aria-hidden="true"><use href="#cropMarks"/></svg>
+    <div class="slug" data-slug="Back"></div>
+   </div>
+    <div class="face-cap">Back</div>
+  </div>
+</template>
+
+<script>
+(function () {
+  var STORE = 'sm_cards_v2';
+  var DEFAULTS = {
+    jeannie: { name: 'Jeannie Ricke', title: 'President', mobile: '(630) 555-0142', email: 'jeannie@securitymolding.com' },
+    julian:  { name: 'Julian Ricke',  title: 'Customer Service', mobile: '(630) 555-0187', email: 'julian@securitymolding.com' },
+    shop:    { phone: '(630) 555-0100', street: '255 Factory Road', city: 'Addison, IL 60101', web: 'securitymolding.com', qr: '#DCDFE3' }
+  };
+  var PLACEHOLDER = { title: 'Title', mobile: 'Mobile', phone: 'Office phone', email: 'Email', name: 'Name', street: 'Street', city: 'City, ST ZIP', web: 'Website' };
+  var LOGO_PNG = 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_png,w_144/securitymolding/logo-light-src.png';
+
+  var data = JSON.parse(JSON.stringify(DEFAULTS));
+  try {
+    var saved = JSON.parse(localStorage.getItem(STORE) || 'null');
+    if (saved) Object.keys(data).forEach(function (g) { Object.assign(data[g], saved[g] || {}); });
+  } catch (e) {}
+  function save() { try { localStorage.setItem(STORE, JSON.stringify(data)); } catch (e) {} }
+
+  function get(path) { var p = path.split('.'); return (data[p[0]] || {})[p[1]] || ''; }
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function telHref(s) { return 'tel:+1' + String(s).replace(/\D/g, '').replace(/^1(?=\d{10}$)/, ''); }
+
+  // Build card faces from the template
+  var tpl = document.getElementById('faceTpl');
+  document.querySelectorAll('[data-faces]').forEach(function (el, i) {
+    el.appendChild(tpl.content.cloneNode(true));
+    var g = el.querySelector('#fadeTpl'); g.id = 'fade-' + i;
+    el.querySelector('[data-fade]').setAttribute('fill', 'url(#fade-' + i + ')');
+  });
+
+  function fill(el, val, key) {
+    if (val) { el.textContent = val; el.removeAttribute('data-empty'); }
+    else { el.textContent = ''; el.setAttribute('data-empty', ''); }
+  }
+
+  function personValues(who) {
+    var p = data[who], s = data.shop;
+    return { name: p.name, title: p.title, mobile: p.mobile, email: p.email, phone: s.phone, street: s.street, city: s.city, web: s.web };
+  }
+
+  function signature(who) {
+    var v = personValues(who);
+    var F = "font-family:Helvetica,Arial,sans-serif;";
+    var link = 'color:#2A2E35;text-decoration:none;';
+    var lines = [];
+    var phones = [];
+    if (v.mobile) phones.push('<span style="color:#C10000;font-weight:bold;">M</span>&nbsp;<a href="' + telHref(v.mobile) + '" style="' + link + '">' + esc(v.mobile) + '</a>');
+    if (v.phone) phones.push('<span style="color:#C10000;font-weight:bold;">O</span>&nbsp;<a href="' + telHref(v.phone) + '" style="' + link + '">' + esc(v.phone) + '</a>');
+    if (phones.length) lines.push(phones.join('&nbsp;&nbsp;&nbsp;'));
+    var web = [];
+    if (v.email) web.push('<a href="mailto:' + esc(v.email) + '" style="' + link + '">' + esc(v.email) + '</a>');
+    if (v.web) web.push('<a href="https://' + esc(v.web.replace(/^https?:\/\//, '')) + '" style="color:#C10000;text-decoration:none;font-weight:bold;">' + esc(v.web.replace(/^https?:\/\//, '')) + '</a>');
+    if (web.length) lines.push(web.join('&nbsp;&nbsp;&middot;&nbsp;&nbsp;'));
+    var addr = [v.street, v.city].filter(Boolean).map(esc).join(', ');
+    if (addr) lines.push('<span style="color:#6B7280;">' + addr + '</span>');
+
+    return '<table cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;' + F + '">'
+      + '<tr>'
+      + '<td valign="top" style="padding:2px 16px 0 0;"><img src="' + LOGO_PNG + '" width="72" height="72" alt="Security Molding" style="display:block;width:72px;height:72px;border:0;"></td>'
+      + '<td valign="top" style="border-left:3px solid #C10000;padding:0 0 0 16px;' + F + '">'
+      + '<div style="font-size:16px;line-height:20px;font-weight:bold;color:#0A0A0A;letter-spacing:-0.2px;">' + esc(v.name) + '</div>'
+      + (v.title ? '<div style="font-size:11px;line-height:16px;font-weight:bold;color:#C10000;letter-spacing:1.4px;text-transform:uppercase;padding-top:2px;">' + esc(v.title) + '</div>' : '')
+      + '<div style="font-size:13px;line-height:20px;color:#2A2E35;padding-top:8px;">' + lines.join('<br>') + '</div>'
+      + '<div style="font-size:10px;line-height:14px;color:#6B7280;letter-spacing:1.4px;text-transform:uppercase;padding-top:8px;">'
+      + '<b style="color:#0A0A0A;">Security Molding</b><br>Small parts. Straight answers. Since 1972.</div>'
+      + '</td></tr></table>';
+  }
+
+  // Circles-only QR. Finder patterns become a ring + centre pellet (keeps the 1:1:3:1:1 ratio scanners look for).
+  function qrSvg(text) {
+    if (!window.qrcode) return '';
+    var q = qrcode(0, 'M'); q.addData(text); q.make();
+    var n = q.getModuleCount(), out = [];
+    var finders = [[0, 0], [n - 7, 0], [0, n - 7]];
+    function inFinder(r, c) { return finders.some(function (f) { return r >= f[1] && r < f[1] + 7 && c >= f[0] && c < f[0] + 7; }); }
+    for (var r = 0; r < n; r++) for (var c = 0; c < n; c++) {
+      if (q.isDark(r, c) && !inFinder(r, c)) out.push('<circle cx="' + (c + .5) + '" cy="' + (r + .5) + '" r=".43"/>');
+    }
+    finders.forEach(function (f) {
+      out.push('<circle cx="' + (f[0] + 3.5) + '" cy="' + (f[1] + 3.5) + '" r="3" fill="none" stroke="currentColor" stroke-width="1"/>');
+      out.push('<circle cx="' + (f[0] + 3.5) + '" cy="' + (f[1] + 3.5) + '" r="1.5"/>');
+    });
+    return '<svg viewBox="0 0 ' + n + ' ' + n + '" fill="currentColor" role="img" aria-label="QR code: ' + esc(text) + '">' + out.join('') + '</svg>';
+  }
+  function bioUrl(who) { return 'https://' + (data.shop.web || 'securitymolding.com').replace(/^https?:\/\//, '').replace(/\/$/, '') + '/' + who; }
+
+  function render() {
+    document.documentElement.style.setProperty('--qr', data.shop.qr || DEFAULTS.shop.qr);
+    document.querySelectorAll('[data-k]').forEach(function (el) {
+      var k = el.getAttribute('data-k');
+      var v = get(k);
+      if (el.tagName === 'SMALL') { el.textContent = v; return; }
+      el.textContent = v || PLACEHOLDER[k.split('.')[1]];
+    });
+    ['jeannie', 'julian'].forEach(function (who) {
+      var v = personValues(who);
+      var root = document.querySelector('[data-faces="' + who + '"]');
+      root.querySelectorAll('[data-f]').forEach(function (el) { var key = el.getAttribute('data-f'); fill(el, v[key], key); });
+      // Stack first / last name on the card for a consistent two-line lockup
+      var nm = root.querySelector('[data-f="name"]');
+      if (v.name && v.name.indexOf(' ') > 0) {
+        var i = v.name.indexOf(' ');
+        nm.innerHTML = esc(v.name.slice(0, i)) + '<br>' + esc(v.name.slice(i + 1));
+      }
+      root.querySelectorAll('[data-row]').forEach(function (row) { row.toggleAttribute('data-hide', !v[row.getAttribute('data-row')]); });
+      root.querySelectorAll('[data-slug]').forEach(function (el) {
+        el.textContent = 'Security Molding · ' + (v.name || '') + ' · ' + el.getAttribute('data-slug') + ' · Trim 3.5 × 2 in · Bleed 0.125 in · Qty ____';
+      });
+      document.querySelector('[data-sig="' + who + '"]').innerHTML = signature(who);
+      var url = bioUrl(who), qel = root.querySelector('[data-qr]');
+      if (qel.getAttribute('data-url') !== url) { qel.innerHTML = qrSvg(url); qel.setAttribute('data-url', url); }
+      var lk = document.querySelector('[data-bio-url="' + who + '"]'); if (lk) lk.textContent = url.replace(/^https:\/\//, '');
+    });
+  }
+
+  // Editor wiring
+  document.querySelectorAll('[data-in]').forEach(function (inp) {
+    var p = inp.getAttribute('data-in').split('.');
+    inp.value = data[p[0]][p[1]] || '';
+    inp.addEventListener('input', function () { data[p[0]][p[1]] = inp.value.trim(); save(); render(); });
+  });
+  document.getElementById('resetBtn').addEventListener('click', function () {
+    data = JSON.parse(JSON.stringify(DEFAULTS));
+    try { localStorage.removeItem(STORE); } catch (e) {}
+    document.querySelectorAll('[data-in]').forEach(function (inp) { var p = inp.getAttribute('data-in').split('.'); inp.value = data[p[0]][p[1]] || ''; });
+    render();
+  });
+
+  // Print one person's cards
+  document.querySelectorAll('[data-print-person]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.body.setAttribute('data-print', b.getAttribute('data-print-person'));
+      markBreaks();
+      window.print();
+    });
+  });
+  function markBreaks() {
+    var who = document.body.getAttribute('data-print');
+    var wraps = Array.prototype.filter.call(document.querySelectorAll('#cards .face-wrap'), function (w) {
+      return !who || w.closest('.person').getAttribute('data-person') === who;
+    });
+    document.querySelectorAll('#cards .face-wrap').forEach(function (w) { w.classList.remove('pb'); });
+    wraps.slice(0, -1).forEach(function (w) { w.classList.add('pb'); });
+  }
+  window.addEventListener('beforeprint', markBreaks);
+  window.addEventListener('afterprint', function () { document.body.removeAttribute('data-print'); });
+
+  // Copy signature (rich) / HTML (source)
+  function flash(btn, msg) {
+    var ok = btn.parentNode.querySelector('.ok'); ok.textContent = msg;
+    clearTimeout(ok._t); ok._t = setTimeout(function () { ok.textContent = ''; }, 2400);
+  }
+  function copyRich(html, node) {
+    if (navigator.clipboard && window.ClipboardItem) {
+      var plain = node.innerText;
+      return navigator.clipboard.write([new ClipboardItem({
+        'text/html': new Blob([html], { type: 'text/html' }),
+        'text/plain': new Blob([plain], { type: 'text/plain' })
+      })]);
+    }
+    var r = document.createRange(); r.selectNodeContents(node);
+    var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+    var ok = document.execCommand('copy'); sel.removeAllRanges();
+    return ok ? Promise.resolve() : Promise.reject();
+  }
+  document.querySelectorAll('[data-copy-sig]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var who = b.getAttribute('data-copy-sig');
+      copyRich(signature(who), document.querySelector('[data-sig="' + who + '"]'))
+        .then(function () { flash(b, 'Copied — paste into your mail settings'); }, function () { flash(b, 'Copy failed — select the signature and copy'); });
+    });
+  });
+  document.querySelectorAll('[data-copy-html]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var html = signature(b.getAttribute('data-copy-html'));
+      (navigator.clipboard ? navigator.clipboard.writeText(html) : Promise.reject())
+        .then(function () { flash(b, 'HTML copied'); }, function () { flash(b, 'Copy failed'); });
+    });
+  });
+
+  render();
+})();
+</script>
+<script src="js/admin.js" defer></script>
+</body>
+</html>

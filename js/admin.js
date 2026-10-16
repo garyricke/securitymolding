@@ -36,6 +36,12 @@
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>'
     },
     {
+      href: 'cards',
+      label: 'Cards &amp; Signatures',
+      desc: 'Business cards + email signatures for Jeannie &amp; Julian',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8" cy="11" r="2"/><path d="M5 16c.5-1.5 1.7-2.2 3-2.2s2.5.7 3 2.2M14 10h4M14 14h3"/></svg>'
+    },
+    {
       href: 'gallery.html',
       label: 'Retouch Gallery',
       desc: 'Shop photos — source vs Gemini vs OpenAI',
