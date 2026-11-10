@@ -16,9 +16,8 @@
       quote: 'We’ll take care of it.',
       quoteBy: 'The sign on our shop wall',
       bio: [
-        'Jeannie runs Security Molding day to day — the shop her father started in 1972 with one press and one rule: never gouge the customer, always be fair. That rule still sets every price we quote.',
-        'She’s the reason the phone gets answered. When a line is down or a shipment is short, Jeannie is usually the one who already knows which partials are on the shelf and how fast we can run the rest.',
-        'Placeholder — replace with Jeannie’s own story: how she came into the business, what she’s proudest of, and what customers call her about.'
+        'My dad founded the business in 1972 and has built his and the company’s reputation on quality products, fair pricing and always living by the adage… “We’ll take care of it.” Having inherited these core values, I am honored to pass them down to my nephew today.',
+        'For nearly thirty years, I have considered myself fortunate to genuinely love what I do, finding energy and fulfillment in the diverse challenges of each business day.'
       ],
       facts: [['Role', 'President'], ['With the shop', 'Since 19__'], ['Call me about', 'Quotes, pricing, lead times, emergencies']]
     },
