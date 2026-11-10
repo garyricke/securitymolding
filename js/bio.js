@@ -6,15 +6,15 @@
    Include with: <script src="js/bio.js" defer></script>
    ============================================================ */
 (function () {
-  var SHOP = { phone: '(630) 555-0100', street: '255 Factory Road', city: 'Addison', state: 'IL', zip: '60101', web: 'securitymolding.com' };
+  var SHOP = { phone: '(630) 543-8607', street: '255 Factory Road', city: 'Addison', state: 'IL', zip: '60101', web: 'securitymolding.com' };
 
-  // PLACEHOLDER content — contact numbers are fictional 555 numbers; bios to be replaced with their own words.
+  // Phone numbers are the shop main line until Jeannie and Julian send cell numbers. Julian's bio is still a placeholder.
   var PEOPLE = {
     jeannie: {
       first: 'Jeannie', last: 'Ricke', title: 'President',
-      mobile: '(630) 555-0142', email: 'jeannie@securitymolding.com',
+      mobile: '(630) 543-8607', email: 'jeannie@securitymolding.com',
       quote: 'We’ll take care of it.',
-      quoteBy: 'The sign on our shop wall',
+      quoteBy: 'My dad’s adage',
       bio: [
         'My dad founded the business in 1972 and has built his and the company’s reputation on quality products, fair pricing and always living by the adage… “We’ll take care of it.” Having inherited these core values, I am honored to pass them down to my nephew today.',
         'For nearly thirty years, I have considered myself fortunate to genuinely love what I do, finding energy and fulfillment in the diverse challenges of each business day.'
@@ -23,7 +23,7 @@
     },
     julian: {
       first: 'Julian', last: 'Ricke', title: 'Customer Service',
-      mobile: '(630) 555-0187', email: 'julian@securitymolding.com',
+      mobile: '(630) 543-8607', email: 'julian@securitymolding.com',
       quote: 'He doesn’t act like the owner’s grandson.',
       quoteBy: 'One of the crew',
       bio: [
@@ -109,7 +109,7 @@
       + '<div class="pic"><div class="mono" aria-hidden="true">' + esc(p.first[0] + p.last[0]) + '<small>Portrait coming soon</small></div>'
       + '<q>' + esc(p.quote) + '</q><cite>— ' + esc(p.quoteBy) + '</cite></div>'
       + '<div class="txt">'
-      + '<div class="kick"><b>Security Molding</b><span>Meet the team</span><span class="draft">Placeholder bio</span></div>'
+      + '<div class="kick"><b>Security Molding</b><span>Meet the team</span>' + (p.bio.some(function (t) { return /^Placeholder/.test(t); }) ? '<span class="draft">Placeholder bio</span>' : '') + '</div>'
       + '<h2 id="smbio-name">' + esc(p.first) + '<br>' + esc(p.last) + '</h2>'
       + '<div class="ttl">' + esc(p.title) + '</div>'
       + '<div class="story">' + paras + '</div>'
