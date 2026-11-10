@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Photo Library · Security Molding (Internal)</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="assets/logo-security-molding-21spr2026.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/brand.css">
+<script src="js/site-gate.js"></script>
+<style>
+  .st-bar { display:flex; align-items:center; gap:var(--s-4); padding:var(--s-5) var(--s-6); border-bottom:1px solid var(--sm-rule);
+    position:sticky; top:0; background:rgba(255,255,255,.94); backdrop-filter:blur(10px); z-index:30; }
+  .st-bar img { width:40px; height:40px; }
+  .st-bar .mono { font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--sm-muted); }
+  .st-bar h1 { font-size:20px; margin:0; }
+  .wrap { max-width:1240px; margin:0 auto; padding:var(--s-7) var(--s-6) 140px; }
+  .lead { font-size:18px; color:var(--sm-gray-80); max-width:68ch; }
+  .howto { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--s-4); margin:var(--s-6) 0 0; }
+  .howto div { border:1px solid var(--sm-rule); border-radius:var(--r-sm); padding:var(--s-4) var(--s-5); background:#fff; }
+  .howto b { display:block; font-family:var(--f-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--sm-red); margin-bottom:6px; }
+  .howto p { margin:0; font-size:15px; color:var(--sm-gray-80); }
+  .note { margin-top:var(--s-8); border-left:4px solid var(--sm-red); background:var(--sm-gray-05); padding:var(--s-6) var(--s-6); border-radius:0 var(--r-sm) var(--r-sm) 0; }
+  .note h2 { margin:0 0 var(--s-3); font-size:24px; }
+  .note ul { margin:var(--s-2) 0 var(--s-4); padding-left:20px; }
+  .note li { margin:0 0 6px; }
+  .note h3 { font-size:15px; margin:var(--s-4) 0 4px; font-family:var(--f-mono); letter-spacing:.1em; text-transform:uppercase; }
+  .ba-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:var(--s-6); margin-top:var(--s-5); }
+  .ba { margin:0; }
+  .ba__stage { position:relative; overflow:hidden; border-radius:var(--r-sm); border:1px solid var(--sm-rule); background:#eee; --pos:50%; }
+  .ba__stage img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; }
+  .ba__before { position:absolute; inset:0; clip-path:inset(0 calc(100% - var(--pos)) 0 0); }
+  .ba__line { position:absolute; top:0; bottom:0; left:var(--pos); width:2px; margin-left:-1px; background:#fff; box-shadow:0 0 0 1px rgba(0,0,0,.25); pointer-events:none; }
+  .ba__line::after { content:''; position:absolute; top:50%; left:50%; width:30px; height:30px; margin:-15px 0 0 -15px; border-radius:50%; background:#fff; box-shadow:0 1px 4px rgba(0,0,0,.35); }
+  .ba__range { position:absolute; inset:0; width:100%; height:100%; opacity:0; cursor:ew-resize; margin:0; }
+  .ba__tag { position:absolute; top:10px; font-family:var(--f-mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; font-weight:700; padding:3px 8px; border-radius:999px; pointer-events:none; }
+  .ba__tag--b { left:10px; background:rgba(10,10,10,.75); color:#fff; }
+  .ba__tag--a { right:10px; background:var(--sm-red); color:#fff; }
+  .ba figcaption { font-size:14px; color:var(--sm-gray-80); margin-top:8px; }
+  .jump { display:flex; flex-wrap:wrap; gap:8px; margin:var(--s-8) 0 var(--s-2); position:sticky; top:74px; z-index:20; background:rgba(255,255,255,.94); backdrop-filter:blur(8px); padding:var(--s-3) 0; border-bottom:1px solid var(--sm-rule); }
+  .jump a { font-size:13px; text-decoration:none; color:var(--sm-ink); border:1px solid var(--sm-rule); border-radius:999px; padding:5px 12px; background:#fff; }
+  .jump a:hover { border-color:var(--sm-red); color:var(--sm-red); }
+  .jump span { color:var(--sm-muted); font-family:var(--f-mono); font-size:11px; }
+  .grp { padding-top:var(--s-7); scroll-margin-top:130px; }
+  .grp h2 { font-size:26px; margin:0; }
+  .grp > p { color:var(--sm-muted); margin:4px 0 var(--s-4); }
+  .pgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:var(--s-4); }
+  .ph { margin:0; position:relative; border:2px solid transparent; border-radius:var(--r-sm); transition:border-color .15s; }
+  .ph.sel { border-color:var(--sm-red); }
+  .ph__img { display:block; width:100%; aspect-ratio:4/3; object-fit:cover; border-radius:6px; background:#eee; cursor:zoom-in; }
+  .ph__bar { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:6px 2px 2px; }
+  .ph__id { font-family:var(--f-mono); font-weight:700; font-size:13px; }
+  .ph__pick { display:inline-flex; align-items:center; gap:5px; font:inherit; font-size:12px; font-weight:600; border:1px solid var(--sm-rule); background:#fff; border-radius:999px; padding:4px 10px; cursor:pointer; color:var(--sm-ink); }
+  .ph__pick svg { width:14px; height:14px; }
+  .ph.sel .ph__pick { background:var(--sm-red); border-color:var(--sm-red); color:#fff; }
+  .ph__badge { position:absolute; top:8px; left:8px; font-family:var(--f-mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; font-weight:700; background:#0A0A0A; color:#fff; padding:3px 8px; border-radius:999px; }
+  .tray { position:fixed; left:50%; bottom:20px; transform:translateX(-50%) translateY(140%); transition:transform .25s ease; z-index:40; display:flex; align-items:center; gap:12px;
+    background:#0A0A0A; color:#fff; border-radius:999px; padding:10px 12px 10px 20px; box-shadow:0 10px 30px rgba(0,0,0,.3); max-width:calc(100% - 24px); }
+  .tray.on { transform:translateX(-50%) translateY(0); }
+  .tray__list { font-family:var(--f-mono); font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:46vw; color:#d1d5db; }
+  .tray button { font:inherit; font-size:13px; font-weight:700; border:0; border-radius:999px; padding:8px 14px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; }
+  .tray button svg { width:16px; height:16px; }
+  .tray .t-copy { background:var(--sm-red); color:#fff; }
+  .tray .t-clear { background:transparent; color:#fff; border:1px solid rgba(255,255,255,.3); }
+  dialog.lb { border:0; padding:0; background:transparent; max-width:96vw; max-height:94vh; }
+  dialog.lb::backdrop { background:rgba(10,10,10,.88); }
+  dialog.lb img { display:block; max-width:96vw; max-height:84vh; border-radius:8px; }
+  .lb__bar { display:flex; justify-content:space-between; align-items:center; gap:12px; color:#fff; padding:10px 2px 0; font-family:var(--f-mono); font-size:13px; }
+  .lb__bar a, .lb__bar button { color:#fff; font:inherit; background:transparent; border:1px solid rgba(255,255,255,.35); border-radius:999px; padding:5px 12px; cursor:pointer; text-decoration:none; display:inline-flex; align-items:center; gap:6px; }
+  .lb__bar svg { width:16px; height:16px; }
+  @media (max-width:820px) { .howto, .ba-grid { grid-template-columns:1fr; } .jump { top:66px; } }
+</style>
+</head>
+<body>
+<!-- PER-PAGE PASSWORD GATE — shares the securitymolding_auth session with the admin badge. -->
+<style>
+  #pw-gate{position:fixed;inset:0;z-index:9999;background:#0A0A0A;display:flex;align-items:center;justify-content:center;font-family:'Inter',system-ui,sans-serif;}
+  #pw-gate::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(193,0,0,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(193,0,0,.06) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;}
+  #pw-box{position:relative;background:rgba(255,255,255,.04);border:1px solid color-mix(in srgb,#C10000 25%,transparent);border-radius:16px;padding:48px 40px;text-align:center;width:min(400px,90vw);box-shadow:0 24px 80px rgba(0,0,0,.5);}
+  #pw-box img{height:52px;margin-bottom:24px;display:block;margin-inline:auto;}
+  #pw-box h2{font-weight:800;font-size:1.7rem;color:#fff;letter-spacing:-0.01em;margin:0 0 8px;}
+  #pw-box .sub{font-size:.85rem;color:rgba(236,236,236,.55);margin:0 0 28px;letter-spacing:.02em;}
+  #pw-input{width:100%;padding:12px 16px;background:rgba(0,0,0,.4);border:1px solid color-mix(in srgb,#C10000 30%,transparent);border-radius:8px;color:#fff;font-size:.95rem;font-family:inherit;outline:none;transition:border-color .2s;}
+  #pw-input:focus{border-color:#C10000;}
+  #pw-btn{margin-top:14px;width:100%;padding:12px;background:#C10000;color:#fff;border:0;border-radius:8px;font-weight:700;font-size:1rem;letter-spacing:.02em;cursor:pointer;transition:background .2s;}
+  #pw-btn:hover{background:#ff5a5a;}
+  #pw-error{font-size:.8rem;color:#ff7a7a;margin:12px 0 0;min-height:1.2em;}
+  .pw-shake{animation:pwShake .35s;}
+  @keyframes pwShake{0%,100%{transform:translateX(0);}25%{transform:translateX(-8px);}75%{transform:translateX(8px);}}
+  @media (prefers-reduced-motion: reduce){ .pw-shake{animation:none;} }
+</style>
+<div id="pw-gate">
+  <div id="pw-box">
+    <img src="assets/logo-security-molding-21spr2026-onblack.svg" alt="Security Molding" onerror="this.style.display='none'">
+    <h2>Internal Document</h2>
+    <p class="sub">This page is password protected.</p>
+    <input id="pw-input" type="password" placeholder="Enter password" autocomplete="current-password">
+    <button id="pw-btn">Enter</button>
+    <p id="pw-error"></p>
+  </div>
+</div>
+<script>
+(function(){
+  var KEY='securitymolding_auth',PASS='oneword',gate=document.getElementById('pw-gate');
+  if(sessionStorage.getItem(KEY)==='1'){gate.style.display='none';return;}
+  document.body.style.overflow='hidden';
+  function attempt(){
+    if(document.getElementById('pw-input').value===PASS){
+      sessionStorage.setItem(KEY,'1');document.body.style.overflow='';gate.style.display='none';
+    } else {
+      document.getElementById('pw-error').textContent='Incorrect password. Try again.';
+      var box=document.getElementById('pw-box');box.classList.remove('pw-shake');void box.offsetWidth;box.classList.add('pw-shake');
+    }
+  }
+  document.getElementById('pw-btn').addEventListener('click',attempt);
+  document.getElementById('pw-input').addEventListener('keydown',function(e){if(e.key==='Enter')attempt();});
+  document.getElementById('pw-input').focus();
+})();
+</script>
+
+<!-- ============ TOP BAR ============ -->
+<div class="st-bar">
+  <img src="assets/logo-security-molding-21spr2026.svg" alt="Security Molding">
+  <div>
+    <div class="mono">Internal · shop photos</div>
+    <h1>Photo Library</h1>
+  </div>
+</div>
+
+<div class="wrap">
+  <p class="lead">Every photo Gary took at the shop: 109 in all, exactly as shot. Browse them, pick the ones you’d like on the website, and send Gary the list. Any of them can be cleaned up first.</p>
+
+  <div class="howto">
+    <div><b>1 · Look</b><p>Click any photo to see it full size.</p></div>
+    <div><b>2 · Pick</b><p>Tap <em>Pick</em> on the ones you like. Your picks collect in the bar at the bottom.</p></div>
+    <div><b>3 · Send</b><p>Hit <em>Copy list</em>, paste it into an email to Gary, and say where each one should go.</p></div>
+  </div>
+
+  <section class="note" id="cleanup">
+    <h2>About cleaning up photos</h2>
+    <p>A real shop is busy, so most of these photos benefit from a cleanup before they go on the site. We use an AI photo editor to make the shop look the way it does on a good day, and every result is checked by hand.</p>
+    <h3>What we can do</h3>
+    <ul>
+      <li>Brighten and even out dim or mixed lighting</li>
+      <li>Remove clutter: trash, stray chairs, carts, cords, parked vehicles</li>
+      <li>Square up boxes, tidy benches, clean floors and walls</li>
+      <li>Straighten, crop and color-correct</li>
+    </ul>
+    <h3>What stays real</h3>
+    <ul>
+      <li>Your parts. We never change what a part looks like, its shape or its color.</li>
+      <li>Your machines, molds and the layout of the shop</li>
+      <li>Your people, exactly as they are. Anyone who appears on the site should be OK with it, so please check with them first.</li>
+    </ul>
+    <h3>Good to know</h3>
+    <ul>
+      <li>The editor sometimes invents small details, like an extra box or made-up writing on a label. Gary compares every cleanup with the original and redoes or drops any that don’t look right.</li>
+      <li>Close-ups of a part in someone’s hand, sharp and in good light, clean up best. Wide shots of busy areas change the most.</li>
+      <li>Nothing cleaned up goes on the site until you’ve seen it next to the original.</li>
+    </ul>
+    <p style="margin:0;"><b>To request one:</b> send the photo number and what it’s for, for example “7590 for Capabilities.” Gary will send back a before and after.</p>
+  </section>
+
+  <section style="margin-top:var(--s-8);">
+    <p class="eyebrow">Before &amp; after</p>
+    <h2 style="margin:0;">What a cleanup looks like</h2>
+    <p class="text-muted" style="margin:6px 0 0;">Drag across each photo to compare the original with the cleaned-up version.</p>
+    <div class="ba-grid">
+      <figure class="ba">
+        <div class="ba__stage" style="aspect-ratio:3/2;">
+          <img class="ba__after" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_3:2,w_1200/securitymolding/assemblies/IMG_7534_openai" alt="IMG_7534 after cleanup" loading="lazy">
+          <div class="ba__before"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_3:2,w_1200/securitymolding/raw/IMG_7534" alt="IMG_7534 as shot" loading="lazy"></div>
+          <span class="ba__tag ba__tag--b">Before</span><span class="ba__tag ba__tag--a">After</span>
+          <div class="ba__line" aria-hidden="true"></div>
+          <input class="ba__range" type="range" min="0" max="100" value="50" aria-label="Drag to compare IMG_7534 before and after">
+        </div>
+        <figcaption><b>7534</b> · Rivet bench: truck, chair and clutter removed, lighting brightened</figcaption>
+      </figure>
+      <figure class="ba">
+        <div class="ba__stage" style="aspect-ratio:3/2;">
+          <img class="ba__after" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_3:2,w_1200/securitymolding/assemblies/IMG_7542_openai" alt="IMG_7542 after cleanup" loading="lazy">
+          <div class="ba__before"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_3:2,w_1200/securitymolding/raw/IMG_7542" alt="IMG_7542 as shot" loading="lazy"></div>
+          <span class="ba__tag ba__tag--b">Before</span><span class="ba__tag ba__tag--a">After</span>
+          <div class="ba__line" aria-hidden="true"></div>
+          <input class="ba__range" type="range" min="0" max="100" value="50" aria-label="Drag to compare IMG_7542 before and after">
+        </div>
+        <figcaption><b>7542</b> · Rivet machine close-up: background tidied and brightened</figcaption>
+      </figure>
+      <figure class="ba">
+        <div class="ba__stage" style="aspect-ratio:4/3;">
+          <img class="ba__after" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:3,w_1200/securitymolding/retouch-gallery/IMG_7502__gemini" alt="IMG_7502 after cleanup" loading="lazy">
+          <div class="ba__before"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:3,w_1200/securitymolding/retouch-gallery/IMG_7502__src" alt="IMG_7502 as shot" loading="lazy"></div>
+          <span class="ba__tag ba__tag--b">Before</span><span class="ba__tag ba__tag--a">After</span>
+          <div class="ba__line" aria-hidden="true"></div>
+          <input class="ba__range" type="range" min="0" max="100" value="50" aria-label="Drag to compare IMG_7502 before and after">
+        </div>
+        <figcaption><b>7502</b> · Press line: brighter lighting, cleaner floor and walls</figcaption>
+      </figure>
+      <figure class="ba">
+        <div class="ba__stage" style="aspect-ratio:4/3;">
+          <img class="ba__after" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:3,w_1200/securitymolding/retouch-gallery/IMG_7562__gemini" alt="IMG_7562 after cleanup" loading="lazy">
+          <div class="ba__before"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:3,w_1200/securitymolding/retouch-gallery/IMG_7562__src" alt="IMG_7562 as shot" loading="lazy"></div>
+          <span class="ba__tag ba__tag--b">Before</span><span class="ba__tag ba__tag--a">After</span>
+          <div class="ba__line" aria-hidden="true"></div>
+          <input class="ba__range" type="range" min="0" max="100" value="50" aria-label="Drag to compare IMG_7562 before and after">
+        </div>
+        <figcaption><b>7562</b> · Separating station: ceiling, walls and floor brightened; person and parts unchanged</figcaption>
+      </figure>
+      <figure class="ba">
+        <div class="ba__stage" style="aspect-ratio:4/3;">
+          <img class="ba__after" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:3,w_1200/securitymolding/retouch-gallery/IMG_7496__gemini" alt="IMG_7496 after cleanup" loading="lazy">
+          <div class="ba__before"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:3,w_1200/securitymolding/retouch-gallery/IMG_7496__src" alt="IMG_7496 as shot" loading="lazy"></div>
+          <span class="ba__tag ba__tag--b">Before</span><span class="ba__tag ba__tag--a">After</span>
+          <div class="ba__line" aria-hidden="true"></div>
+          <input class="ba__range" type="range" min="0" max="100" value="50" aria-label="Drag to compare IMG_7496 before and after">
+        </div>
+        <figcaption><b>7496</b> · Warehouse racks: brighter and cleaner</figcaption>
+      </figure>
+      <figure class="ba">
+        <div class="ba__stage" style="aspect-ratio:4/3;">
+          <img class="ba__after" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:3,w_1200/securitymolding/retouch-gallery/IMG_7589__gemini" alt="IMG_7589 after cleanup" loading="lazy">
+          <div class="ba__before"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:3,w_1200/securitymolding/retouch-gallery/IMG_7589__src" alt="IMG_7589 as shot" loading="lazy"></div>
+          <span class="ba__tag ba__tag--b">Before</span><span class="ba__tag ba__tag--a">After</span>
+          <div class="ba__line" aria-hidden="true"></div>
+          <input class="ba__range" type="range" min="0" max="100" value="50" aria-label="Drag to compare IMG_7589 before and after">
+        </div>
+        <figcaption><b>7589</b> · Arburg #4: brighter, cleaner, colors evened out</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <nav class="jump" aria-label="Photo groups"><a href="#assembly">Assembly &amp; the rivet bench <span>15</span></a><a href="#molding">Molding floor &amp; presses <span>27</span></a><a href="#separating">Separating &amp; finishing parts <span>17</span></a><a href="#parts">Parts close-up <span>8</span></a><a href="#tooling">Tooling &amp; mold shop <span>16</span></a><a href="#warehouse">Warehouse &amp; stock <span>8</span></a><a href="#board">Scheduling board &amp; paperwork <span>18</span></a></nav>
+  <div id="groups"></div>
+</div>
+
+<div class="tray" id="tray" role="region" aria-label="Your picks" aria-live="polite">
+  <span><b id="tray-n">0</b> picked</span>
+  <span class="tray__list" id="tray-list"></span>
+  <button type="button" class="t-copy" id="tray-copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy list</span></button>
+  <button type="button" class="t-clear" id="tray-clear">Clear</button>
+</div>
+
+<dialog class="lb" id="lb">
+  <img id="lb-img" alt="">
+  <div class="lb__bar">
+    <span id="lb-id"></span>
+    <span style="display:flex; gap:8px;">
+      <button type="button" id="lb-pick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>Pick</span></button>
+      <a id="lb-full" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>Full size</a>
+      <button type="button" id="lb-close" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </span>
+  </div>
+</dialog>
+
+<script>
+(function () {
+  var CL = 'https://res.cloudinary.com/dsbllwpbh/image/upload/';
+  var GROUPS = [{"k": "assembly", "t": "Assembly &amp; the rivet bench", "d": "Handles riveted, checked and boxed in-house.", "ids": ["IMG_7531", "IMG_7532", "IMG_7533", "IMG_7534", "IMG_7542", "IMG_7543", "IMG_E7535", "IMG_E7536", "IMG_E7537", "IMG_E7538", "IMG_E7539", "IMG_E7540", "IMG_E7541", "IMG_E7544", "IMG_E7545"]}, {"k": "molding", "t": "Molding floor &amp; presses", "d": "The Arburgs and the rest of the press line, plus material handling.", "ids": ["IMG_7502", "IMG_7503", "IMG_7504", "IMG_7505", "IMG_7506", "IMG_7507", "IMG_7508", "IMG_7509", "IMG_7510", "IMG_7511", "IMG_7512", "IMG_7513", "IMG_7514", "IMG_7515", "IMG_7516", "IMG_7517", "IMG_7518", "IMG_7519", "IMG_7520", "IMG_7521", "IMG_7522", "IMG_7525", "IMG_7528", "IMG_7588", "IMG_7589", "IMG_7590", "IMG_7591"]}, {"k": "separating", "t": "Separating &amp; finishing parts", "d": "Parts cut from their runners and sorted by hand.", "ids": ["IMG_7559", "IMG_7560", "IMG_7561", "IMG_7562", "IMG_7569", "IMG_7570", "IMG_7571", "IMG_7572", "IMG_7573", "IMG_7574", "IMG_7575", "IMG_7576", "IMG_7577", "IMG_7578", "IMG_7579", "IMG_E7557", "IMG_E7558"]}, {"k": "parts", "t": "Parts close-up", "d": "Finished parts, the parts display board, and boxes ready to ship.", "ids": ["IMG_7529", "IMG_7548", "IMG_7549", "IMG_7593", "IMG_7594", "IMG_7595", "IMG_E7546", "IMG_E7547"]}, {"k": "tooling", "t": "Tooling &amp; mold shop", "d": "Molds, the mold bench, and maintenance.", "ids": ["IMG_7523", "IMG_7524", "IMG_7563", "IMG_7564", "IMG_7565", "IMG_7566", "IMG_7580", "IMG_7581", "IMG_7582", "IMG_7583", "IMG_7584", "IMG_7585", "IMG_7586", "IMG_7587", "IMG_7592", "IMG_E7530"]}, {"k": "warehouse", "t": "Warehouse &amp; stock", "d": "Racks, boxed inventory and the forklift aisle.", "ids": ["IMG_7496", "IMG_7497", "IMG_7498", "IMG_7499", "IMG_7500", "IMG_7501", "IMG_7567", "IMG_7568"]}, {"k": "board", "t": "Scheduling board &amp; paperwork", "d": "The due-date board, job cards and box labels.", "ids": ["IMG_7550", "IMG_7551", "IMG_7552", "IMG_7553", "IMG_7554", "IMG_7555", "IMG_7556", "IMG_7600", "IMG_E7596", "IMG_E7597", "IMG_E7598", "IMG_E7599", "IMG_E7601", "IMG_E7602", "IMG_E7603", "IMG_E7604", "IMG_E7605", "IMG_E7606"]}];
+  var ONSITE = {"IMG_7533": "On the site (cleaned up)", "IMG_7534": "On the site (cleaned up)", "IMG_7542": "On the site (cleaned up)"};
+  var CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+  var thumb = function (id) { return CL + 'f_auto,q_auto,c_fill,ar_4:3,w_440/securitymolding/raw/' + id; };
+  var large = function (id) { return CL + 'f_auto,q_auto,w_1800/securitymolding/raw/' + id; };
+  var full  = function (id) { return CL + 'f_auto,q_auto:best/securitymolding/raw/' + id; };
+  var num = function (id) { return id.replace(/^IMG_/, ''); };
+
+  document.getElementById('groups').innerHTML = GROUPS.map(function (g) {
+    return '<section class="grp" id="' + g.k + '"><h2>' + g.t + '</h2><p>' + g.d + ' ' + g.ids.length + ' photos.</p><div class="pgrid">' +
+      g.ids.map(function (id) {
+        return '<figure class="ph" data-id="' + id + '">' + (ONSITE[id] ? '<span class="ph__badge">' + ONSITE[id] + '</span>' : '') +
+          '<img class="ph__img" loading="lazy" src="' + thumb(id) + '" alt="Shop photo ' + num(id) + '">' +
+          '<div class="ph__bar"><span class="ph__id">' + num(id) + '</span><button type="button" class="ph__pick" aria-pressed="false">' + CHECK + '<span>Pick</span></button></div></figure>';
+      }).join('') + '</div></section>';
+  }).join('');
+
+  var picks = [];
+  try { picks = JSON.parse(localStorage.getItem('sm_photo_picks') || '[]'); } catch (e) {}
+  var tray = document.getElementById('tray');
+  function render() {
+    document.querySelectorAll('.ph').forEach(function (f) {
+      var on = picks.indexOf(f.dataset.id) > -1;
+      f.classList.toggle('sel', on);
+      var b = f.querySelector('.ph__pick'); b.setAttribute('aria-pressed', on); b.lastChild.textContent = on ? 'Picked' : 'Pick';
+    });
+    document.getElementById('tray-n').textContent = picks.length;
+    document.getElementById('tray-list').textContent = picks.map(num).join(', ');
+    tray.classList.toggle('on', picks.length > 0);
+    try { localStorage.setItem('sm_photo_picks', JSON.stringify(picks)); } catch (e) {}
+  }
+  function toggle(id) { var i = picks.indexOf(id); if (i > -1) picks.splice(i, 1); else picks.push(id); render(); }
+
+  var lb = document.getElementById('lb'), cur = null;
+  function lbPick() { var on = picks.indexOf(cur) > -1; document.querySelector('#lb-pick span').textContent = on ? 'Picked' : 'Pick'; }
+  function openLb(id) { cur = id; document.getElementById('lb-img').src = large(id); document.getElementById('lb-img').alt = 'Shop photo ' + num(id);
+    document.getElementById('lb-id').textContent = num(id); document.getElementById('lb-full').href = full(id); lbPick(); lb.showModal(); }
+
+  document.getElementById('groups').addEventListener('click', function (e) {
+    var f = e.target.closest('.ph'); if (!f) return;
+    if (e.target.closest('.ph__pick')) toggle(f.dataset.id);
+    else if (e.target.closest('.ph__img')) openLb(f.dataset.id);
+  });
+  document.getElementById('lb-pick').addEventListener('click', function () { toggle(cur); lbPick(); });
+  document.getElementById('lb-close').addEventListener('click', function () { lb.close(); });
+  lb.addEventListener('click', function (e) { if (e.target === lb) lb.close(); });
+  document.getElementById('tray-clear').addEventListener('click', function () { picks = []; render(); });
+  document.getElementById('tray-copy').addEventListener('click', function () {
+    var txt = 'Photos I picked for the website:\n' + picks.map(function (id) { return '- ' + num(id) + ' (for: )'; }).join('\n');
+    var lab = document.querySelector('#tray-copy span');
+    var done = function () { lab.textContent = 'Copied'; setTimeout(function () { lab.textContent = 'Copy list'; }, 1800); };
+    var fallback = function () { var t = document.createElement('textarea'); t.value = txt; document.body.appendChild(t); t.select(); try { document.execCommand('copy'); done(); } catch (e) { lab.textContent = 'Select & copy'; } t.remove(); };
+    if (navigator.clipboard) navigator.clipboard.writeText(txt).then(done, fallback); else fallback();
+  });
+
+  document.querySelectorAll('.ba__range').forEach(function (r) {
+    var st = r.closest('.ba__stage');
+    var set = function () { st.style.setProperty('--pos', r.value + '%'); };
+    r.addEventListener('input', set); set();
+  });
+  render();
+})();
+</script>
+
+</body>
+</html>
