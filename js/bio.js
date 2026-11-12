@@ -19,7 +19,7 @@
         'My dad founded the business in 1972 and has built his and the company’s reputation on quality products, fair pricing and always living by the adage… “We’ll take care of it.” Having inherited these core values, I am honored to pass them down to my nephew today.',
         'For nearly thirty years, I have considered myself fortunate to genuinely love what I do, finding energy and fulfillment in the diverse challenges of each business day.'
       ],
-      facts: [['Role', 'President'], ['With the shop', 'Since 19__'], ['Call me about', 'Quotes, pricing, lead times, emergencies']]
+      facts: [['Role', 'President'], ['With the shop', 'Since 2000'], ['Call me about', 'Quotes, pricing, lead times, emergencies']]
     },
     julian: {
       first: 'Julian', last: 'Ricke', title: 'Customer Service',
