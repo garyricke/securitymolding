@@ -54,6 +54,33 @@
   .pchip p { color: var(--sm-gray-40); font-size: 14px; margin: 0; }
   @media (max-width: 900px) { .promise__chips { grid-template-columns: 1fr 1fr; } }
 
+  /* Parts showcase — bento grid of cleaned shop photos (4:5 tiles; the feature spans 2×2) */
+  .showcase { background: var(--sm-black); color: #fff; }
+  .showcase .eyebrow { color: #ff6060; }
+  .showcase h2 { color: #fff; max-width: 18ch; }
+  .showcase__lede { color: var(--sm-gray-40); font-size: 18px; max-width: 58ch; margin-bottom: var(--s-7); }
+  .showcase__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--s-3); }
+  .shot { position: relative; margin: 0; overflow: hidden; border-radius: var(--r-md); aspect-ratio: 4 / 5; background: #1a1a1a; }
+  .shot--feature { grid-column: span 2; grid-row: span 2; aspect-ratio: auto; }
+  .shot--feature img { object-position: center bottom; }
+  .shot img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+  .shot:hover img { transform: scale(1.04); }
+  .shot figcaption { position: absolute; left: var(--s-3); bottom: var(--s-3); right: var(--s-3); display: flex; align-items: flex-start; }
+  .shot.shot--feature figcaption { top: var(--s-3); bottom: auto; }
+  .shot figcaption span { background: rgba(10,10,10,.72); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    color: #fff; font-size: 13px; font-weight: 600; padding: 6px 12px; border-radius: 999px; text-wrap: pretty; }
+  .shot figcaption .mono { font-family: 'JetBrains Mono', monospace; font-weight: 400; color: var(--sm-gray-40); margin-left: 6px; }
+  .shot--cta { grid-column: span 2; aspect-ratio: auto; background: var(--sm-red); display: flex; flex-direction: column;
+    justify-content: flex-end; padding: var(--s-6); border: none; color: #fff; text-decoration: none; min-height: 220px; }
+  .shot--cta:hover { background: var(--sm-red-deep); color: #fff; }
+  .shot--cta svg { margin-bottom: auto; }
+  .shot--cta h3 { color: #fff; font-size: clamp(22px, 2.4vw, 30px); margin: var(--s-5) 0 var(--s-2); text-wrap: balance; }
+  .shot--cta p { color: rgba(255,255,255,.85); margin: 0; font-size: 15px; text-wrap: pretty; }
+  @media (prefers-reduced-motion: reduce) { .shot img { transition: none; } .shot:hover img { transform: none; } }
+  @media (max-width: 600px) { .shot figcaption { left: var(--s-2); bottom: var(--s-2); right: var(--s-2); } .shot figcaption span { font-size: 12px; padding: 5px 10px; } }
+  @media (max-width: 900px) { .showcase__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .shot--feature { grid-row: auto; aspect-ratio: 4 / 5; } }
+
   /* Part families */
   .part-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-5); }
   @media (max-width: 900px) { .part-grid { grid-template-columns: 1fr; } }
@@ -282,6 +309,50 @@
         <div class="part-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
         <div><h4>Built Assemblies &amp; Kits</h4><p>Rivets, springs, foam, wool pile — assembled, bagged, and ready to install.</p></div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PARTS SHOWCASE ============ -->
+<section class="section showcase" aria-labelledby="showcase-title">
+  <div class="container">
+    <p class="eyebrow">Parts showcase</p>
+    <h2 id="showcase-title">A closer look at what comes off our&nbsp;presses.</h2>
+    <p class="showcase__lede">Clear parts, textured finishes, knurled grips and tight slots, all molded here in our&nbsp;shop.</p>
+    <div class="showcase__grid">
+      <figure class="shot shot--feature">
+        <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:5,g_south,w_900/securitymolding/parts/IMG_0633_openai_caliper" srcset="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:5,g_south,w_600/securitymolding/parts/IMG_0633_openai_caliper 600w, https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:5,g_south,w_900/securitymolding/parts/IMG_0633_openai_caliper 900w, https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:5,g_south,w_1400/securitymolding/parts/IMG_0633_openai_caliper 1400w" sizes="(max-width: 900px) 100vw, 600px" alt="A white molded arm with a square drive boss, its slot gauged by a digital caliper reading 8.9140 inches" loading="lazy">
+        <figcaption><span>Square-drive&nbsp;arm<span class="mono">8.914&nbsp;in</span></span></figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:5,g_auto,w_480/securitymolding/parts/IMG_0617_openai_black" srcset="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:5,g_auto,w_320/securitymolding/parts/IMG_0617_openai_black 320w, https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:5,g_auto,w_480/securitymolding/parts/IMG_0617_openai_black 480w, https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:5,g_auto,w_720/securitymolding/parts/IMG_0617_openai_black 720w" sizes="(max-width: 900px) 50vw, 300px" alt="A white six-lobe knob with a knurled rim and concentric rings around its center hole, reflected on glossy black" loading="lazy">
+        <figcaption><span>Six-lobe&nbsp;knob</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:5,g_auto,w_480/securitymolding/parts/IMG_0610_openai" srcset="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:5,g_auto,w_320/securitymolding/parts/IMG_0610_openai 320w, https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:5,g_auto,w_480/securitymolding/parts/IMG_0610_openai 480w, https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:5,g_auto,w_720/securitymolding/parts/IMG_0610_openai 720w" sizes="(max-width: 900px) 50vw, 300px" alt="A clear molded clip on black, showing a round bore and two hooked legs" loading="lazy">
+        <figcaption><span>Clear&nbsp;clip</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:5,g_auto,w_480/securitymolding/parts/IMG_0523_openai" srcset="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:5,g_auto,w_320/securitymolding/parts/IMG_0523_openai 320w, https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:5,g_auto,w_480/securitymolding/parts/IMG_0523_openai 480w, https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:5,g_auto,w_720/securitymolding/parts/IMG_0523_openai 720w" sizes="(max-width: 900px) 50vw, 300px" alt="A black textured flange cup with three mounting holes" loading="lazy">
+        <figcaption><span>Flange&nbsp;cup</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:5,g_auto,w_480/securitymolding/parts/IMG_0635_openai" srcset="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:5,g_auto,w_320/securitymolding/parts/IMG_0635_openai 320w, https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:5,g_auto,w_480/securitymolding/parts/IMG_0635_openai 480w, https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:5,g_auto,w_720/securitymolding/parts/IMG_0635_openai 720w" sizes="(max-width: 900px) 50vw, 300px" alt="A clear molded lens with an internal rib, on red" loading="lazy">
+        <figcaption><span>Clear&nbsp;lens</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:5,w_480/securitymolding/parts/IMG_0549_openai_4x5" srcset="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:5,w_320/securitymolding/parts/IMG_0549_openai_4x5 320w, https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:5,w_480/securitymolding/parts/IMG_0549_openai_4x5 480w, https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:5,w_720/securitymolding/parts/IMG_0549_openai_4x5 720w" sizes="(max-width: 900px) 50vw, 300px" alt="A tan molded bracket with a square tube and two mounting holes" loading="lazy">
+        <figcaption><span>Mounting&nbsp;bracket</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:5,g_auto,w_480/securitymolding/parts/IMG_0627_openai" srcset="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:5,g_auto,w_320/securitymolding/parts/IMG_0627_openai 320w, https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:5,g_auto,w_480/securitymolding/parts/IMG_0627_openai 480w, https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_4:5,g_auto,w_720/securitymolding/parts/IMG_0627_openai 720w" sizes="(max-width: 900px) 50vw, 300px" alt="A clear molded panel with an angled tab, held in calipers on red" loading="lazy">
+        <figcaption><span>Clear&nbsp;tab&nbsp;panel</span></figcaption>
+      </figure>
+      <a class="shot shot--cta" href="quote.html">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        <h3>Your part could be&nbsp;next.</h3>
+        <p>Send a drawing, a sample, or a description and a quantity. We&rsquo;ll tell you straight if we&rsquo;re the right&nbsp;shop.</p>
+      </a>
     </div>
   </div>
 </section>

@@ -66,6 +66,10 @@ body {
 }
 
 /* ----- Typography ----- */
+/* No widows: balance headings, keep body copy from stranding a last word */
+h1, h2, h3, h4 { text-wrap: balance; }
+p, li, figcaption { text-wrap: pretty; }
+
 .eyebrow {
   font-family: var(--f-mono);
   font-size: 12px;
