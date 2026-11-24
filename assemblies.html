@@ -24,6 +24,26 @@
   .foot-col h5 { color:#fff; font-family:var(--f-mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; margin:0 0 var(--s-4); }
   .foot-col a { display:block; margin-bottom:var(--s-2); font-size:14px; }
   @media (max-width:700px){ .foot-grid{ grid-template-columns:1fr; } }
+  /* Photo hero: a finished egress handle in hand over a box of them. The part sits left of centre
+     and the box lower right, so the text goes upper right over the dark, out-of-focus shop. */
+  .asm-hero { position: relative; isolation: isolate; overflow: hidden; background: var(--sm-black);
+    min-height: clamp(560px, 78vh, 820px); display: flex; align-items: flex-start; padding: var(--s-8) 0; }
+  .asm-hero__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 40% 22%; z-index: -2; }
+  .asm-hero::before { content: ""; position: absolute; inset: 0; z-index: -1;
+    background: radial-gradient(120% 100% at 100% 0%, rgba(10,10,10,.9) 0%, rgba(10,10,10,.72) 42%, rgba(10,10,10,.2) 66%, rgba(10,10,10,0) 78%); }
+  .asm-hero .container { width: 100%; }
+  .asm-hero__text { margin-left: auto; max-width: 640px; }
+  .asm-hero .hero__kicker { background: rgba(193,0,0,.3); color: #ffb0b0; }
+  .asm-hero .hero__title { color: #fff; text-wrap: balance; font-size: clamp(34px, 3.8vw, 54px); line-height: 1.05; }
+  .asm-hero .hero__lede { color: rgba(255,255,255,.86); font-size: 18px; text-wrap: pretty; margin: 0; }
+  @media (max-width: 860px) {
+    /* stack: the full photo on top, the text on black below it */
+    .asm-hero { display: block; min-height: 0; padding: 0 0 var(--s-7); }
+    .asm-hero__img { position: relative; inset: auto; height: auto; aspect-ratio: 3 / 2; object-position: 40% 50%; z-index: 0; }
+    .asm-hero::before { inset: auto 0 auto 0; top: calc(100vw * 2 / 3 - 90px); height: 90px; z-index: 1;
+      background: linear-gradient(0deg, var(--sm-black) 0%, rgba(10,10,10,0) 100%); }
+    .asm-hero__text { margin: calc(-1 * var(--s-5)) 0 0; position: relative; z-index: 2; }
+    .asm-hero .hero__lede { font-size: 17px; } }
 </style>
 </head>
 <body>
@@ -42,11 +62,16 @@
   </div>
 </nav>
 
-<header class="hero">
+<header class="asm-hero">
+  <img class="asm-hero__img" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/securitymolding/assemblies/assembly-hero"
+       srcset="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_800/securitymolding/assemblies/assembly-hero 800w, https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1200/securitymolding/assemblies/assembly-hero 1200w, https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/securitymolding/assemblies/assembly-hero 1600w, https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_2400/securitymolding/assemblies/assembly-hero 2400w, https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_3072/securitymolding/assemblies/assembly-hero 3072w"
+       sizes="100vw" alt="A finished red egress handle with its black catch riveted on, held over an open box packed with the same assemblies, ready to ship" fetchpriority="high">
   <div class="container">
-    <span class="hero__kicker">Assemblies</span>
-    <h1 class="hero__title">We don’t just mold the part…<br>We Build the Whole Thing!</h1>
-    <p class="hero__lede">Rivets, springs, foam tape, screw and washers, keepers, window latch assemblies, drilling — assembled, bagged and ready to install. We invest in the equipment and the people to get our customers the secondary operations they require.</p>
+    <div class="asm-hero__text">
+      <span class="hero__kicker">Assemblies</span>
+      <h1 class="hero__title">We don’t just mold the part…<br>We Build the Whole&nbsp;Thing!</h1>
+      <p class="hero__lede">Rivets, springs, foam tape, screw and washers, keepers, window latch assemblies, drilling — assembled, bagged and ready to install. We invest in the equipment and the people to get our customers the secondary operations they&nbsp;require.</p>
+    </div>
   </div>
 </header>
 

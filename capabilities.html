@@ -24,6 +24,26 @@
   .foot-col h5 { color:#fff; font-family:var(--f-mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; margin:0 0 var(--s-4); }
   .foot-col a { display:block; margin-bottom:var(--s-2); font-size:14px; }
   @media (max-width:700px){ .foot-grid{ grid-template-columns:1fr; } }
+  /* Photo hero: a mold half on the bench. The mold fills the left and a coworker sits upper right,
+     so the text sits lower right over the open bench, with a scrim from that corner. */
+  .cap-hero { position: relative; isolation: isolate; overflow: hidden; background: var(--sm-black);
+    min-height: clamp(540px, 76vh, 800px); display: flex; align-items: flex-end; padding: var(--s-9) 0 var(--s-8); }
+  .cap-hero__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 35% 25%; z-index: -2; }
+  .cap-hero::before { content: ""; position: absolute; inset: 0; z-index: -1;
+    background: radial-gradient(120% 90% at 100% 100%, rgba(10,10,10,.9) 0%, rgba(10,10,10,.72) 38%, rgba(10,10,10,.2) 62%, rgba(10,10,10,0) 75%); }
+  .cap-hero .container { width: 100%; }
+  .cap-hero__text { margin-left: auto; max-width: 720px; }
+  .cap-hero .hero__kicker { background: rgba(193,0,0,.28); color: #ffb0b0; }
+  .cap-hero .hero__title { color: #fff; text-wrap: balance; font-size: clamp(34px, 3.9vw, 56px); line-height: 1.05; }
+  .cap-hero .hero__lede { color: rgba(255,255,255,.86); font-size: 19px; text-wrap: pretty; margin: 0; }
+  @media (max-width: 860px) {
+    /* stack: the full photo on top, the text on black below it */
+    .cap-hero { display: block; min-height: 0; padding: 0 0 var(--s-7); }
+    .cap-hero__img { position: relative; inset: auto; height: auto; aspect-ratio: 3 / 2; object-position: 35% 50%; z-index: 0; }
+    .cap-hero::before { inset: auto 0 auto 0; top: calc(100vw * 2 / 3 - 90px); height: 90px; z-index: 1;
+      background: linear-gradient(0deg, var(--sm-black) 0%, rgba(10,10,10,0) 100%); }
+    .cap-hero__text { margin: calc(-1 * var(--s-5)) 0 0; position: relative; z-index: 2; }
+    .cap-hero .hero__lede { font-size: 17px; } }
 
   /* Material cards — each is a full-panel bed of pellets in its real resin color (--pellet),
      with a soft white veil so the heading + copy stay readable over the texture. */
@@ -55,11 +75,16 @@
   </div>
 </nav>
 
-<header class="hero">
+<header class="cap-hero">
+  <img class="cap-hero__img" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/securitymolding/capabilities/mold-hero"
+       srcset="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_800/securitymolding/capabilities/mold-hero 800w, https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1200/securitymolding/capabilities/mold-hero 1200w, https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/securitymolding/capabilities/mold-hero 1600w, https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_2400/securitymolding/capabilities/mold-hero 2400w, https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_3072/securitymolding/capabilities/mold-hero 3072w"
+       sizes="100vw" alt="A machined steel injection mold half with its cavity inserts, standing on a stainless bench at Security Molding, with a coworker at the dock behind it" fetchpriority="high">
   <div class="container">
-    <span class="hero__kicker">Capabilities</span>
-    <h1 class="hero__title">Structured for execution.<br>Dedicated to partnership.</h1>
-    <p class="hero__lede">We're built for small-to-mid plastic parts, honest tolerances, and runs from a few thousand to a few million. Not the biggest shop in the business — the most responsive one.</p>
+    <div class="cap-hero__text">
+      <span class="hero__kicker">Capabilities</span>
+      <h1 class="hero__title">Structured for execution.<br>Dedicated to&nbsp;partnership.</h1>
+      <p class="hero__lede">We're built for small-to-mid plastic parts, honest tolerances, and runs from a few thousand to a few million. Not the biggest shop in the business — the most responsive&nbsp;one.</p>
+    </div>
   </div>
 </header>
 
