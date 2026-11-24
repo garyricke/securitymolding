@@ -26,6 +26,15 @@
   .foot-col h5 { color:#fff; font-family:var(--f-mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; margin:0 0 var(--s-4); }
   .foot-col a { display:block; margin-bottom:var(--s-2); font-size:14px; }
   @media (max-width:700px){ .foot-grid{ grid-template-columns:1fr; } }
+  /* Keepsake band: the resin-cast display board, straight on, like an archive photo */
+  .keepsake { background: var(--sm-black); color: #fff; padding: var(--s-9) 0; }
+  .keepsake__frame { margin: 0; border-radius: var(--r-md); overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.06); }
+  .keepsake__frame img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; }
+  .keepsake__copy { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: var(--s-6); margin-top: var(--s-7); align-items: start; }
+  .keepsake .eyebrow { color: #ff6060; }
+  .keepsake h2 { color: #fff; margin: 0; text-wrap: balance; }
+  .keepsake p { color: var(--sm-gray-40); margin: 0; font-size: 17px; text-wrap: pretty; }
+  @media (max-width: 760px) { .keepsake { padding: var(--s-8) 0; } .keepsake__copy { grid-template-columns: minmax(0, 1fr); gap: var(--s-4); } }
   /* Photo hero: the building and sign behind the headline. The sign sits on the left third,
      so the text column goes right, over sky and brick, with a scrim from the right. */
   .story-hero { position: relative; isolation: isolate; overflow: hidden; background: var(--sm-black);
@@ -109,6 +118,25 @@
         <div class="timeline__title">Into the next generation.</div>
         <p class="text-muted">Under second-generation leadership, the business is guided by the founder's daughter, with his grandson gaining hands-on expertise across our machinery, building customer and new client relationships. Supported by a highly skilled, cross-trained team, we remain dedicated to our foundational standards while strategically planning for future industry advancements.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- KEEPSAKE -->
+<section class="keepsake" aria-labelledby="keepsake-title">
+  <div class="container">
+    <figure class="keepsake__frame">
+      <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/securitymolding/story/resin-board"
+           srcset="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_800/securitymolding/story/resin-board 800w, https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1200/securitymolding/story/resin-board 1200w, https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/securitymolding/story/resin-board 1600w, https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_2400/securitymolding/story/resin-board 2400w"
+           sizes="(max-width: 1240px) 100vw, 1200px" loading="lazy"
+           alt="An oak-framed amber resin casting holding a dial caliper, wrenches, a brass key, springs, molded plastic parts, a runner with round molded discs, a Security Molding business card and a Security Molding key-chain canister, over old engineering drawings">
+    </figure>
+    <div class="keepsake__copy">
+      <div>
+        <p class="eyebrow">Kept in amber</p>
+        <h2 id="keepsake-title">Our history, set in&nbsp;resin.</h2>
+      </div>
+      <p>A keepsake in our office holds the shop’s story in one frame: a dial caliper, wrenches and a brass key, springs and screws, runners and molded parts, our business card and a Security Molding key-chain canister, all cast in amber resin over old engineering drawings. The tools have changed since then. The care that goes into every part&nbsp;hasn’t.</p>
     </div>
   </div>
 </section>

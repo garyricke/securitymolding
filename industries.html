@@ -27,6 +27,28 @@
   .foot-col h5 { color:#fff; font-family:var(--f-mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; margin:0 0 var(--s-4); }
   .foot-col a { display:block; margin-bottom:var(--s-2); font-size:14px; }
   @media (max-width:700px){ .foot-grid{ grid-template-columns:1fr; } }
+  /* Photo hero: the mold library racks (8A–8C). The rack fills the left; the shop falls into dark blur on
+     the right, so the text and industry links sit right, over a scrim from that side. */
+  .ind-hero { position: relative; isolation: isolate; overflow: hidden; background: var(--sm-black);
+    min-height: clamp(580px, 80vh, 840px); display: flex; align-items: center; padding: var(--s-9) 0; }
+  .ind-hero__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 30% 40%; z-index: -2; }
+  .ind-hero::before { content: ""; position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(270deg, rgba(10,10,10,.88) 0%, rgba(10,10,10,.72) 36%, rgba(10,10,10,.2) 58%, rgba(10,10,10,0) 70%); }
+  .ind-hero .container { width: 100%; }
+  .ind-hero__text { margin-left: auto; max-width: 620px; }
+  .ind-hero .hero__kicker { background: rgba(193,0,0,.3); color: #ffb0b0; }
+  .ind-hero .hero__title { color: #fff; text-wrap: balance; font-size: clamp(34px, 3.8vw, 54px); line-height: 1.05; }
+  .ind-hero .hero__lede { color: rgba(255,255,255,.86); font-size: 18px; text-wrap: pretty; margin: 0; }
+  .ind-hero .jump a { color: rgba(255,255,255,.88); border-color: rgba(255,255,255,.28); background: rgba(10,10,10,.35); }
+  .ind-hero .jump a:hover { color: #fff; border-color: var(--sm-red); background: var(--sm-red); }
+  @media (max-width: 860px) {
+    /* stack: the full photo on top, the text on black below it */
+    .ind-hero { display: block; min-height: 0; padding: 0 0 var(--s-7); }
+    .ind-hero__img { position: relative; inset: auto; height: auto; aspect-ratio: 3 / 2; object-position: 30% 50%; z-index: 0; }
+    .ind-hero::before { inset: auto 0 auto 0; top: calc(100vw * 2 / 3 - 90px); height: 90px; z-index: 1;
+      background: linear-gradient(0deg, var(--sm-black) 0%, rgba(10,10,10,0) 100%); }
+    .ind-hero__text { margin: calc(-1 * var(--s-5)) 0 0; position: relative; z-index: 2; }
+    .ind-hero .hero__lede { font-size: 17px; } }
 </style>
 </head>
 <body>
@@ -45,18 +67,23 @@
   </div>
 </nav>
 
-<header class="hero">
+<header class="ind-hero">
+  <img class="ind-hero__img" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/securitymolding/industries/mold-library-hero-v2"
+       srcset="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_800/securitymolding/industries/mold-library-hero-v2 800w, https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1200/securitymolding/industries/mold-library-hero-v2 1200w, https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/securitymolding/industries/mold-library-hero-v2 1600w, https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_2400/securitymolding/industries/mold-library-hero-v2 2400w, https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_3072/securitymolding/industries/mold-library-hero-v2 3072w"
+       sizes="100vw" alt="Security Molding's mold library: steel racks labeled 8A, 8B and 8C, stacked with shrink-wrapped injection molds, each tagged and ready to run again" fetchpriority="high">
   <div class="container">
-    <span class="hero__kicker">Industries we serve</span>
-    <h1 class="hero__title">We know your parts because<br>we've made them for decades.</h1>
-    <p class="hero__lede">Much of our production is dedicated to recreational vehicle, window, door, and manufactured housing industries. The remainder is integrated into unexpected applications across diverse sectors—and we are continually seeking new opportunities for growth and innovation.</p>
-    <div class="jump">
-      <a href="#rv">RV &amp; Towables</a>
-      <a href="#windows-doors">Windows &amp; Doors</a>
-      <a href="#mobile-home">Mobile Home</a>
-      <a href="#architectural">Architectural Windows</a>
-      <a href="#consumer">Consumer &amp; Hardware</a>
-      <a href="#transit">Transit &amp; Specialty</a>
+    <div class="ind-hero__text">
+      <span class="hero__kicker">Industries we serve</span>
+      <h1 class="hero__title">We know your parts because<br>we've made them for&nbsp;decades.</h1>
+      <p class="hero__lede">Much of our production is dedicated to recreational vehicle, window, door, and manufactured housing industries. The remainder is integrated into unexpected applications across diverse sectors—and we are continually seeking new opportunities for growth and&nbsp;innovation.</p>
+      <div class="jump">
+        <a href="#rv">RV &amp; Towables</a>
+        <a href="#windows-doors">Windows &amp; Doors</a>
+        <a href="#mobile-home">Mobile Home</a>
+        <a href="#architectural">Architectural Windows</a>
+        <a href="#consumer">Consumer &amp; Hardware</a>
+        <a href="#transit">Transit &amp; Specialty</a>
+      </div>
     </div>
   </div>
 </header>
