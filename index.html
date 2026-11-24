@@ -81,6 +81,27 @@
   @media (max-width: 900px) { .showcase__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .shot--feature { grid-row: auto; aspect-ratio: 4 / 5; } }
 
+  /* 360° knob viewer under the showcase grid (js/knob360.js) */
+  .spin360 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); gap: var(--s-5); align-items: center;
+    margin-top: var(--s-7); background: #000; border: 1px solid rgba(255,255,255,.1); border-radius: var(--r-md); overflow: hidden; }
+  .spin360__text { padding: var(--s-6) 0 var(--s-6) var(--s-6); }
+  .spin360__text h3 { color: #fff; font-size: clamp(24px, 2.6vw, 34px); margin: 0 0 var(--s-3); text-wrap: balance; }
+  .spin360__text p { color: var(--sm-gray-40); margin: 0 0 var(--s-5); font-size: 16px; text-wrap: pretty; max-width: 40ch; }
+  .spin360__views { display: flex; flex-wrap: wrap; gap: 8px; }
+  .spin360__views button { font: 500 14px Inter, system-ui, sans-serif; color: #fff; background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.18); border-radius: 999px; min-height: 44px; padding: 0 16px; cursor: pointer; }
+  .spin360__views button:hover { background: var(--sm-red); border-color: var(--sm-red); }
+  .spin360__views button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+  .spin360__hint { display: flex; align-items: center; gap: 8px; margin-top: var(--s-4); color: var(--sm-gray-60); font-size: 13px; }
+  .spin360__stage { position: relative; height: clamp(360px, 42vw, 560px); cursor: grab; touch-action: pan-y; outline: none; }
+  .spin360__stage:focus-visible { box-shadow: inset 0 0 0 2px #fff; }
+  .spin360__stage.is-dragging { cursor: grabbing; }
+  .spin360__stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .spin360__fallback { position: absolute; inset: 0; display: none; place-items: center; padding: var(--s-5); text-align: center; color: var(--sm-gray-60); }
+  .spin360--nogl .spin360__fallback { display: grid; }
+  @media (max-width: 900px) { .spin360 { grid-template-columns: minmax(0, 1fr); gap: 0; }
+    .spin360__text { padding: var(--s-5) var(--s-5) 0; } .spin360__stage { height: 380px; } }
+
   /* Part families */
   .part-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-5); }
   @media (max-width: 900px) { .part-grid { grid-template-columns: 1fr; } }
@@ -354,6 +375,22 @@
         <p>Send a drawing, a sample, or a description and a quantity. We&rsquo;ll tell you straight if we&rsquo;re the right&nbsp;shop.</p>
       </a>
     </div>
+    <div class="spin360" id="knob360">
+      <div class="spin360__text">
+        <h3>Turn it over in your&nbsp;hands.</h3>
+        <p>Grab this knurled knob and rotate it any way you like: raised lettering on top, a 72-tooth grip, and eight ribs around a double-D drive bore&nbsp;underneath.</p>
+        <div class="spin360__views" role="group" aria-label="Knob views">
+          <button type="button" data-view="three">Three-quarter</button>
+          <button type="button" data-view="top">Top</button>
+          <button type="button" data-view="bottom">Underside</button>
+          <button type="button" data-view="side">Side</button>
+        </div>
+        <p class="spin360__hint"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg>Drag the knob to rotate&nbsp;it.</p>
+      </div>
+      <div class="spin360__stage" tabindex="0" role="img" aria-label="3D model of a black knurled knob. Drag, or use the arrow keys, to rotate it.">
+        <div class="spin360__fallback">This 3D view needs WebGL, which this browser has turned&nbsp;off.</div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -460,6 +497,7 @@
 <!-- Admin entry (discreet badge → password gate → slide-in panel) -->
 <script src="js/admin.js" defer></script>
 <script src="js/bio.js" defer></script>
+<script src="js/knob360.js" defer></script>
 
 <script>
 /* Nav logo: shrink once the page scrolls. */
