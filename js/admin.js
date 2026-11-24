@@ -52,6 +52,12 @@
       label: 'Retouch Gallery',
       desc: 'Shop photos — source vs Gemini vs OpenAI',
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>'
+    },
+    {
+      href: 'lightbox',
+      label: 'Lightbox Cleanups',
+      desc: 'Part photos before/after, with the AI prompts used',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M12 4v16"/><path d="m6.5 10 1.5-1.5L9.5 10M14.5 14l1.5 1.5 1.5-1.5"/></svg>'
     }
   ];
 

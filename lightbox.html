@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lightbox Cleanups · Security Molding (Internal)</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://securitymolding.com/lightbox">
+<link rel="icon" type="image/svg+xml" href="assets/logo-security-molding-21spr2026.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/brand.css">
+<script src="js/site-gate.js"></script>
+<style>
+  .st-bar { display:flex; align-items:center; gap:var(--s-4); padding:var(--s-5) var(--s-6); border-bottom:1px solid var(--sm-rule);
+    position:sticky; top:0; background:rgba(255,255,255,.94); backdrop-filter:blur(10px); z-index:30; }
+  .st-bar img { width:40px; height:40px; }
+  .st-bar .mono { font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--sm-muted); }
+  .st-bar h1 { font-size:20px; margin:0; }
+  .wrap { max-width:1240px; margin:0 auto; padding:var(--s-7) var(--s-6) 140px; }
+  .lead { font-size:18px; color:var(--sm-gray-80); max-width:68ch; }
+  .howto { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--s-4); margin:var(--s-6) 0 0; }
+  .howto div { border:1px solid var(--sm-rule); border-radius:var(--r-sm); padding:var(--s-4) var(--s-5); background:#fff; }
+  .howto b { display:block; font-family:var(--f-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--sm-red); margin-bottom:6px; }
+  .howto p { margin:0; font-size:15px; color:var(--sm-gray-80); }
+  .note { margin-top:var(--s-8); border-left:4px solid var(--sm-red); background:var(--sm-gray-05); padding:var(--s-6) var(--s-6); border-radius:0 var(--r-sm) var(--r-sm) 0; }
+  .note h2 { margin:0 0 var(--s-3); font-size:24px; }
+  .note ul { margin:var(--s-2) 0 var(--s-4); padding-left:20px; }
+  .note li { margin:0 0 6px; }
+  .note h3 { font-size:15px; margin:var(--s-4) 0 4px; font-family:var(--f-mono); letter-spacing:.1em; text-transform:uppercase; }
+  .ba-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:var(--s-6); margin-top:var(--s-5); }
+  .ba { margin:0; }
+  .ba__stage { position:relative; overflow:hidden; border-radius:var(--r-sm); border:1px solid var(--sm-rule); background:#eee; --pos:50%; }
+  .ba__stage img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; }
+  .ba__before { position:absolute; inset:0; clip-path:inset(0 calc(100% - var(--pos)) 0 0); }
+  .ba__line { position:absolute; top:0; bottom:0; left:var(--pos); width:2px; margin-left:-1px; background:#fff; box-shadow:0 0 0 1px rgba(0,0,0,.25); pointer-events:none; }
+  .ba__line::after { content:''; position:absolute; top:50%; left:50%; width:30px; height:30px; margin:-15px 0 0 -15px; border-radius:50%; background:#fff; box-shadow:0 1px 4px rgba(0,0,0,.35); }
+  .ba__range { position:absolute; inset:0; width:100%; height:100%; opacity:0; cursor:ew-resize; margin:0; }
+  .ba__tag { position:absolute; top:10px; font-family:var(--f-mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; font-weight:700; padding:3px 8px; border-radius:999px; pointer-events:none; }
+  .ba__tag--b { left:10px; background:rgba(10,10,10,.75); color:#fff; }
+  .ba__tag--a { right:10px; background:var(--sm-red); color:#fff; }
+  .ba figcaption { font-size:14px; color:var(--sm-gray-80); margin-top:8px; }
+  .jump { display:flex; flex-wrap:wrap; gap:8px; margin:var(--s-8) 0 var(--s-2); position:sticky; top:74px; z-index:20; background:rgba(255,255,255,.94); backdrop-filter:blur(8px); padding:var(--s-3) 0; border-bottom:1px solid var(--sm-rule); }
+  .jump a { font-size:13px; text-decoration:none; color:var(--sm-ink); border:1px solid var(--sm-rule); border-radius:999px; padding:5px 12px; background:#fff; }
+  .jump a:hover { border-color:var(--sm-red); color:var(--sm-red); }
+  .jump span { color:var(--sm-muted); font-family:var(--f-mono); font-size:11px; }
+  .grp { padding-top:var(--s-7); scroll-margin-top:130px; }
+  .grp h2 { font-size:26px; margin:0; }
+  .grp > p { color:var(--sm-muted); margin:4px 0 var(--s-4); }
+  .pgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:var(--s-4); }
+  .ph { margin:0; position:relative; border:2px solid transparent; border-radius:var(--r-sm); transition:border-color .15s; }
+  .ph.sel { border-color:var(--sm-red); }
+  .ph__img { display:block; width:100%; aspect-ratio:4/3; object-fit:cover; border-radius:6px; background:#eee; cursor:zoom-in; }
+  .ph__bar { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:6px 2px 2px; }
+  .ph__id { font-family:var(--f-mono); font-weight:700; font-size:13px; }
+  .ph__pick { display:inline-flex; align-items:center; gap:5px; font:inherit; font-size:12px; font-weight:600; border:1px solid var(--sm-rule); background:#fff; border-radius:999px; padding:4px 10px; cursor:pointer; color:var(--sm-ink); }
+  .ph__pick svg { width:14px; height:14px; }
+  .ph.sel .ph__pick { background:var(--sm-red); border-color:var(--sm-red); color:#fff; }
+  .ph__badge { position:absolute; top:8px; left:8px; font-family:var(--f-mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; font-weight:700; background:#0A0A0A; color:#fff; padding:3px 8px; border-radius:999px; }
+  .tray { position:fixed; left:50%; bottom:20px; transform:translateX(-50%) translateY(140%); transition:transform .25s ease; z-index:40; display:flex; align-items:center; gap:12px;
+    background:#0A0A0A; color:#fff; border-radius:999px; padding:10px 12px 10px 20px; box-shadow:0 10px 30px rgba(0,0,0,.3); max-width:calc(100% - 24px); }
+  .tray.on { transform:translateX(-50%) translateY(0); }
+  .tray__list { font-family:var(--f-mono); font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:46vw; color:#d1d5db; }
+  .tray button { font:inherit; font-size:13px; font-weight:700; border:0; border-radius:999px; padding:8px 14px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; }
+  .tray button svg { width:16px; height:16px; }
+  .tray .t-copy { background:var(--sm-red); color:#fff; }
+  .tray .t-clear { background:transparent; color:#fff; border:1px solid rgba(255,255,255,.3); }
+  dialog.lb { border:0; padding:0; background:transparent; max-width:96vw; max-height:94vh; }
+  dialog.lb::backdrop { background:rgba(10,10,10,.88); }
+  dialog.lb img { display:block; max-width:96vw; max-height:84vh; border-radius:8px; }
+  .lb__bar { display:flex; justify-content:space-between; align-items:center; gap:12px; color:#fff; padding:10px 2px 0; font-family:var(--f-mono); font-size:13px; }
+  .lb__bar a, .lb__bar button { color:#fff; font:inherit; background:transparent; border:1px solid rgba(255,255,255,.35); border-radius:999px; padding:5px 12px; cursor:pointer; text-decoration:none; display:inline-flex; align-items:center; gap:6px; }
+  .lb__bar svg { width:16px; height:16px; }
+  @media (max-width:820px) { .howto, .ba-grid { grid-template-columns:1fr; } .jump { top:66px; } }
+
+  .card { border:1px solid var(--sm-rule); border-radius:var(--r-sm); padding:var(--s-5) var(--s-6); background:#fff; margin-top:var(--s-6); }
+  .card h2 { font-size:22px; margin:0 0 var(--s-3); }
+  .card ul { margin:0; padding-left:20px; } .card li { margin:0 0 6px; }
+  .settings { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:var(--s-4); margin:0; }
+  .settings div { background:var(--sm-gray-05); border-radius:var(--r-sm); padding:var(--s-3) var(--s-4); }
+  .settings dt { font-family:var(--f-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--sm-muted); }
+  .settings dd { margin:4px 0 0; font-weight:600; font-size:15px; }
+  .pr { position:relative; }
+  .pr pre { white-space:pre-wrap; word-break:break-word; font-family:var(--f-mono); font-size:12.5px; line-height:1.55; background:#0A0A0A; color:#e6e6e6; border-radius:var(--r-sm); padding:48px var(--s-5) var(--s-4); margin:0 0 var(--s-4); max-height:420px; overflow:auto; }
+  .cp { position:absolute; top:8px; right:8px; display:inline-flex; align-items:center; gap:6px; font:600 12px Inter,system-ui,sans-serif; color:#fff; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.25); border-radius:999px; padding:5px 11px; cursor:pointer; min-height:32px; }
+  .cp:hover { background:var(--sm-red); border-color:var(--sm-red); } .cp svg { width:14px; height:14px; }
+  .part { padding-top:var(--s-8); scroll-margin-top:130px; border-top:1px solid var(--sm-rule); margin-top:var(--s-7); }
+  .part__head { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-bottom:var(--s-4); }
+  .part__head h2 { font-size:26px; margin:0 6px 0 0; text-wrap:balance; }
+  .chip { font-family:var(--f-mono); font-size:11px; letter-spacing:.08em; font-weight:700; background:#0A0A0A; color:#fff; border-radius:999px; padding:4px 10px; }
+  .chip--s { background:var(--sm-red-soft); color:var(--sm-red); }
+  .pair { display:grid; gap:var(--s-4); }
+  .pair--2 { grid-template-columns:repeat(2,minmax(0,1fr)); } .pair--3 { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .pair__f { margin:0; } .pair__f img { display:block; width:100%; height:440px; object-fit:contain; background:var(--sm-gray-10); border-radius:var(--r-sm); }
+  .pair__f figcaption { font-size:13px; color:var(--sm-gray-80); margin-top:6px; display:flex; align-items:center; gap:8px; }
+  .tag { font-family:var(--f-mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; padding:3px 8px; border-radius:999px; color:#fff; }
+  .tag--b { background:#0A0A0A; } .tag--a { background:var(--sm-red); }
+  .cols { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.2fr); gap:var(--s-6); margin-top:var(--s-5); }
+  .cols h3 { font-family:var(--f-mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--sm-red); margin:0 0 8px; }
+  .cols ul { margin:0 0 var(--s-4); padding-left:20px; } .cols li { margin:0 0 6px; font-size:15px; text-wrap:pretty; }
+  .lesson { border-left:3px solid var(--sm-red); padding:4px 0 4px 12px; color:var(--sm-gray-80); font-size:15px; margin:0 0 var(--s-3); }
+  .files { font-size:12.5px; color:var(--sm-muted); } .files code { font-size:12px; overflow-wrap:anywhere; }
+
+  .cmp { margin:0 auto; width:min(100%, calc(82vh * var(--ar))); }
+  .cmp__stage { position:relative; aspect-ratio:var(--ar); overflow:hidden; border-radius:var(--r-sm); background:var(--sm-gray-10); --pos:50%; touch-action:pan-y; }
+  .cmp__stage img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; }
+  .cmp__before { position:absolute; inset:0; clip-path:inset(0 calc(100% - var(--pos)) 0 0); }
+  .cmp__line { position:absolute; top:0; bottom:0; left:var(--pos); width:2px; margin-left:-1px; background:#fff; box-shadow:0 0 0 1px rgba(0,0,0,.25); pointer-events:none; }
+  .cmp__line::after { content:''; position:absolute; top:50%; left:50%; width:40px; height:40px; margin:-20px 0 0 -20px; border-radius:50%; background:#fff; box-shadow:0 2px 8px rgba(0,0,0,.35);
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230A0A0A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 6-6 6 6 6M15 6l6 6-6 6'/%3E%3C/svg%3E"); background-size:22px; background-repeat:no-repeat; background-position:center; }
+  .cmp__range { position:absolute; inset:0; width:100%; height:100%; opacity:0; cursor:ew-resize; margin:0; }
+  .cmp__range:focus-visible + * , .cmp__stage:focus-within { outline:2px solid var(--sm-red); outline-offset:3px; }
+  .cmp__tag { position:absolute; top:12px; font-family:var(--f-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; font-weight:700; padding:4px 10px; border-radius:999px; pointer-events:none; }
+  .cmp__tag--b { left:12px; background:rgba(10,10,10,.75); color:#fff; } .cmp__tag--a { right:12px; background:var(--sm-red); color:#fff; }
+  .cmp figcaption { font-size:13px; color:var(--sm-muted); margin-top:8px; text-align:center; text-wrap:pretty; }
+  .cmp__vers { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin:0 0 var(--s-3); }
+  .cmp__vers button { font:500 14px Inter,system-ui,sans-serif; min-height:40px; padding:0 16px; border-radius:999px; border:1px solid var(--sm-rule); background:#fff; cursor:pointer; color:var(--sm-ink); }
+  .cmp__vers button[aria-pressed=true] { background:#0A0A0A; border-color:#0A0A0A; color:#fff; }
+  @media (max-width:900px) { .settings { grid-template-columns:repeat(2,minmax(0,1fr)); } .cols { grid-template-columns:minmax(0,1fr); } .pair--3 { grid-template-columns:repeat(2,minmax(0,1fr)); } .pair__f img { height:320px; } }
+  @media (max-width:560px) { .pair--2, .pair--3 { grid-template-columns:minmax(0,1fr); } }
+</style>
+</head>
+<body>
+<!-- PER-PAGE PASSWORD GATE — shares the securitymolding_auth session with the admin badge. -->
+<style>
+  #pw-gate{position:fixed;inset:0;z-index:9999;background:#0A0A0A;display:flex;align-items:center;justify-content:center;font-family:'Inter',system-ui,sans-serif;}
+  #pw-gate::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(193,0,0,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(193,0,0,.06) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;}
+  #pw-box{position:relative;background:rgba(255,255,255,.04);border:1px solid color-mix(in srgb,#C10000 25%,transparent);border-radius:16px;padding:48px 40px;text-align:center;width:min(400px,90vw);box-shadow:0 24px 80px rgba(0,0,0,.5);}
+  #pw-box img{height:52px;margin-bottom:24px;display:block;margin-inline:auto;}
+  #pw-box h2{font-weight:800;font-size:1.7rem;color:#fff;letter-spacing:-0.01em;margin:0 0 8px;}
+  #pw-box .sub{font-size:.85rem;color:rgba(236,236,236,.55);margin:0 0 28px;letter-spacing:.02em;}
+  #pw-input{width:100%;padding:12px 16px;background:rgba(0,0,0,.4);border:1px solid color-mix(in srgb,#C10000 30%,transparent);border-radius:8px;color:#fff;font-size:.95rem;font-family:inherit;outline:none;transition:border-color .2s;}
+  #pw-input:focus{border-color:#C10000;}
+  #pw-btn{margin-top:14px;width:100%;padding:12px;background:#C10000;color:#fff;border:0;border-radius:8px;font-weight:700;font-size:1rem;letter-spacing:.02em;cursor:pointer;transition:background .2s;}
+  #pw-btn:hover{background:#ff5a5a;}
+  #pw-error{font-size:.8rem;color:#ff7a7a;margin:12px 0 0;min-height:1.2em;}
+  .pw-shake{animation:pwShake .35s;}
+  @keyframes pwShake{0%,100%{transform:translateX(0);}25%{transform:translateX(-8px);}75%{transform:translateX(8px);}}
+  @media (prefers-reduced-motion: reduce){ .pw-shake{animation:none;} }
+</style>
+<div id="pw-gate">
+  <div id="pw-box">
+    <img src="assets/logo-security-molding-21spr2026-onblack.svg" alt="Security Molding" onerror="this.style.display='none'">
+    <h2>Internal Document</h2>
+    <p class="sub">This page is password protected.</p>
+    <input id="pw-input" type="password" placeholder="Enter password" autocomplete="current-password">
+    <button id="pw-btn">Enter</button>
+    <p id="pw-error"></p>
+  </div>
+</div>
+<script>
+(function(){
+  var KEY='securitymolding_auth',PASS='oneword',gate=document.getElementById('pw-gate');
+  if(sessionStorage.getItem(KEY)==='1'){gate.style.display='none';return;}
+  document.body.style.overflow='hidden';
+  function attempt(){
+    if(document.getElementById('pw-input').value===PASS){
+      sessionStorage.setItem(KEY,'1');document.body.style.overflow='';gate.style.display='none';
+    } else {
+      document.getElementById('pw-error').textContent='Incorrect password. Try again.';
+      var box=document.getElementById('pw-box');box.classList.remove('pw-shake');void box.offsetWidth;box.classList.add('pw-shake');
+    }
+  }
+  document.getElementById('pw-btn').addEventListener('click',attempt);
+  document.getElementById('pw-input').addEventListener('keydown',function(e){if(e.key==='Enter')attempt();});
+  document.getElementById('pw-input').focus();
+})();
+</script>
+
+
+<!-- ============ TOP BAR ============ -->
+<div class="st-bar">
+  <img src="assets/logo-security-molding-21spr2026.svg" alt="Security Molding">
+  <div>
+    <div class="mono">Internal · photo retouching</div>
+    <h1>Lightbox Cleanups</h1>
+  </div>
+</div>
+
+<main class="wrap">
+  <p class="lead">The part photos from the light box (Nov 24, 2026): each original and its cleaned version in one big before/after slider, with the exact AI instructions used and the hand fixes after. Use it as the recipe for the next batch.</p>
+  <div class="howto">
+    <div><b>1 · Shoot</b><p>iPhone 17 in the light box, or on the black mat or red backdrop. Convert the HEIC to a JPG about 2048&nbsp;px tall.</p></div>
+    <div><b>2 · Clean up with AI</b><p>Send it to OpenAI with the base prompt below, the background line for that scene, and a short list of what’s specific to the&nbsp;part.</p></div>
+    <div><b>3 · Fix by hand</b><p>Check colour, red tone, holes and any text or tools; fix those with the tricks below, then upload to&nbsp;Cloudinary.</p></div>
+  </div>
+
+  <section class="card">
+    <h2>Settings that worked</h2>
+    <dl class="settings">
+      <div><dt>Model</dt><dd>OpenAI gpt-image-1.5 (images/edits)</dd></div>
+      <div><dt>Quality</dt><dd>high, input_fidelity high</dd></div>
+      <div><dt>Output size</dt><dd>Match the photo: 1536×1024 landscape, 1024×1536 portrait</dd></div>
+      <div><dt>Not used</dt><dd>Gemini: too timid, then invented glossy blobs</dd></div>
+    </dl>
+  </section>
+
+  <section class="card">
+    <h2>Base prompt</h2>
+    <p style="margin:0 0 var(--s-3); color:var(--sm-gray-80);">Every photo starts with this. For the black mat or the red backdrop, its last background sentence is swapped for that photo’s background line, and the photo’s extra instructions are added at the&nbsp;end.</p>
+    <div class="pr"><button type="button" class="cp" data-for="base"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre id="base">This is a product photo of a single injection-molded plastic part, shot in a white light box. Retouch it into a flawless catalog photo of the SAME part.
+
+Keep exactly the same: part geometry, every hole and its position and size, the molded texture/grain, color, camera angle, framing, lighting direction and soft shadow. Do not add, remove, move or reshape any feature. Do not add text or logos. Keep any intentional molded features (ribs, bosses, keys/notches that are clearly part of the design).
+
+Remove only defects:
+- flash: thin excess plastic or burrs on edges, hole edges and parting lines (make edges and hole edges clean and crisp)
+- splay, silver streaks, flow lines, weld/knit lines, sink marks, gloss variation and scuffs on the surface
+- ejector pin marks that are raised or sunken: make them perfectly flush with the surrounding surface, but keep the pin marks faintly visible as flat circular witness marks
+- dust, lint, fingerprints, dirt and specks on the part and on the background
+Make the background a clean, even, seamless white-to-light-grey sweep with no dirt or seams. Photorealistic, sharp, natural.</pre></div>
+  </section>
+
+  <section class="card">
+    <h2>Hand-fix toolkit</h2>
+    <ul>
+      <li><b>Part too light:</b> smooth Lab mean shift on the part pixels only, contrast clamped 0.85–1.1. The AI lightens parts along with the background.</li>
+      <li><b>Red too bright:</b> scale R on saturated pixels to the original backdrop.</li>
+      <li><b>Magenta cast in red:</b> hue lock: keep R, set G and B to the original’s G/R and B/R ratios.</li>
+      <li><b>Text, readouts and tools:</b> the AI always redraws them. Warp the AI edit onto the original frame and paste the real pixels back through a mask.</li>
+      <li><b>Framing changed:</b> align the AI edit to the original by feature matching, or by the part’s silhouette when the part is smooth.</li>
+      <li><b>Filled-in holes:</b> paste the original hole back from the aligned original.</li>
+      <li><b>Leftover specks or fibers:</b> paint out locally with a diffusion fill or masked blur.</li>
+    </ul>
+  </section>
+
+  <nav class="jump" aria-label="Parts"><a href="#p0523">Black flange cup <span>0523</span></a><a href="#p0549">Tan mounting bracket <span>0549</span></a><a href="#p0610">Clear clip <span>0610</span></a><a href="#p0627">Clear tab panel in calipers <span>0627</span></a><a href="#p0635">Clear lens <span>0635</span></a><a href="#p0633">White square-drive arm with digital caliper <span>0633</span></a><a href="#p0617">Six-lobe knob <span>0617</span></a><a href="#pbldg">Building and sign <span>hero</span></a></nav>
+  <section class="part" id="p0523">
+  <div class="part__head"><h2>Black flange cup</h2><span class="chip">IMG_0523</span><span class="chip chip--s">White light box</span></div>
+  <figure class="cmp" style="--ar:1024/1536">
+    <div class="cmp__stage">
+      <img class="cmp__after" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/securitymolding/parts/IMG_0523_openai" alt="IMG_0523 cleaned" loading="lazy" width="1024" height="1536">
+      <div class="cmp__before"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/securitymolding/parts-raw/IMG_0523_aligned" alt="IMG_0523 as shot" loading="lazy" width="1024" height="1536"></div>
+      <div class="cmp__line" aria-hidden="true"></div>
+      <span class="cmp__tag cmp__tag--b">Before</span><span class="cmp__tag cmp__tag--a">After</span>
+      <input class="cmp__range" type="range" min="0" max="100" value="50" aria-label="Slide to compare before and after for IMG_0523">
+    </div>
+    <figcaption>Drag the slider: left is the photo as shot (lined up to the cleaned framing), right is <span class="cmp__lab">cleaned, on the site</span>.</figcaption>
+  </figure>
+  <div class="cols">
+    <div><h3>What changed</h3><ul><li>Flash at the top and around the center hole removed</li><li>Textured finish evened out; dust and specks gone</li></ul>
+      <h3>Fixed by hand after the AI</h3><ul><li>None</li></ul>
+      <p class="lesson">Gary: “OpenAI pass 1 is perfect.” This set the approach: the general prompt fixes defects without inventing new ones.</p>
+      <p class="files">Cloudinary: <code>securitymolding/parts-raw/IMG_0523</code> (original) · <code>securitymolding/parts/IMG_0523_openai</code></p></div>
+    <div><h3>Background line</h3><div class="pr"><button type="button" class="cp" data-for="bg0523"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre id="bg0523">(default) Make the background a clean, even, seamless white-to-light-grey sweep with no dirt or seams.</pre></div><h3>Extra instructions</h3><div class="pr"><button type="button" class="cp" data-for="ex0523"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre id="ex0523">(none) The base prompt alone. A second pass listing specific defects was tried and not preferred.</pre></div></div>
+  </div>
+</section><section class="part" id="p0549">
+  <div class="part__head"><h2>Tan mounting bracket</h2><span class="chip">IMG_0549</span><span class="chip chip--s">White light box</span></div>
+  <figure class="cmp" style="--ar:1536/1024">
+    <div class="cmp__stage">
+      <img class="cmp__after" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/securitymolding/parts/IMG_0549_openai" alt="IMG_0549 cleaned" loading="lazy" width="1536" height="1024">
+      <div class="cmp__before"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/securitymolding/parts-raw/IMG_0549_aligned" alt="IMG_0549 as shot" loading="lazy" width="1536" height="1024"></div>
+      <div class="cmp__line" aria-hidden="true"></div>
+      <span class="cmp__tag cmp__tag--b">Before</span><span class="cmp__tag cmp__tag--a">After</span>
+      <input class="cmp__range" type="range" min="0" max="100" value="50" aria-label="Slide to compare before and after for IMG_0549">
+    </div>
+    <figcaption>Drag the slider: left is the photo as shot (lined up to the cleaned framing), right is <span class="cmp__lab">cleaned, on the site</span>.</figcaption>
+  </figure>
+  <div class="cols">
+    <div><h3>What changed</h3><ul><li>Ejector pins on the top faces made flat and flush (they had read as holes)</li><li>Background cleaned to a light grey sweep</li></ul>
+      <h3>Fixed by hand after the AI</h3><ul><li>Colour match: the AI made the part about 16 points too light (Lab L), even when asked not to. A smooth Lab mean shift on the part pixels only, contrast clamped 0.85–1.1, brought it back. Quantile matching looked blotchy.</li><li>Output size matched to the landscape photo (1536 × 1024); forcing portrait had shrunk the part and changed the angle.</li></ul>
+      <p class="lesson">Gary: “the color should be darker, closer to the original” — then “that’s perfect.”</p>
+      <p class="files">Cloudinary: <code>securitymolding/parts-raw/IMG_0549</code> (original) · <code>securitymolding/parts/IMG_0549_openai</code></p></div>
+    <div><h3>Background line</h3><div class="pr"><button type="button" class="cp" data-for="bg0549"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre id="bg0549">(default) Make the background a clean, even, seamless white-to-light-grey sweep with no dirt or seams.</pre></div><h3>Extra instructions</h3><div class="pr"><button type="button" class="cp" data-for="ex0549"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre id="ex0549">Color and exposure: keep the part&#x27;s color EXACTLY as in the original photo: a medium greyish khaki/tan, the same darkness and saturation. Do NOT brighten, lighten, whiten or desaturate the part, and keep the same exposure and shading on each face. Only clean the background; keep it a light neutral grey sweep similar in brightness to the original.
+
+Ejector pins: the small round dots on the flat top end faces of the uprights (near the corners of the rectangular openings) are ejector pin marks, NOT holes. Render each one as a perfectly flat, flush circular witness mark: the same color as the surrounding surface, with only a faint thin circular outline, no depth, no dark center.</pre></div></div>
+  </div>
+</section><section class="part" id="p0610">
+  <div class="part__head"><h2>Clear clip</h2><span class="chip">IMG_0610</span><span class="chip chip--s">Dark mat → solid black</span></div>
+  <figure class="cmp" style="--ar:1024/1536">
+    <div class="cmp__stage">
+      <img class="cmp__after" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/securitymolding/parts/IMG_0610_openai" alt="IMG_0610 cleaned" loading="lazy" width="1024" height="1536">
+      <div class="cmp__before"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/securitymolding/parts-raw/IMG_0610_aligned" alt="IMG_0610 as shot" loading="lazy" width="1024" height="1536"></div>
+      <div class="cmp__line" aria-hidden="true"></div>
+      <span class="cmp__tag cmp__tag--b">Before</span><span class="cmp__tag cmp__tag--a">After</span>
+      <input class="cmp__range" type="range" min="0" max="100" value="50" aria-label="Slide to compare before and after for IMG_0610">
+    </div>
+    <figcaption>Drag the slider: left is the photo as shot (lined up to the cleaned framing), right is <span class="cmp__lab">cleaned, on the site</span>.</figcaption>
+  </figure>
+  <div class="cols">
+    <div><h3>What changed</h3><ul><li>Textured dark mat replaced with smooth solid black, including what shows through the clear plastic</li><li>Soft reflection kept under the feet</li></ul>
+      <h3>Fixed by hand after the AI</h3><ul><li>None. Clear parts skip the colour match.</li></ul>
+      <p class="lesson">Gary: “that’s insanely perfect.” Rule: dark-mat shots go on solid black with no texture.</p>
+      <p class="files">Cloudinary: <code>securitymolding/parts-raw/IMG_0610</code> (original) · <code>securitymolding/parts/IMG_0610_openai</code></p></div>
+    <div><h3>Background line</h3><div class="pr"><button type="button" class="cp" data-for="bg0610"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre id="bg0610">Replace the background with a pure, solid, seamless deep black (#000 to #0a0a0a): completely smooth, with NO texture, grain, speckle, fabric or surface pattern anywhere, and no visible horizon or seam. Keep only a very subtle soft reflection/shadow directly under the part&#x27;s feet so it doesn&#x27;t look cut out.</pre></div><h3>Extra instructions</h3><div class="pr"><button type="button" class="cp" data-for="ex0610"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre id="ex0610">This part is CLEAR transparent plastic (polycarbonate/acrylic). Everything seen THROUGH the part must also show the new smooth black background, not the old textured surface. Keep the part&#x27;s true clarity, edge highlights, internal reflections and refraction so it still reads as crystal-clear molded plastic. Keep the part&#x27;s crisp bright edges.
+Remove flash on edges and the hole, scratches, scuffs, dust and specks on and inside the part. The small round mark on the top face is an ejector pin / gate mark: keep it but make it flat and flush, a faint round witness mark, not a raised bump. Do NOT change the part&#x27;s shape, proportions, holes, angle or position in frame.</pre></div></div>
+  </div>
+</section><section class="part" id="p0627">
+  <div class="part__head"><h2>Clear tab panel in calipers</h2><span class="chip">IMG_0627</span><span class="chip chip--s">Red backdrop</span></div>
+  <figure class="cmp" style="--ar:1024/1536">
+    <div class="cmp__stage">
+      <img class="cmp__after" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/securitymolding/parts/IMG_0627_openai" alt="IMG_0627 cleaned" loading="lazy" width="1024" height="1536">
+      <div class="cmp__before"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/securitymolding/parts-raw/IMG_0627_aligned" alt="IMG_0627 as shot" loading="lazy" width="1024" height="1536"></div>
+      <div class="cmp__line" aria-hidden="true"></div>
+      <span class="cmp__tag cmp__tag--b">Before</span><span class="cmp__tag cmp__tag--a">After</span>
+      <input class="cmp__range" type="range" min="0" max="100" value="50" aria-label="Slide to compare before and after for IMG_0627">
+    </div>
+    <figcaption>Drag the slider: left is the photo as shot (lined up to the cleaned framing), right is <span class="cmp__lab">cleaned, on the site</span>.</figcaption>
+  </figure>
+  <div class="cols">
+    <div><h3>What changed</h3><ul><li>Dust, dark dots and white marks on the plate removed</li><li>Calipers kept and cleaned</li><li>Red made smooth, with the soft lighter band across the middle</li></ul>
+      <h3>Fixed by hand after the AI</h3><ul><li>Red brightness matched: the AI makes red too bright, so R was scaled on saturated pixels to the original backdrop.</li></ul>
+      <p class="lesson">Calipers in a shot are intentional: keep and clean them, never remove them. Tell the model “no added circles/dots” and “no floor or cast shadow” on clear parts; it invented both.</p>
+      <p class="files">Cloudinary: <code>securitymolding/parts-raw/IMG_0627</code> (original) · <code>securitymolding/parts/IMG_0627_openai</code></p></div>
+    <div><h3>Background line</h3><div class="pr"><button type="button" class="cp" data-for="bg0627"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre id="bg0627">Make the background a smooth, solid, even deep red, exactly the original&#x27;s red (about RGB 180,0,8): no pink or magenta shift, no gradient banding, no texture, no blotches, no seams, no floor, no horizon and no cast shadow.</pre></div><h3>Extra instructions</h3><div class="pr"><button type="button" class="cp" data-for="ex0627"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre id="ex0627">KEEP THE CALIPERS: the metal caliper jaws holding the part at the top, and the dark caliper body in the top-right corner, are an intentional part of the shot. Keep them exactly where they are, the same size, shape, angle and brushed-steel finish, still gripping the plate at the same spot. Only clean them: remove dust, specks and smudges from the steel.
+
+This part is CLEAR transparent plastic (polycarbonate/acrylic): a flat square plate with a clear angled arm and tab standing off it. Everything seen THROUGH the part must show the same smooth red background.
+Remove every dust speck, lint, dark dot (including the small dark dots near the middle of the plate beside the arm), smudge, scratch and the small white marks on the plate; remove flash on edges. Keep the plate&#x27;s surface finish as it is in the original, just clean. Do NOT add any circles, dots, pins or marks that are not in the original. Keep the part&#x27;s true clarity, crisp bright edges, internal reflections and refraction. Do NOT change the part&#x27;s shape, proportions, angle or position in frame.</pre></div></div>
+  </div>
+</section><section class="part" id="p0635">
+  <div class="part__head"><h2>Clear lens</h2><span class="chip">IMG_0635</span><span class="chip chip--s">Red backdrop</span></div>
+  <figure class="cmp" style="--ar:1024/1536">
+    <div class="cmp__stage">
+      <img class="cmp__after" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/securitymolding/parts/IMG_0635_openai" alt="IMG_0635 cleaned" loading="lazy" width="1024" height="1536">
+      <div class="cmp__before"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/securitymolding/parts-raw/IMG_0635_aligned" alt="IMG_0635 as shot" loading="lazy" width="1024" height="1536"></div>
+      <div class="cmp__line" aria-hidden="true"></div>
+      <span class="cmp__tag cmp__tag--b">Before</span><span class="cmp__tag cmp__tag--a">After</span>
+      <input class="cmp__range" type="range" min="0" max="100" value="50" aria-label="Slide to compare before and after for IMG_0635">
+    </div>
+    <figcaption>Drag the slider: left is the photo as shot (lined up to the cleaned framing), right is <span class="cmp__lab">cleaned, on the site</span>.</figcaption>
+  </figure>
+  <div class="cols">
+    <div><h3>What changed</h3><ul><li>Specks and short hairs inside the lens removed</li><li>Red smoothed with its natural falloff and contact reflection</li></ul>
+      <h3>Fixed by hand after the AI</h3><ul><li>Hue lock: the AI added a magenta cast at the top. On strongly red pixels, keep R and set G and B to the original backdrop’s G/R and B/R ratios.</li><li>A fiber on the end of the post that the model kept redrawing was painted out locally with a diffusion fill.</li></ul>
+      <p class="lesson">Scaling red alone does not fix a magenta cast; the hue lock does.</p>
+      <p class="files">Cloudinary: <code>securitymolding/parts-raw/IMG_0635</code> (original) · <code>securitymolding/parts/IMG_0635_openai</code></p></div>
+    <div><h3>Background line</h3><div class="pr"><button type="button" class="cp" data-for="bg0635"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre id="bg0635">Keep the red surface and backdrop exactly the original&#x27;s warm, slightly orange-leaning red (about RGB 195,22,28) with its soft natural light falloff toward the top, but make it perfectly smooth and clean: no dust, specks, scratches, texture or blotches, and NO pink, magenta or purple tint anywhere (including the top of the frame). Keep the soft natural contact reflection/shadow directly under the part where it rests on the surface.</pre></div><h3>Extra instructions</h3><div class="pr"><button type="button" class="cp" data-for="ex0635"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre id="ex0635">This part is CLEAR transparent plastic (polycarbonate/acrylic): a teardrop-shaped lens/cap with a rim, a curved side wall and a small round post. Everything seen THROUGH the part must show the same smooth red surface.
+Remove every dark speck, hair, fiber, lint, dust particle and dark line inside or on the part: the small dark specks and short dark hairs on the inner face and rim, the short dark line on the END of the round post, and any faint marks in the middle of the inner face. Also remove scratches, smudges and flash on edges. Keep the internal ribs, the slots in the rim, the post and every real molded feature exactly as they are, with the same rim thickness. Do NOT add any circles, dots, symbols, pins or marks that are not in the original. Keep the part&#x27;s true clarity, crisp bright edges, internal reflections and refraction. Do NOT change the part&#x27;s shape, proportions, angle or position in frame.</pre></div></div>
+  </div>
+</section><section class="part" id="p0633">
+  <div class="part__head"><h2>White square-drive arm with digital caliper</h2><span class="chip">IMG_0633</span><span class="chip chip--s">Red backdrop + readout</span></div>
+  <div class="cmp__vers" role="group" aria-label="Cleaned version"><button type="button" data-src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/securitymolding/parts/IMG_0633_openai_caliper" data-label="On the site: caliper redrawn" aria-pressed="true">On the site: caliper redrawn</button><button type="button" data-src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/securitymolding/parts/IMG_0633_openai" data-label="Alternative: real caliper" aria-pressed="false">Alternative: real caliper</button></div><figure class="cmp" style="--ar:1024/1365">
+    <div class="cmp__stage">
+      <img class="cmp__after" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/securitymolding/parts/IMG_0633_openai_caliper" alt="IMG_0633 cleaned" loading="lazy" width="1024" height="1365">
+      <div class="cmp__before"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/securitymolding/parts-raw/IMG_0633_aligned" alt="IMG_0633 as shot" loading="lazy" width="1024" height="1365"></div>
+      <div class="cmp__line" aria-hidden="true"></div>
+      <span class="cmp__tag cmp__tag--b">Before</span><span class="cmp__tag cmp__tag--a">After</span>
+      <input class="cmp__range" type="range" min="0" max="100" value="50" aria-label="Slide to compare before and after for IMG_0633">
+    </div>
+    <figcaption>Drag the slider: left is the photo as shot (lined up to the cleaned framing), right is <span class="cmp__lab">On the site: caliper redrawn</span>.</figcaption>
+  </figure>
+  <div class="cols">
+    <div><h3>What changed</h3><ul><li>Flash at the slot end removed, ejector pins flat, specks and scuffs gone</li><li>Two versions: the site uses the one where the AI redrew the caliper cleanly; the alternative keeps your real caliper pixels</li></ul>
+      <h3>Fixed by hand after the AI</h3><ul><li>Pass 1 always garbled the caliper (“in” twice, extra buttons, zoomed out), even with the input padded to 2:3. Fix: warp the AI edit onto the original frame (SIFT homography on the part, refined with ECC on edge maps), paste the original caliper back through a colour mask, paste the original slot opening around the jaw, and red-lock only the AI pixels.</li><li>Alternative version: caliper retouched by hand (black body from the aligned AI surface, steel beam despeckled and evened) with the readout and labels untouched.</li><li>Site version: pass 2 redrew the caliper. It reads 8.9140 in, but the buttons are grey, an extra “ON” label appears and the scale marks moved.</li></ul>
+      <p class="lesson">The AI always redraws text and tools. When a readout must be exact, composite the original back in.</p>
+      <p class="files">Cloudinary: <code>securitymolding/parts-raw/IMG_0633</code> (original) · <code>securitymolding/parts/IMG_0633_openai_caliper</code> · <code>securitymolding/parts/IMG_0633_openai</code></p></div>
+    <div><h3>Background line</h3><div class="pr"><button type="button" class="cp" data-for="bg0633"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre id="bg0633">Keep the red surface exactly the original&#x27;s red with its soft natural light falloff, but make it perfectly smooth and clean: no dust, specks, scratches, texture or blotches, and no pink or magenta tint. Keep the part&#x27;s natural soft shadow on the surface.</pre></div><h3>Extra instructions</h3><div class="pr"><button type="button" class="cp" data-for="ex0633"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre id="ex0633">Pass 1 (part and background):
+
+KEEP THE DIGITAL CALIPER exactly as it is: same position, size, angle and crop at the bottom of the frame, with its jaw still inside the slot at the left end of the part. Its LCD readout, buttons and printed labels (in/mm, ORIGIN, ON/OFF, the brand name) and the yellow scale markings must stay exactly the same characters and digits, in the same font and position. Do not re-letter, change or invent any text or digits. Only remove dust and smudges from it.
+
+The part is opaque WHITE molded plastic (nylon/acetal). Keep it the same clean white with its soft natural shading; do not make it grey, cream or blown-out. Remove flash and burrs on edges (especially the rough edges at the left end around the slot), dark specks, dust, scuffs and smudges. The two small round marks on the top face are ejector pin marks: make them flat and flush, faint circular witness marks, not holes or dimples. Keep the round boss with its square hole, the slots, the notch at the far end, the side holes and every real molded feature exactly as they are. Do NOT add any features or marks. Do NOT change the part&#x27;s shape, proportions, angle or position in frame.
+
+Pass 2 (caliper only, run on the pass-1 composite; background line: “Keep the background exactly as it is.”):
+
+ONLY TASK: clean the digital caliper at the bottom of the frame like a professional product retoucher. Remove all dust, specks, lint, fingerprints, smudges, grime, oxidation and scratches from the stainless steel beam and jaws (leave a clean, even satin-brushed steel finish with the same facets and edges) and from the black plastic body (clean, even matte black). Keep the caliper&#x27;s exact position, size, angle and crop; do not zoom out and do not reveal anything outside the frame. Keep all printed text, the LCD and its digits, the buttons and the yellow scale markings exactly where they are. Do not add any buttons, labels or symbols.
+Leave the white part and the red background exactly as they are.</pre></div></div>
+  </div>
+</section><section class="part" id="p0617">
+  <div class="part__head"><h2>Six-lobe knob</h2><span class="chip">IMG_0617</span><span class="chip chip--s">Red backdrop → black with reflection</span></div>
+  <div class="cmp__vers" role="group" aria-label="Cleaned version"><button type="button" data-src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/securitymolding/parts/IMG_0617_openai_black" data-label="On the site: black + reflection" aria-pressed="true">On the site: black + reflection</button><button type="button" data-src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/securitymolding/parts/IMG_0617_openai" data-label="Red version" aria-pressed="false">Red version</button></div><figure class="cmp" style="--ar:1536/2048">
+    <div class="cmp__stage">
+      <img class="cmp__after" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/securitymolding/parts/IMG_0617_openai_black" alt="IMG_0617 cleaned" loading="lazy" width="1536" height="2048">
+      <div class="cmp__before"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/securitymolding/parts-raw/IMG_0617_aligned" alt="IMG_0617 as shot" loading="lazy" width="1536" height="2048"></div>
+      <div class="cmp__line" aria-hidden="true"></div>
+      <span class="cmp__tag cmp__tag--b">Before</span><span class="cmp__tag cmp__tag--a">After</span>
+      <input class="cmp__range" type="range" min="0" max="100" value="50" aria-label="Slide to compare before and after for IMG_0617">
+    </div>
+    <figcaption>Drag the slider: left is the photo as shot (lined up to the cleaned framing), right is <span class="cmp__lab">On the site: black + reflection</span>.</figcaption>
+  </figure>
+  <div class="cols">
+    <div><h3>What changed</h3><ul><li>Specks and dust on the face and rim removed; knurled teeth and rings kept</li><li>Black version: neutral light, through-hole open, glossy floor reflection</li></ul>
+      <h3>Fixed by hand after the AI</h3><ul><li>Aligned to the original 3:4 frame by the part silhouette (moments, then ECC affine on blurred masks, then ECC on edges); SIFT found too few matches on the smooth white part.</li><li>Red version: the AI filled the through-hole, so the original hole was pasted back; red matched with a smooth per-channel gain field; a speck cluster painted out.</li><li>Black version: background forced to solid black; then a reflection added by mirroring the whole image once across the floor line (≈30% at contact, fading over ≈420 px, 2.5 px blur).</li></ul>
+      <p class="lesson">Gary picked the reflection version over plain black and over the AI’s grey floor glow.</p>
+      <p class="files">Cloudinary: <code>securitymolding/parts-raw/IMG_0617</code> (original) · <code>securitymolding/parts/IMG_0617_openai_black</code> · <code>securitymolding/parts/IMG_0617_openai</code></p></div>
+    <div><h3>Background line</h3><div class="pr"><button type="button" class="cp" data-for="bg0617"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre id="bg0617">Black version: Replace the red backdrop with a smooth, solid, pure black background with no texture, gradient, seams or reflections of red. Remove all red/pink color cast and red reflected light from the part: it must look like it was photographed on black, lit by neutral white light.
+
+Red version: Keep the red backdrop exactly the same red and the same soft gradient (darker red at the top, a soft lighter band across the middle, deep red at the bottom), but make it perfectly smooth with no dust, fibers, creases or texture.</pre></div><h3>Extra instructions</h3><div class="pr"><button type="button" class="cp" data-for="ex0617"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre id="ex0617">This is a six-lobed knob in off-white/cream plastic. Keep the fine knurled teeth along the rim exactly as they are, keep all the concentric rings around the center hole, and keep the center hole and its counterbore; the small through-hole in the very center must stay open, showing the black background through it. Remove the small dark specks and dust on the face and rim, any flash at the rim and hole edge, and any splay or scuffs. Keep the part&#x27;s warm off-white color; do not brighten or whiten it. Keep the exact framing, size and position of the knob in the frame. Do not add circles, dots, text or a floor/cast shadow.
+
+(Red version: same, but “with the red showing through” the hole, and without the framing sentence.)</pre></div></div>
+  </div>
+</section>
+<section class="part" id="pbldg">
+  <div class="part__head"><h2>Building and entrance sign</h2><span class="chip">Story hero</span><span class="chip chip--s">Outdoor architectural</span></div>
+  <figure class="cmp" style="--ar:1536/1024">
+    <div class="cmp__stage">
+      <img class="cmp__after" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1800/securitymolding/story/building-sign-hero" alt="The building and sign, retouched" loading="lazy" width="1536" height="1024">
+      <div class="cmp__before"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1800/securitymolding/parts-raw/building-sign_aligned" alt="The building and sign as shot" loading="lazy" width="1536" height="1024"></div>
+      <div class="cmp__line" aria-hidden="true"></div>
+      <span class="cmp__tag cmp__tag--b">Before</span><span class="cmp__tag cmp__tag--a">After</span>
+      <input class="cmp__range" type="range" min="0" max="100" value="50" aria-label="Slide to compare before and after for the building photo">
+    </div>
+    <figcaption>Drag the slider: left is the phone photo as shot (lined up on the sign; the far wall still shows the original lens curve), right is the hero on Our Story.</figcaption>
+  </figure>
+  <div class="cols">
+    <div><h3>What changed</h3><ul><li>Wide-angle curve corrected: the long wall and roofline run straight, verticals stand up</li><li>Reframed with the sign on the left third; blown-out sky recovered to blue with soft clouds; shadows lifted; lens flare and lawn litter removed</li><li>Pass 2: transmission towers and power lines removed, warm sun streaming through the tree, the planter overflowing with flowers</li><li>Sign refinished: smooth cream face, even black border, crisp lettering and a clean logo; the words, logo design and 255 unchanged</li></ul>
+      <h3>Fixed by hand after the AI</h3><ul><li>Sign close-up: the full-frame pass barely polished the sign, so a crop around it was upscaled 3×, refinished on its own, aligned back (ECC affine) and pasted in through a mask of the sign panel only.</li><li>Final delivered at 3072 × 2048 (the base upscaled 2× with the sign pasted at full detail).</li><li>Lettering, logo and 255 checked close up against the original after every pass.</li></ul>
+      <p class="lesson">The same model and settings as the parts, but a scene prompt instead of the part prompt. Text on signs survives best when the sign gets its own close-up pass and is pasted back.</p>
+      <p class="files">Cloudinary: <code>securitymolding/parts-raw/building-sign_aligned</code> (original, lined up) · <code>securitymolding/story/building-sign-hero</code></p></div>
+    <div><h3>Pass 1: professional reframe</h3><div class="pr"><button type="button" class="cp" data-for="bl1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre id="bl1">Retouch this photo of a company&#x27;s building and entrance sign so it looks like a professional architectural / corporate exterior photograph, shot by a pro photographer with a tilt-shift lens on a tripod.
+- Correct the wide-angle lens distortion: the long brick building wall and roofline must be straight lines (no curving or bulging), and all vertical lines (wall edges, window frames, sign posts) must be truly vertical.
+- Frame it well: the &quot;SECURITY MOLDING INC.&quot; sign is the hero, placed on a rule-of-thirds line in the left-center, with the long brick building receding to the right. Level horizon. Slightly less foreground lawn, slightly more of the building.
+- Light and color: bright, natural late-afternoon light; recover the blown-out sky to a clean, natural blue with a few soft clouds; lift the deep shadows on the lawn and building so detail shows; true-to-life brick red, healthy green grass, clean whites. Crisp and sharp, no HDR halo look, no oversaturation.
+- Tidy: remove litter on the lawn (e.g. the small white object by the planter), mow and even out the grass, remove the lens flare in the tree.
+- Keep exactly: the sign&#x27;s text &quot;SECURITY MOLDING INC.&quot;, its red nozzle logo, the &quot;255&quot; address numbers, the brick planter and flowers, the building&#x27;s brickwork, windows, window AC units, the tree, the street, parked cars. Do not invent new architecture, signs or text. Do not change any lettering.</pre></div><h3>Pass 2: towers, sun, flowers, sign</h3><div class="pr"><button type="button" class="cp" data-for="bl2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre id="bl2">Edit this professional exterior photo of the Security Molding building. Keep the camera angle, framing, building, tree, lawn, street and cars exactly as they are. Make only these changes:
+1. Remove the two electrical transmission towers (pylons) and any power lines behind the roof; replace them with the same clean blue sky and soft clouds.
+2. Add warm late-afternoon sunlight streaming from behind the large tree on the left, through its leaves toward the camera: soft golden god-rays / light shafts through the foliage, a gentle warm backlight glow on the leaf edges, and longer warm dappled light on the lawn. Natural and photographic, not overdone; no lens-flare circles.
+3. Fill the long red planter box at the base of the sign with lush, overflowing flowers: mounded blooms spilling over the front and sides of the box (red geraniums, white and pink petunias, trailing green ivy / sweet potato vine), full and healthy, like a well-kept corporate entrance.
+4. Make the sign look freshly refinished and polished: a clean, smooth, bright cream sign face with crisp edges, a glossy black border, no dirt, streaks, fading or waviness. Keep the exact same sign shape, colors and layout. The text must read exactly &quot;SECURITY&quot; on the first line and &quot;MOLDING INC.&quot; on the second line in the same black sans-serif lettering, same size and position, rendered sharp and clean. The logo must stay the same design: the red injection nozzle shape over the black circle of horizontal stripes, with the thin red drip line below; just make it crisp, cleanly drawn and vivid. Keep the &quot;255&quot; address numbers in brushed metal on the brick base, crisp and evenly aligned, and keep the gray stone cap and red brick base, cleaned up.
+Do not add any other text, logos or objects.</pre></div><h3>Pass 3: sign close-up</h3><div class="pr"><button type="button" class="cp" data-for="bl3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><pre id="bl3">This is a close-up of a company&#x27;s freestanding entrance sign. Refinish ONLY the oval sign panel so it looks brand new and professionally fabricated, like a high-end architectural sign: a perfectly smooth, clean, evenly lit warm-cream face with a subtle satin sheen, a crisp glossy black border band of perfectly even width, and razor-sharp edges. Remove every speck, smudge, streak, fade and wave.
+The lettering must stay exactly the same words, font, weight, size, spacing and position: &quot;SECURITY&quot; on the top line and &quot;MOLDING INC.&quot; below it, in black geometric sans-serif capitals, now perfectly crisp with clean straight strokes.
+The logo must keep exactly the same design and position: a solid red injection-molding nozzle (rounded top, tapering to a point) with a thin red line dripping below it, over a black circle made of evenly spaced horizontal stripes. Redraw it perfectly crisp and clean: evenly spaced stripes, a flat vivid red with no specks, clean edges.
+Keep everything else in the image exactly as it is (the brick base, stone cap, 255 numbers, flowers, lawn, lighting, background). Do not add any new text or elements.</pre></div></div>
+  </div>
+</section>
+</main>
+
+<script>
+{
+
+  document.querySelectorAll('.cmp__stage').forEach(function (st) {
+    var r = st.querySelector('.cmp__range');
+    var set = function () { st.style.setProperty('--pos', r.value + '%'); };
+    r.addEventListener('input', set); set();
+  });
+  document.querySelectorAll('.cmp__vers').forEach(function (g) {
+    var fig = g.nextElementSibling, img = fig.querySelector('.cmp__after'), lab = fig.querySelector('.cmp__lab');
+    g.querySelectorAll('button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        g.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', x === b); });
+        img.src = b.dataset.src; lab.textContent = b.dataset.label;
+      });
+    });
+  });
+  document.querySelectorAll('.cp').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var t = document.getElementById(b.dataset.for).textContent, s = b.querySelector('span');
+      var done = function (ok) { s.textContent = ok ? 'Copied' : 'Select and copy'; setTimeout(function () { s.textContent = 'Copy'; }, 1800); };
+      if (navigator.clipboard) navigator.clipboard.writeText(t).then(function () { done(true); }, function () { done(false); }); else done(false);
+    });
+  });
+}
+</script>
+<script src="js/admin.js" defer></script>
+</body>
+</html>
