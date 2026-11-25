@@ -2,3 +2,6 @@
 # These are on printed cards: never remove or rename them, only re-point.
 /jeannie   /?bio=jeannie   302
 /julian    /?bio=julian    302
+
+# Internal scripts and prompts live in the repo but must not be served.
+/tools/*   /404.html   404!
